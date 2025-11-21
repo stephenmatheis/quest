@@ -1,0 +1,57 @@
+.ui {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100vw;
+    color: #f1f1f3;
+
+    h2 {
+        margin: 0;
+    }
+
+    button {
+        cursor: pointer;
+        background-color: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        border: none;
+        color: inherit;
+    }
+
+    .topleft,
+    .topright,
+    .bottom {
+        user-select: none;
+        pointer-events: all;
+        position: absolute;
+        padding: 1rem;
+        font-size: 1.5rem;
+        width: max-content;
+    }
+
+    .topleft {
+        top: 0;
+        left: 0;
+    }
+
+    .topright {
+        top: 0;
+        right: 0;
+    }
+
+    .bottom {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .red {
+        color: crimson;
+    }
+
+    .green {
+        color: mediumseagreen;
+    }
+}
