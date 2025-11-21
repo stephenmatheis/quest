@@ -1,33 +1,31 @@
-import { useWorld } from '@/providers/World';
 import styles from './UI.module.scss';
 
 export function UI() {
-    const { isCameraLocked, cameraControlsRef, setIsCameraLocked } = useWorld();
-
     return (
         <div className={styles.ui}>
-            {/* <div className={styles.topleft}>
-                <h2>My Fleet</h2>
-            </div> */}
-            {/* <button className={styles.topright}>Menu</button> */}
-            <button
-                className={`${styles.bottom} ${isCameraLocked ? styles.red : styles.green}`}
-                onClick={(event) => {
-                    event.preventDefault();
+            {/* Character Pane */}
+            <div className={styles['character-pane']}>Character Frame</div>
 
-                    setIsCameraLocked((prev) => {
-                        const controls = cameraControlsRef.current;
+            {/* Target Pane */}
+            <div className={styles['target-pane']}>Target Frame</div>
 
-                        if (prev === false && controls) {
-                            controls.reset(true);
-                        }
+            {/* Cast Bar */}
+            <div className={styles['cast-bar']}>Cast Bar</div>
 
-                        return !prev;
-                    });
-                }}
-            >
-                Camera {isCameraLocked ? 'locked' : 'unlocked'}
-            </button>
+            {/* Mini Map */}
+            <div className={styles['mini-map']}>Mini Map</div>
+
+            {/* Tracked Quests */}
+            <div className={styles['Tracked Quests']}>Tracked Quests</div>
+
+            {/* Hot bars */}
+            <div className={styles['hot bars']}>Hot Bars</div>
+
+            {/* Chat Log */}
+            <div className={styles['chat-log']}>Chat Log</div>
+
+            {/* Buttons */}
+            <div className={styles.buttons}>Buttons</div>
         </div>
     );
 }
