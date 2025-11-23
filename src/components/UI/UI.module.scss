@@ -1,5 +1,6 @@
 .ui {
-    pointer-events: none;
+    cursor: default;
+    user-select: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -7,51 +8,159 @@
     width: 100vw;
     color: #000000;
 
-    h2 {
-        margin: 0;
-    }
-
-    button {
-        cursor: pointer;
-        background-color: transparent;
-        font-family: inherit;
-        font-size: inherit;
-        border: none;
-        color: inherit;
-    }
-
-    .topleft,
-    .topright,
-    .bottom {
-        user-select: none;
-        pointer-events: all;
+    .character-frame,
+    .target-frame,
+    .cast-bar,
+    .mini-map,
+    .tracked-quests,
+    .hot-bars,
+    .chat-log,
+    .buffs,
+    .debuffs,
+    .buttons {
         position: absolute;
-        padding: 1rem;
-        font-size: 1.5rem;
-        width: max-content;
+        padding: 32px;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
     }
 
-    .topleft {
-        top: 0;
-        left: 0;
+    .character-frame {
+        top: 50%;
+        left: 50%;
+        transform: translate(-175%, 50%);
+        border: solid 1px green;
     }
 
-    .topright {
+    .target-frame {
+        top: 50%;
+        right: 50%;
+        transform: translate(175%, 50%);
+        border: solid 1px red;
+    }
+
+    .cast-bar {
+        bottom: 140px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0;
+
+        .bar {
+            position: relative;
+            width: 300px;
+            height: 16px;
+            border-radius: 16px;
+            background-color: white;
+            border: solid 1px black;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 75%;
+                background-color: black;
+                border-radius: 16px;
+            }
+        }
+    }
+
+    .mini-map {
         top: 0;
         right: 0;
+        background-color: tan;
+        width: 200px;
+        height: 200px;
+        padding: 0;
     }
 
-    .bottom {
+    .tracked-quests {
+        top: 232px;
+        right: 0;
+        background-color: #ff000020;
+        height: calc(100dvh - 372px);
+        width: 300px;
+    }
+
+    .hot-bars {
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
+
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            .spell {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 44px;
+                width: 44px;
+                border: solid 1px #bbbbbb;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+        }
     }
 
-    .red {
-        color: crimson;
+    .chat-log {
+        bottom: 0;
+        left: 0;
+        width: 300px;
+        height: 250px;
+        background-color: #00000020;
     }
 
-    .green {
-        color: mediumseagreen;
+    .buffs {
+        top: 0;
+        right: 232px;
+        background-color: #0000ff30;
+    }
+
+    .debuffs {
+        top: 232px;
+        right: 332px;
+        background-color: #ff00ff30;
+    }
+
+    .buttons {
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 32px;
+        background-color: lightblue;
+
+        button {
+            cursor: pointer;
+            background-color: transparent;
+            height: 44px;
+            width: 44px;
+            font-size: 2rem;
+            font-family: inherit;
+            border: none;
+            // box-shadow: 6px 6px 0px 0px #1b2022;
+            // border: solid 1px #000000;
+            // transition: box-shadow 100ms ease-out;
+
+            // &:hover {
+            //     box-shadow: 8px 8px 0px 0px #1b2022;
+            // }
+
+            &:focus,
+            &:active {
+                outline: none;
+            }
+        }
     }
 }

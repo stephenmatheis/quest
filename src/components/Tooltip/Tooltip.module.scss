@@ -1,0 +1,11 @@
+.tooltip {
+    position: relative;
+
+    .content {
+        position: absolute;
+        top: -50%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+    }
+}

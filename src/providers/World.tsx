@@ -1,24 +1,17 @@
 'use client';
 
-import {
-    createContext,
-    useContext,
-    useState,
-    type ReactNode,
-    type Dispatch,
-    type SetStateAction,
-    type RefObject,
-    useRef,
-} from 'react';
-import type { CameraControlsImpl } from '@react-three/drei';
-import type CameraControlsType from 'camera-controls';
+import { createContext, useContext, useState, type ReactNode, type Dispatch, type SetStateAction } from 'react';
 
 type WorldContext = {
-    selectedVehicle: number;
-    setSelectedVehicle: Dispatch<SetStateAction<number>>;
-    cameraControlsRef: RefObject<CameraControlsImpl | null>;
-    isCameraLocked: boolean;
-    setIsCameraLocked: Dispatch<SetStateAction<boolean>>;
+    isCharacterMenuOpen: boolean;
+    setIsCharacterMenuOpen: Dispatch<SetStateAction<boolean>>;
+    isGameMenuOpen: boolean;
+    setIsGameMenuOpen: Dispatch<SetStateAction<boolean>>;
+    isQuestLogOpen: boolean;
+    setIsQuestLogOpen: Dispatch<SetStateAction<boolean>>;
+    windowOrder: string[];
+    setWindowOrder: Dispatch<SetStateAction<string[]>>;
+    bringToFront: (name: string) => void;
 };
 
 const WorldContext = createContext<WorldContext | undefined>(undefined);
@@ -34,18 +27,27 @@ export function useWorld() {
 }
 
 export function WorldProvider({ children }: { children: ReactNode }) {
-    const [selectedVehicle, setSelectedVehicle] = useState<number>(0);
-    const [isCameraLocked, setIsCameraLocked] = useState<boolean>(false);
-    const cameraControlsRef = useRef<CameraControlsType>(null);
+    const [isCharacterMenuOpen, setIsCharacterMenuOpen] = useState<boolean>(false);
+    const [isGameMenuOpen, setIsGameMenuOpen] = useState<boolean>(false);
+    const [isQuestLogOpen, setIsQuestLogOpen] = useState<boolean>(false);
+    const [windowOrder, setWindowOrder] = useState<string[]>([]);
+
+    function bringToFront(name: string) {
+        setWindowOrder((prev) => [...prev.filter((n) => n !== name), name]);
+    }
 
     return (
         <WorldContext.Provider
             value={{
-                selectedVehicle,
-                setSelectedVehicle,
-                cameraControlsRef,
-                isCameraLocked,
-                setIsCameraLocked,
+                isCharacterMenuOpen,
+                setIsCharacterMenuOpen,
+                isGameMenuOpen,
+                setIsGameMenuOpen,
+                isQuestLogOpen,
+                setIsQuestLogOpen,
+                windowOrder,
+                setWindowOrder,
+                bringToFront,
             }}
         >
             {children}
