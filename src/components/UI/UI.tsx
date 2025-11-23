@@ -78,9 +78,16 @@ export function UI() {
             return aIndex - bIndex;
         });
 
-    // NOTE: Should Escape close foreground window?
     const keybinds = useMemo(() => {
         return [
+            {
+                key: 'escape',
+                action() {
+                    if (openWindows.length === 0) return;
+
+                    openWindows.at(-1)?.setIsOpen(false);
+                },
+            },
             {
                 key: 'c',
                 action() {
@@ -149,7 +156,7 @@ export function UI() {
                 },
             },
         ];
-    }, [setIsCharacterMenuOpen, setIsGameMenuOpen, setIsQuestLogOpen]);
+    }, [setIsCharacterMenuOpen, setIsGameMenuOpen, setIsQuestLogOpen, openWindows]);
 
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
