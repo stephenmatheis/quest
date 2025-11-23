@@ -13,11 +13,12 @@ export type WindowProps = {
     width?: number | string;
     height?: number | string;
     position?: Position;
+    drag?: boolean;
     onFocus?: () => void;
     onClose?: () => void;
 };
 
-export function Window({ children, name, top, left, position, width, height, onFocus, onClose }: WindowProps) {
+export function Window({ children, name, top, left, position, drag, width, height, onFocus, onClose }: WindowProps) {
     const dragControls = useDragControls();
 
     function handleClose(event: PointerEvent) {
@@ -27,6 +28,8 @@ export function Window({ children, name, top, left, position, width, height, onF
     }
 
     function startDrag(event: PointerEvent) {
+        if (!drag) return;
+
         dragControls.start(event);
     }
 
@@ -40,7 +43,7 @@ export function Window({ children, name, top, left, position, width, height, onF
                 width,
                 height,
             }}
-            drag
+            drag={drag}
             dragControls={dragControls}
             dragMomentum={false}
             dragListener={false}

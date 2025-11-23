@@ -1,41 +1,59 @@
 .window {
+    --window-color: #f8eab3;
+    --border-image-slice: 40;
+    --border-image-width: calc(var(--border-image-slice) * 0.5px);
+
     position: fixed;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-    top: 32px;
-    left: 32px;
     display: flex;
     flex-direction: column;
     width: 400px;
     height: 300px;
-    border: solid 1px black;
-    box-shadow: 8px 8px 0px 0px #1b2022;
+
+    border-image-slice: 40;
+    padding: var(--border-image-width);
+    border-image-width: var(--border-image-width);
+    border-image-source: url('borders/border-brown.svg');
 
     .titlebar {
-        border-bottom: solid 1px black;
+        --border-image-slice-titlebar: 8;
+        --border-image-width-titlebar: calc(var(--border-image-slice-titlebar) * 0.5px);
+
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 8px;
-        background-color: #ffffff;
+        background-color: var(--window-color);
+        padding-bottom: var(--border-image-width);
+        border-image-slice: var(--border-image-slice-titlebar);
+        border-image-width: 0 0 var(--border-image-width-titlebar) 0;
+        border-image-source: url('borders/border-brown-bottom.svg');
 
-        .close {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 24px;
-            width: 24px;
-            color: #ffffff;
-            background-color: #ff0000;
-            border: solid 1px black;
-        }
+        // .close {
+        //     cursor: pointer;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     height: 44px;
+        //     width: 44px;
+        //     color: #ff0000;
+        //     font-size: 2rem;
+        // }
     }
 
     .content {
         flex: 1;
-        padding: 8px;
-        background-color: #ffffff;
+        background-color: var(--window-color);
+        padding: 32px 0;
     }
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100vw;
+    background-color: rgb(0 0 0 / 0.15);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
 }

@@ -6,7 +6,8 @@
     left: 0;
     height: 100dvh;
     width: 100vw;
-    color: #000000;
+    color: hsl(48, 82%, 15%);
+    background-color: hsl(48, 82%, 15%);
 
     .character-frame,
     .target-frame,
@@ -23,16 +24,19 @@
     }
 
     .character-frame {
-        top: 50%;
-        left: 50%;
-        transform: translate(-175%, 50%);
+        top: 0px;
+        left: 0px;
+        width: 275px;
+        height: 100px;
         border: solid 1px green;
     }
 
     .target-frame {
         top: 50%;
         right: 50%;
-        transform: translate(175%, 50%);
+        transform: translate(175%, 75%);
+        width: 275px;
+        height: 100px;
         border: solid 1px red;
     }
 
@@ -111,7 +115,7 @@
     .chat-log {
         bottom: 0;
         left: 0;
-        width: 300px;
+        width: 500px;
         height: 250px;
         background-color: #00000020;
     }
@@ -136,7 +140,6 @@
         justify-content: center;
         gap: 16px;
         padding: 32px;
-        background-color: lightblue;
 
         button {
             cursor: pointer;
@@ -159,5 +162,18 @@
                 outline: none;
             }
         }
+    }
+
+    // NOTE: Testing window border images
+    .character-frame,
+    .target-frame,
+    .cast-bar,
+    .mini-map,
+    .tracked-quests,
+    .hot-bars,
+    .chat-log,
+    .buffs,
+    .debuffs {
+        display: none;
     }
 }

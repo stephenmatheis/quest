@@ -1,13 +1,15 @@
-import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { useEffect, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
 import { useWorld } from '@/providers/World';
 import styles from './UI.module.scss';
 import { Tooltip } from '../Tooltip';
 
 type Windows = WindowProps & {
+    children: ReactNode;
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    children: ReactNode;
+    drag?: boolean;
+    backdrop?: boolean;
 };
 
 export function UI() {
@@ -22,25 +24,33 @@ export function UI() {
         bringToFront,
     } = useWorld();
 
+    useEffect(() => {
+        setIsCharacterMenuOpen(true);
+    }, [setIsCharacterMenuOpen]);
+
     const windows: Windows[] = [
         {
             name: 'Character',
             isOpen: isCharacterMenuOpen,
             setIsOpen: setIsCharacterMenuOpen,
-            top: 64,
+            top: 132,
             left: 32,
             width: 600,
             height: 400,
+            drag: true,
+            backdrop: false,
             children: 'This is your Character.',
         },
         {
             name: 'Quest Log',
             isOpen: isQuestLogOpen,
             setIsOpen: setIsQuestLogOpen,
-            top: 64,
+            top: 132,
             left: 32,
             width: 800,
             height: 400,
+            drag: true,
+            backdrop: false,
             children: 'This is your Quest Log.',
         },
         {
@@ -48,8 +58,10 @@ export function UI() {
             isOpen: isGameMenuOpen,
             setIsOpen: setIsGameMenuOpen,
             position: 'center',
-            width: 200,
-            height: 400,
+            width: 300,
+            height: 500,
+            drag: false,
+            backdrop: true,
             children: 'This is the Game Menu.',
         },
     ];
@@ -138,16 +150,16 @@ export function UI() {
             <div className={styles['chat-log']}>Chat Log</div>
 
             {/* Buffs */}
-            <div className={styles.buffs}>Buffs</div>
+            {/* <div className={styles.buffs}>Buffs</div> */}
 
             {/* Debuffs */}
-            <div className={styles.debuffs}>Debuffs</div>
+            {/* <div className={styles.debuffs}>Debuffs</div> */}
 
-            {/* Character Pane */}
+            {/* Character Frame */}
             <div className={styles['character-frame']}>Character Frame</div>
 
-            {/* Target Pane */}
-            <div className={styles['target-frame']}>Target Frame</div>
+            {/* Target Frame */}
+            {/* <div className={styles['target-frame']}>Target Frame</div> */}
 
             {/* Cast Bar */}
             <div className={styles['cast-bar']}>
@@ -165,6 +177,7 @@ export function UI() {
                     position={w.position}
                     width={w.width}
                     height={w.height}
+                    drag={w.drag}
                     onFocus={() => bringToFront(w.name)}
                     onClose={() => w.setIsOpen(false)}
                 >
