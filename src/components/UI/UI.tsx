@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction } from 'react';
+import { useEffect, type Dispatch, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
 import { Modal, type ModalProps } from '@/components/Modal';
 import { useWorld } from '@/providers/World';
@@ -77,6 +77,26 @@ export function UI() {
 
             return aIndex - bIndex;
         });
+
+    useEffect(() => {
+        function onKeyDown(event: KeyboardEvent) {
+            switch (event.key.toLowerCase()) {
+                case 'c':
+                    setIsCharacterMenuOpen(true);
+                    break;
+                case 'q':
+                    setIsQuestLogOpen(true);
+                    break;
+                case 'm':
+                    setIsGameMenuOpen(true);
+                    break;
+            }
+        }
+
+        window.addEventListener('keydown', onKeyDown);
+
+        return () => window.removeEventListener('keydown', onKeyDown);
+    }, [setIsCharacterMenuOpen, setIsQuestLogOpen, setIsGameMenuOpen]);
 
     return (
         <div className={styles.ui}>
@@ -161,10 +181,10 @@ export function UI() {
             {/* <div className={styles['target-frame']}>Target Frame</div> */}
 
             {/* Cast Bar */}
-            <div className={styles['cast-bar']}>
+            {/* <div className={styles['cast-bar']}>
                 <div>Cast Bar</div>
                 <div className={styles.bar} />
-            </div>
+            </div> */}
 
             {/* Render windows in correct stacking order */}
             {openWindows.map((w) => {
