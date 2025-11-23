@@ -3,23 +3,21 @@ import { motion } from 'motion/react';
 import { useDragControls } from 'motion/react';
 import styles from './Window.module.scss';
 
-export function Window({
-    children,
-    name,
+type Position = 'center';
 
-    top,
-    left,
-    onFocus,
-    onClose,
-}: {
-    name: string;
-
+export type WindowProps = {
     children: ReactNode;
-    top: number | string;
-    left: number | string;
+    name: string;
+    top?: number | string;
+    left?: number | string;
+    width?: number | string;
+    height?: number | string;
+    position?: Position;
     onFocus?: () => void;
     onClose?: () => void;
-}) {
+};
+
+export function Window({ children, name, top, left, position, width, height, onFocus, onClose }: WindowProps) {
     const dragControls = useDragControls();
 
     function handleClose(event: PointerEvent) {
@@ -35,7 +33,13 @@ export function Window({
     return (
         <motion.div
             className={styles.window}
-            style={{ top, left }}
+            style={{
+                top: top || '50%',
+                left: left || '50%',
+                transform: position === 'center' ? 'translate(-50%, -50%)' : undefined,
+                width,
+                height,
+            }}
             drag
             dragControls={dragControls}
             dragMomentum={false}

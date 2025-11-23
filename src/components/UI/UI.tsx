@@ -1,7 +1,14 @@
-import { Window } from '@/components/Window';
+import type { Dispatch, ReactNode, SetStateAction } from 'react';
+import { Window, type WindowProps } from '@/components/Window';
 import { useWorld } from '@/providers/World';
 import styles from './UI.module.scss';
 import { Tooltip } from '../Tooltip';
+
+type Windows = WindowProps & {
+    isOpen: boolean;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    children: ReactNode;
+};
 
 export function UI() {
     const {
@@ -15,30 +22,35 @@ export function UI() {
         bringToFront,
     } = useWorld();
 
-    const windows = [
+    const windows: Windows[] = [
         {
             name: 'Character',
             isOpen: isCharacterMenuOpen,
             setIsOpen: setIsCharacterMenuOpen,
-            top: 32,
+            top: 64,
             left: 32,
-            content: 'This is your Character.',
+            width: 600,
+            height: 400,
+            children: 'This is your Character.',
         },
         {
             name: 'Quest Log',
             isOpen: isQuestLogOpen,
             setIsOpen: setIsQuestLogOpen,
-            top: 32,
+            top: 64,
             left: 32,
-            content: 'This is your Quest Log.',
+            width: 800,
+            height: 400,
+            children: 'This is your Quest Log.',
         },
         {
             name: 'Menu',
             isOpen: isGameMenuOpen,
             setIsOpen: setIsGameMenuOpen,
-            top: 32,
-            left: 32,
-            content: 'This is the Game Menu.',
+            position: 'center',
+            width: 200,
+            height: 400,
+            children: 'This is the Game Menu.',
         },
     ];
 
@@ -150,10 +162,13 @@ export function UI() {
                     name={w.name}
                     top={w.top}
                     left={w.left}
+                    position={w.position}
+                    width={w.width}
+                    height={w.height}
                     onFocus={() => bringToFront(w.name)}
                     onClose={() => w.setIsOpen(false)}
                 >
-                    {w.content}
+                    {w.children}
                 </Window>
             ))}
         </div>
