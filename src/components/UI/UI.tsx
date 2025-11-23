@@ -1,4 +1,4 @@
-import { useEffect, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { type Dispatch, type ReactNode, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
 import { useWorld } from '@/providers/World';
 import styles from './UI.module.scss';
@@ -23,10 +23,6 @@ export function UI() {
         windowOrder,
         bringToFront,
     } = useWorld();
-
-    useEffect(() => {
-        setIsCharacterMenuOpen(true);
-    }, [setIsCharacterMenuOpen]);
 
     const windows: Windows[] = [
         {

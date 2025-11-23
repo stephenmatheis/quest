@@ -6,8 +6,6 @@
     left: 0;
     height: 100dvh;
     width: 100vw;
-    color: hsl(48, 82%, 15%);
-    background-color: hsl(48, 82%, 15%);
 
     .character-frame,
     .target-frame,
@@ -20,7 +18,6 @@
     .debuffs,
     .buttons {
         position: absolute;
-        padding: 32px;
     }
 
     .character-frame {
@@ -28,7 +25,7 @@
         left: 0px;
         width: 275px;
         height: 100px;
-        border: solid 1px green;
+        border: solid 1px black;
     }
 
     .target-frame {
@@ -37,7 +34,7 @@
         transform: translate(175%, 75%);
         width: 275px;
         height: 100px;
-        border: solid 1px red;
+        border: solid 1px black;
     }
 
     .cast-bar {
@@ -139,23 +136,16 @@
         align-items: center;
         justify-content: center;
         gap: 16px;
-        padding: 32px;
+        padding: 16px;
 
         button {
-            cursor: pointer;
             background-color: transparent;
             height: 44px;
             width: 44px;
-            font-size: 2rem;
+            font-size: 1.25rem;
             font-family: inherit;
             border: none;
-            // box-shadow: 6px 6px 0px 0px #1b2022;
-            // border: solid 1px #000000;
-            // transition: box-shadow 100ms ease-out;
-
-            // &:hover {
-            //     box-shadow: 8px 8px 0px 0px #1b2022;
-            // }
+            border: solid 1px #000000;
 
             &:focus,
             &:active {
