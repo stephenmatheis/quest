@@ -1,4 +1,4 @@
-import { useEffect, type Dispatch, type SetStateAction } from 'react';
+import { useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
 import { Modal, type ModalProps } from '@/components/Modal';
 import { useWorld } from '@/providers/World';
@@ -78,25 +78,88 @@ export function UI() {
             return aIndex - bIndex;
         });
 
+    // NOTE: Should Escape close foreground window?
+    const keybinds = useMemo(() => {
+        return [
+            {
+                key: 'c',
+                action() {
+                    setIsCharacterMenuOpen(true);
+                },
+            },
+            {
+                key: 'q',
+                action() {
+                    setIsQuestLogOpen(true);
+                },
+            },
+            {
+                key: 'm',
+                action() {
+                    setIsGameMenuOpen(true);
+                },
+            },
+            // Spells
+            {
+                key: '1',
+                action() {
+                    console.log('spell 1');
+                },
+            },
+            {
+                key: '2',
+                action() {
+                    console.log('spell 2');
+                },
+            },
+            {
+                key: '3',
+                action() {
+                    console.log('spell 3');
+                },
+            },
+            {
+                key: '4',
+                action() {
+                    console.log('spell 4');
+                },
+            },
+            {
+                key: 'q',
+                action() {
+                    console.log('spell q');
+                },
+            },
+            {
+                key: 'w',
+                action() {
+                    console.log('spell w');
+                },
+            },
+            {
+                key: 'e',
+                action() {
+                    console.log('spell e');
+                },
+            },
+            {
+                key: 'r',
+                action() {
+                    console.log('spell r');
+                },
+            },
+        ];
+    }, [setIsCharacterMenuOpen, setIsGameMenuOpen, setIsQuestLogOpen]);
+
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
-            switch (event.key.toLowerCase()) {
-                case 'c':
-                    setIsCharacterMenuOpen(true);
-                    break;
-                case 'q':
-                    setIsQuestLogOpen(true);
-                    break;
-                case 'm':
-                    setIsGameMenuOpen(true);
-                    break;
-            }
+            keybinds.find(({ key }) => key === event.key.toLowerCase())?.action();
         }
 
         window.addEventListener('keydown', onKeyDown);
 
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [setIsCharacterMenuOpen, setIsQuestLogOpen, setIsGameMenuOpen]);
+    }, [keybinds]);
 
     return (
         <div className={styles.ui}>
