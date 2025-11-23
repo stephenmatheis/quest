@@ -1,15 +1,22 @@
-import { type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { type Dispatch, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
+import { Modal, type ModalProps } from '@/components/Modal';
 import { useWorld } from '@/providers/World';
 import styles from './UI.module.scss';
 import { Tooltip } from '../Tooltip';
 
+type Pane = 'window' | 'modal';
+
 type Windows = WindowProps & {
-    children: ReactNode;
+    type: Pane;
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    drag?: boolean;
-    backdrop?: boolean;
+};
+
+type Modals = ModalProps & {
+    type: Pane;
+    isOpen: boolean;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export function UI() {
@@ -24,8 +31,9 @@ export function UI() {
         bringToFront,
     } = useWorld();
 
-    const windows: Windows[] = [
+    const windows: (Windows | Modals)[] = [
         {
+            type: 'window',
             name: 'Character',
             isOpen: isCharacterMenuOpen,
             setIsOpen: setIsCharacterMenuOpen,
@@ -33,11 +41,10 @@ export function UI() {
             left: 32,
             width: 600,
             height: 400,
-            drag: true,
-            backdrop: false,
             children: 'This is your Character.',
         },
         {
+            type: 'window',
             name: 'Quest Log',
             isOpen: isQuestLogOpen,
             setIsOpen: setIsQuestLogOpen,
@@ -45,19 +52,15 @@ export function UI() {
             left: 32,
             width: 800,
             height: 400,
-            drag: true,
-            backdrop: false,
             children: 'This is your Quest Log.',
         },
         {
+            type: 'modal',
             name: 'Menu',
             isOpen: isGameMenuOpen,
             setIsOpen: setIsGameMenuOpen,
-            position: 'center',
             width: 300,
             height: 500,
-            drag: false,
-            backdrop: true,
             children: 'This is the Game Menu.',
         },
     ];
@@ -164,22 +167,41 @@ export function UI() {
             </div>
 
             {/* Render windows in correct stacking order */}
-            {openWindows.map((w) => (
-                <Window
-                    key={w.name}
-                    name={w.name}
-                    top={w.top}
-                    left={w.left}
-                    position={w.position}
-                    width={w.width}
-                    height={w.height}
-                    drag={w.drag}
-                    onFocus={() => bringToFront(w.name)}
-                    onClose={() => w.setIsOpen(false)}
-                >
-                    {w.children}
-                </Window>
-            ))}
+            {openWindows.map((w) => {
+                if (w.type === 'modal') {
+                    return (
+                        <Modal
+                            key={w.name}
+                            name={w.name}
+                            top={w.top}
+                            left={w.left}
+                            width={w.width}
+                            height={w.height}
+                            onFocus={() => bringToFront(w.name)}
+                            onClose={() => w.setIsOpen(false)}
+                        >
+                            {w.children}
+                        </Modal>
+                    );
+                }
+
+                if (w.type === 'window') {
+                    return (
+                        <Window
+                            key={w.name}
+                            name={w.name}
+                            top={w.top}
+                            left={w.left}
+                            width={w.width}
+                            height={w.height}
+                            onFocus={() => bringToFront(w.name)}
+                            onClose={() => w.setIsOpen(false)}
+                        >
+                            {w.children}
+                        </Window>
+                    );
+                }
+            })}
         </div>
     );
 }
