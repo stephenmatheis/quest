@@ -1,9 +1,9 @@
 import { useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
 import { Modal, type ModalProps } from '@/components/Modal';
+import { Tooltip } from '@/components/Tooltip';
 import { useWorld } from '@/providers/World';
 import styles from './UI.module.scss';
-import { Tooltip } from '../Tooltip';
 
 type Pane = 'window' | 'modal';
 
@@ -38,7 +38,7 @@ export function UI() {
             isOpen: isCharacterMenuOpen,
             setIsOpen: setIsCharacterMenuOpen,
             top: 132,
-            left: 32,
+            left: 16,
             width: 600,
             height: 400,
             children: 'This is your Character.',
@@ -49,7 +49,7 @@ export function UI() {
             isOpen: isQuestLogOpen,
             setIsOpen: setIsQuestLogOpen,
             top: 132,
-            left: 32,
+            left: 16,
             width: 800,
             height: 400,
             children: 'This is your Quest Log.',
@@ -124,6 +124,7 @@ export function UI() {
     // TODO: Add action description card tooltip
     const keybinds = useMemo(() => {
         return [
+            // Windows & Modals
             {
                 key: 'escape',
                 action() {
@@ -223,14 +224,19 @@ export function UI() {
 
                 {/* Actions */}
                 <div className={styles.actions}>
-                    <div className={styles.spell}>1</div>
-                    <div className={styles.spell}>2</div>
-                    <div className={styles.spell}>3</div>
-                    <div className={styles.spell}>4</div>
-                    <div className={styles.spell}>Q</div>
-                    <div className={styles.spell}>E</div>
-                    <div className={styles.spell}>R</div>
-                    <div className={styles.spell}>F</div>
+                    {['1', '2', '3', '4', 'Q', 'E', 'R', 'F'].map((keybind) => {
+                        return (
+                            <button
+                                key={keybind}
+                                className={styles.action}
+                                onPointerDown={() =>
+                                    keybinds.find(({ key }) => key === keybind.toLowerCase())?.action()
+                                }
+                            >
+                                {keybind}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
             <div className={styles.right}>
@@ -275,7 +281,6 @@ export function UI() {
                 </div>
             </div>
 
-            {/* Render windows in correct stacking order */}
             {openWindows.map((w) => {
                 if (w.type === 'modal') {
                     return (
