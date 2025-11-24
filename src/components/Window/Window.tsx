@@ -49,9 +49,9 @@ export function Window({ children, name, top, left, width, height, onFocus, onCl
         >
             <div className={styles.titlebar} onPointerDown={startDrag}>
                 <div>{name || 'Untitled'}</div>
-                <div className={styles.close} onPointerDown={handleClose}>
+                <button className={styles.close} onPointerDown={handleClose}>
                     &times;
-                </div>
+                </button>
             </div>
             <div className={styles.content}>{children}</div>
         </motion.div>

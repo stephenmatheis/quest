@@ -59,9 +59,51 @@ export function UI() {
             name: 'Menu',
             isOpen: isGameMenuOpen,
             setIsOpen: setIsGameMenuOpen,
-            width: 300,
-            height: 500,
-            children: 'This is the Game Menu.',
+            children: (
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        color: 'var(--tan)',
+                        gap: '1rem',
+                    }}
+                >
+                    <button
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--tan)',
+                            fontSize: '2rem',
+                        }}
+                    >
+                        Options
+                    </button>
+                    <button
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--tan)',
+                            fontSize: '2rem',
+                        }}
+                    >
+                        Support
+                    </button>
+                    <button
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--tan)',
+                            fontSize: '2rem',
+                        }}
+                    >
+                        Account
+                    </button>
+                </div>
+            ),
         },
     ];
 
@@ -93,19 +135,22 @@ export function UI() {
             {
                 key: 'c',
                 action() {
-                    setIsCharacterMenuOpen(true);
+                    bringToFront('Character');
+                    setIsCharacterMenuOpen((prev) => !prev);
                 },
             },
             {
                 key: 'l',
                 action() {
-                    setIsQuestLogOpen(true);
+                    bringToFront('Quest Log');
+                    setIsQuestLogOpen((prev) => !prev);
                 },
             },
             {
                 key: 'm',
                 action() {
-                    setIsGameMenuOpen(true);
+                    bringToFront('Menu');
+                    setIsGameMenuOpen((prev) => !prev);
                 },
             },
             // Actions
@@ -158,7 +203,7 @@ export function UI() {
                 },
             },
         ];
-    }, [setIsCharacterMenuOpen, setIsGameMenuOpen, setIsQuestLogOpen, openWindows]);
+    }, [openWindows, bringToFront, setIsCharacterMenuOpen, setIsQuestLogOpen, setIsGameMenuOpen]);
 
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
@@ -201,7 +246,7 @@ export function UI() {
                         <button
                             onClick={() => {
                                 bringToFront('Character');
-                                setIsCharacterMenuOpen(true);
+                                setIsCharacterMenuOpen((prev) => !prev);
                             }}
                         >
                             C
@@ -211,7 +256,7 @@ export function UI() {
                         <button
                             onClick={() => {
                                 bringToFront('Quest Log');
-                                setIsQuestLogOpen(true);
+                                setIsQuestLogOpen((prev) => !prev);
                             }}
                         >
                             L
@@ -221,7 +266,7 @@ export function UI() {
                         <button
                             onClick={() => {
                                 bringToFront('Menu');
-                                setIsGameMenuOpen(true);
+                                setIsGameMenuOpen((prev) => !prev);
                             }}
                         >
                             M

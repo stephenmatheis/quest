@@ -13,10 +13,11 @@ export type ModalProps = {
     onClose?: () => void;
 };
 
-export function Modal({ children, name, top, left, width, height, onClose }: ModalProps) {
+export function Modal({ children, top, left, width, height, onClose }: ModalProps) {
     function handleClose(event: PointerEvent) {
         event.preventDefault();
         event.stopPropagation();
+
         onClose?.();
     }
 
@@ -31,13 +32,10 @@ export function Modal({ children, name, top, left, width, height, onClose }: Mod
                     height,
                 }}
             >
-                <div className={styles.titlebar}>
-                    <div>{name || 'Untitled'}</div>
-                    <div className={styles.close} onPointerDown={handleClose}>
-                        &times;
-                    </div>
-                </div>
                 <div className={styles.content}>{children}</div>
+                <div className={styles.toolbar}>
+                    <button onPointerDown={handleClose}>Return</button>
+                </div>
             </motion.div>
         </div>
     );

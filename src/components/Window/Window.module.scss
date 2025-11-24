@@ -9,6 +9,7 @@
     border-radius: 4px;
 
     &::before {
+        pointer-events: none;
         content: '';
         position: absolute;
         top: 2px;
@@ -42,7 +43,8 @@
             justify-content: center;
             height: 44px;
             width: 44px;
-            font-size: 2rem;
+            font-size: 1.5rem;
+            color: var(--tan);
         }
     }
 
