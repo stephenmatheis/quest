@@ -1,4 +1,5 @@
 import { CameraControls, CameraControlsImpl, Edges, Grid } from '@react-three/drei';
+import { useControls } from 'leva';
 import { useCamera } from '@/providers/CameraProvider';
 
 const { ACTION } = CameraControlsImpl;
@@ -7,8 +8,9 @@ function Outline({ linewidth = 4, scale = 1, threshold = 1, color = '#000000' })
     return <Edges linewidth={linewidth} scale={scale} threshold={threshold} color={color} />;
 }
 
-export function Scene() {
+export function SceneWithLeva() {
     const { cameraControlsRef, isCameraLocked } = useCamera();
+    const { x, y, z, color, intensity } = useControls({ x: 0, y: 3, z: 1, color: '#ffffff', intensity: 10 });
 
     return (
         <>
@@ -27,6 +29,14 @@ export function Scene() {
                 }}
             />
             <ambientLight color="#ffffff" intensity={2} />
+            <group>
+                <pointLight position={[x, y, z]} intensity={intensity} color={color} />
+                <mesh position={[x, y, z]}>
+                    <sphereGeometry args={[0.5, 32, 16]} />
+                    <meshBasicMaterial color={color} />
+                    <Outline linewidth={1} />
+                </mesh>
+            </group>
             <group>
                 <group>
                     <mesh position={[0, 0.5, 0]}>

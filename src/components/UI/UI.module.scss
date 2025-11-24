@@ -9,6 +9,7 @@
     --tan: #e2ded3;
     --bg-50: rgb(0 0 0 / 0.5);
 
+    pointer-events: none;
     cursor: default;
     user-select: none;
     position: absolute;
@@ -16,9 +17,6 @@
     left: 0;
     height: 100dvh;
     width: 100vw;
-    background-image: url('/public/images/background.png');
-    background-size: cover;
-    background-position: center;
 
     .right {
         position: absolute;
@@ -43,8 +41,9 @@
             top: 232px;
             right: 0;
             width: 300px;
-            border: solid 1px red;
-            color: var(--tan);
+            // border: solid 1px red;
+            // color: var(--tan);
+            color: var(--black);
         }
 
         .buttons {
@@ -56,6 +55,7 @@
             gap: 8px;
 
             button {
+                pointer-events: all;
                 height: 44px;
                 width: 44px;
                 font-size: 1rem;
@@ -85,6 +85,7 @@
             gap: 8px;
 
             .action {
+                pointer-events: all;
                 display: flex;
                 align-items: center;
                 justify-content: center;

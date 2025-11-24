@@ -2,7 +2,7 @@ import { useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
 import { Window, type WindowProps } from '@/components/Window';
 import { Modal, type ModalProps } from '@/components/Modal';
 import { Tooltip } from '@/components/Tooltip';
-import { useWorld } from '@/providers/World';
+import { useWorld } from '@/providers/WorldProvider';
 import styles from './UI.module.scss';
 
 type Pane = 'window' | 'modal';

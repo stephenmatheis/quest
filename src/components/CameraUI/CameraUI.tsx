@@ -1,15 +1,11 @@
-import { useWorld } from '@/providers/World';
-import styles from './UI.module.scss';
+import { useCamera } from '@/providers/CameraProvider';
+import styles from './CameraUI.module.scss';
 
 export function CameraUI() {
-    const { isCameraLocked, cameraControlsRef, setIsCameraLocked } = useWorld();
+    const { isCameraLocked, cameraControlsRef, setIsCameraLocked } = useCamera();
 
     return (
         <div className={styles.ui}>
-            {/* <div className={styles.topleft}>
-                <h2>My Fleet</h2>
-            </div> */}
-            {/* <button className={styles.topright}>Menu</button> */}
             <button
                 className={`${styles.bottom} ${isCameraLocked ? styles.red : styles.green}`}
                 onClick={(event) => {
