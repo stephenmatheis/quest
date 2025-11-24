@@ -75,7 +75,7 @@ export function UI() {
                             alignItems: 'center',
                             justifyContent: 'center',
                             color: 'var(--tan)',
-                            fontSize: '2rem',
+                            fontSize: '1rem',
                         }}
                     >
                         Options
@@ -86,7 +86,7 @@ export function UI() {
                             alignItems: 'center',
                             justifyContent: 'center',
                             color: 'var(--tan)',
-                            fontSize: '2rem',
+                            fontSize: '1rem',
                         }}
                     >
                         Support
@@ -97,10 +97,22 @@ export function UI() {
                             alignItems: 'center',
                             justifyContent: 'center',
                             color: 'var(--tan)',
-                            fontSize: '2rem',
+                            fontSize: '1rem',
                         }}
                     >
                         Account
+                    </button>
+                    <button
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--tan)',
+                            fontSize: '1rem',
+                        }}
+                        onPointerDown={() => setIsGameMenuOpen(false)}
+                    >
+                        Return
                     </button>
                 </div>
             ),
@@ -292,7 +304,6 @@ export function UI() {
                             width={w.width}
                             height={w.height}
                             onFocus={() => bringToFront(w.name)}
-                            onClose={() => w.setIsOpen(false)}
                         >
                             {w.children}
                         </Modal>

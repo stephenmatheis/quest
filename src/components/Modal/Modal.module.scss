@@ -37,15 +37,4 @@
     .content {
         flex: 1;
     }
-
-    .toolbar {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        font-size: 2rem;
-        border-top: solid 1px var(--tan);
-
-        button {
-            color: var(--tan);
-        }
-    }
 }
