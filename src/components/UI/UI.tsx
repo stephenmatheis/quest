@@ -78,6 +78,7 @@ export function UI() {
             return aIndex - bIndex;
         });
 
+    // TODO: Add pop-up to show what key was pressed (for DEV: only);
     // TODO: Add action description card tooltip
     const keybinds = useMemo(() => {
         return [
@@ -107,53 +108,53 @@ export function UI() {
                     setIsGameMenuOpen(true);
                 },
             },
-            // Spells
+            // Actions
             {
                 key: '1',
                 action() {
-                    console.log('spell 1');
+                    console.log('Action 1');
                 },
             },
             {
                 key: '2',
                 action() {
-                    console.log('spell 2');
+                    console.log('Action 2');
                 },
             },
             {
                 key: '3',
                 action() {
-                    console.log('spell 3');
+                    console.log('Action 3');
                 },
             },
             {
                 key: '4',
                 action() {
-                    console.log('spell 4');
+                    console.log('Action 4');
                 },
             },
             {
                 key: 'q',
                 action() {
-                    console.log('spell q');
-                },
-            },
-            {
-                key: 'w',
-                action() {
-                    console.log('spell w');
+                    console.log('Action Q');
                 },
             },
             {
                 key: 'e',
                 action() {
-                    console.log('spell e');
+                    console.log('Action E');
                 },
             },
             {
                 key: 'r',
                 action() {
-                    console.log('spell r');
+                    console.log('Action R');
+                },
+            },
+            {
+                key: 'f',
+                action() {
+                    console.log('Action F');
                 },
             },
         ];
@@ -182,9 +183,9 @@ export function UI() {
                     <div className={styles.spell}>3</div>
                     <div className={styles.spell}>4</div>
                     <div className={styles.spell}>Q</div>
-                    <div className={styles.spell}>W</div>
                     <div className={styles.spell}>E</div>
                     <div className={styles.spell}>R</div>
+                    <div className={styles.spell}>F</div>
                 </div>
             </div>
             <div className={styles.right}>
