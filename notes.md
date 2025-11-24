@@ -1,5 +1,9 @@
 # Notes
 
+## Resources
+
+-   https://www.gameuidatabase.com
+
 ## Names
 
 -   Even Hero's Need a Vacation

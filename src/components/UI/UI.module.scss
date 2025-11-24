@@ -7,93 +7,65 @@
     height: 100dvh;
     width: 100vw;
 
-    .character-frame,
-    .target-frame,
-    .cast-bar,
-    .mini-map,
-    .tracked-quests,
-    .hot-bars,
-    .chat-log,
-    .buffs,
-    .debuffs,
-    .buttons {
+    .right {
         position: absolute;
-    }
+        height: 100%;
+        top: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px;
 
-    .character-frame {
-        bottom: 0px;
-        left: 0px;
-        width: 275px;
-        height: 100px;
-        border: solid 1px black;
-    }
-
-    .target-frame {
-        top: 50%;
-        right: 50%;
-        transform: translate(175%, 75%);
-        width: 275px;
-        height: 100px;
-        border: solid 1px black;
-    }
-
-    .cast-bar {
-        bottom: 140px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 0;
-
-        .bar {
-            position: relative;
-            width: 300px;
-            height: 16px;
-            border-radius: 16px;
-            background-color: white;
+        .mini-map {
+            width: 200px;
+            height: 200px;
             border: solid 1px black;
+        }
 
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 100%;
-                width: 75%;
-                background-color: black;
-                border-radius: 16px;
+        .tracked-quests {
+            flex: 1;
+            top: 232px;
+            right: 0;
+            width: 300px;
+            border: solid 1px black;
+        }
+
+        .buttons {
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+
+            button {
+                font-size: 1.25rem;
+                height: 44px;
+                width: 44px;
+                font-size: 1.25rem;
+                border: solid 1px black;
             }
         }
     }
 
-    .mini-map {
+    .left {
+        position: absolute;
+        height: 100%;
         top: 0;
-        right: 0;
-
-        width: 200px;
-        height: 200px;
-        border: solid 1px black;
-    }
-
-    .tracked-quests {
-        top: 232px;
-        right: 0;
-        height: calc(100dvh - 340px);
-        width: 300px;
-        border: solid 1px black;
-    }
-
-    .hot-bars {
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 0;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
         padding: 16px;
 
-        .bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
 
             .spell {
@@ -106,64 +78,13 @@
                 font-size: 1rem;
             }
         }
-    }
 
-    .chat-log {
-        bottom: 0;
-        left: 0;
-        width: 500px;
-        height: 250px;
-        // background-color: #00000020;
-        border: solid 1px black;
-    }
-
-    .buffs {
-        top: 0;
-        right: 232px;
-        background-color: #0000ff30;
-    }
-
-    .debuffs {
-        top: 232px;
-        right: 332px;
-        background-color: #ff00ff30;
-    }
-
-    .buttons {
-        right: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        padding: 16px;
-
-        button {
-            background-color: transparent;
-            height: 44px;
-            width: 44px;
-            font-size: 1.25rem;
-            font-family: inherit;
-            border: none;
+        .character-frame {
+            bottom: 0px;
+            left: 0px;
+            width: 275px;
+            height: 100px;
             border: solid 1px black;
-
-            &:focus,
-            &:active {
-                outline: none;
-            }
         }
     }
-
-    // NOTE: Testing window border images
-    // .character-frame,
-    // .target-frame,
-    // .cast-bar,
-    // .mini-map,
-    // .tracked-quests,
-    // .hot-bars,
-    // .chat-log,
-    // .buffs,
-    // .debuffs {
-    //     display: none;
-    // }
 }

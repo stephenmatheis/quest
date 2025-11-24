@@ -95,7 +95,7 @@ export function UI() {
                 },
             },
             {
-                key: 'q',
+                key: 'l',
                 action() {
                     setIsQuestLogOpen(true);
                 },
@@ -170,91 +170,63 @@ export function UI() {
 
     return (
         <div className={styles.ui}>
-            {/* Tracked Quests */}
-            <div className={styles['tracked-quests']}>Tracked Quests</div>
+            <div className={styles.left}>
+                {/* Character Frame */}
+                <div className={styles['character-frame']}>Character Frame</div>
 
-            {/* Mini Map */}
-            <div className={styles['mini-map']}>Mini Map</div>
-
-            {/* Hot bars */}
-            <div className={styles['hot-bars']}>
-                <div className={styles.bar}>
+                {/* Actions */}
+                <div className={styles.actions}>
                     <div className={styles.spell}>1</div>
                     <div className={styles.spell}>2</div>
                     <div className={styles.spell}>3</div>
                     <div className={styles.spell}>4</div>
-                    <div className={styles.spell}>q</div>
-                    <div className={styles.spell}>w</div>
-                    <div className={styles.spell}>e</div>
-                    <div className={styles.spell}>r</div>
+                    <div className={styles.spell}>Q</div>
+                    <div className={styles.spell}>W</div>
+                    <div className={styles.spell}>E</div>
+                    <div className={styles.spell}>R</div>
                 </div>
-                {/* NOTE: Optional */}
-                {/* <div className={styles.bar}>
-                    <div className={styles.spell}>s-1</div>
-                    <div className={styles.spell}>s-2</div>
-                    <div className={styles.spell}>s-3</div>
-                    <div className={styles.spell}>s-4</div>
-                    <div className={styles.spell}>s-q</div>
-                    <div className={styles.spell}>s-w</div>
-                    <div className={styles.spell}>s-e</div>
-                    <div className={styles.spell}>s-r</div>
-                </div> */}
             </div>
+            <div className={styles.right}>
+                {/* Mini Map */}
+                <div className={styles['mini-map']}>Mini Map</div>
 
-            {/* Buttons */}
-            <div className={styles.buttons}>
-                <Tooltip content="Character">
-                    <button
-                        onClick={() => {
-                            bringToFront('Character');
-                            setIsCharacterMenuOpen(true);
-                        }}
-                    >
-                        C
-                    </button>
-                </Tooltip>
-                <Tooltip content="Quest Log">
-                    <button
-                        onClick={() => {
-                            bringToFront('Quest Log');
-                            setIsQuestLogOpen(true);
-                        }}
-                    >
-                        Q
-                    </button>
-                </Tooltip>
-                <Tooltip content="Menu">
-                    <button
-                        onClick={() => {
-                            bringToFront('Menu');
-                            setIsGameMenuOpen(true);
-                        }}
-                    >
-                        M
-                    </button>
-                </Tooltip>
+                {/* Tracked Quests */}
+                <div className={styles['tracked-quests']}>Tracked Quests</div>
+
+                {/* Buttons */}
+                <div className={styles.buttons}>
+                    <Tooltip content="Character">
+                        <button
+                            onClick={() => {
+                                bringToFront('Character');
+                                setIsCharacterMenuOpen(true);
+                            }}
+                        >
+                            C
+                        </button>
+                    </Tooltip>
+                    <Tooltip content="Quest Log">
+                        <button
+                            onClick={() => {
+                                bringToFront('Quest Log');
+                                setIsQuestLogOpen(true);
+                            }}
+                        >
+                            L
+                        </button>
+                    </Tooltip>
+                    <Tooltip content="Menu">
+                        <button
+                            onClick={() => {
+                                bringToFront('Menu');
+                                setIsGameMenuOpen(true);
+                            }}
+                        >
+                            M
+                        </button>
+                    </Tooltip>
+                </div>
             </div>
-
-            {/* Chat Log */}
-            {/* <div className={styles['chat-log']}>Chat Log</div> */}
-
-            {/* Buffs */}
-            {/* <div className={styles.buffs}>Buffs</div> */}
-
-            {/* Debuffs */}
-            {/* <div className={styles.debuffs}>Debuffs</div> */}
-
-            {/* Character Frame */}
-            <div className={styles['character-frame']}>Character Frame</div>
-
-            {/* Target Frame */}
-            {/* <div className={styles['target-frame']}>Target Frame</div> */}
-
-            {/* Cast Bar */}
-            {/* <div className={styles['cast-bar']}>
-                <div>Cast Bar</div>
-                <div className={styles.bar} />
-            </div> */}
 
             {/* Render windows in correct stacking order */}
             {openWindows.map((w) => {
