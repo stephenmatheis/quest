@@ -236,7 +236,7 @@ export function UI() {
             </div>
 
             {/* Chat Log */}
-            <div className={styles['chat-log']}>Chat Log</div>
+            {/* <div className={styles['chat-log']}>Chat Log</div> */}
 
             {/* Buffs */}
             {/* <div className={styles.buffs}>Buffs</div> */}
