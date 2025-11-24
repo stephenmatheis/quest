@@ -3,9 +3,19 @@
 
     .content {
         position: absolute;
-        top: -50%;
+        top: -40px;
         left: 50%;
         transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: max-content;
+        height: 32px;
+        padding-inline: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--tan);
+        background-color: var(--bg-50);
+        border-radius: 16px;
     }
 }

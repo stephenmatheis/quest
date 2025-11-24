@@ -78,6 +78,7 @@ export function UI() {
             return aIndex - bIndex;
         });
 
+    // TODO: Add action description card tooltip
     const keybinds = useMemo(() => {
         return [
             {
