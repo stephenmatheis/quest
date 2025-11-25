@@ -6,25 +6,58 @@ export function CameraUI() {
 
     return (
         <div className={styles.ui}>
-            <button
-                className={`${styles.bottom} ${isCameraLocked ? styles.red : styles.green}`}
-                onClick={(event) => {
-                    event.preventDefault();
+            <div className={styles.buttons}>
+                <button
+                    className={`${isCameraLocked ? styles.red : styles.green}`}
+                    onClick={(event) => {
+                        event.preventDefault();
 
-                    setIsCameraLocked((prev) => {
+                        setIsCameraLocked((prev) => !prev);
+                    }}
+                >
+                    {isCameraLocked ? 'Locked' : 'Free'} Camera
+                </button>
+
+                <button
+                    onClick={(event) => {
+                        event.preventDefault();
+
                         const controls = cameraControlsRef.current;
 
-                        if (prev === false && controls) {
-                            controls.reset(true);
-                            controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
-                        }
+                        if (!controls) return;
 
-                        return !prev;
-                    });
-                }}
-            >
-                Camera {isCameraLocked ? 'locked' : 'unlocked'}
-            </button>
+                        controls.setLookAt(0, 4.5, 16, 0, 5, -10, true);
+                    }}
+                >
+                    Look at Start
+                </button>
+                <button
+                    onClick={(event) => {
+                        event.preventDefault();
+
+                        const controls = cameraControlsRef.current;
+
+                        if (!controls) return;
+
+                        controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
+                    }}
+                >
+                    Look at Quest Board
+                </button>
+                <button
+                    onClick={(event) => {
+                        event.preventDefault();
+
+                        const controls = cameraControlsRef.current;
+
+                        if (!controls) return;
+
+                        controls.setLookAt(0, 24, 48, 0, 0, -24, true);
+                    }}
+                >
+                    Overhead
+                </button>
+            </div>
         </div>
     );
 }

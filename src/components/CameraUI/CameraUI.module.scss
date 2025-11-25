@@ -7,33 +7,37 @@
     width: 100vw;
     color: #f1f1f3;
 
-    button {
-        background-color: transparent;
-        font-family: inherit;
-        font-size: inherit;
-        border: none;
-        color: inherit;
-        background-color: black;
-    }
-
-    .bottom {
-        user-select: none;
-        pointer-events: all;
+    .buttons {
         position: absolute;
         bottom: 16px;
         left: 50%;
         transform: translateX(-50%);
-        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-self: center;
+        gap: 16px;
+        width: max-content;
         font-size: 1rem;
         font-weight: 700;
-        width: max-content;
-    }
 
-    .red {
-        color: crimson;
-    }
+        button {
+            pointer-events: all;
+            background-color: transparent;
+            font-family: inherit;
+            font-size: inherit;
+            border: none;
+            color: inherit;
+            background-color: black;
+            padding: 1rem;
+            color: white;
+        }
 
-    .green {
-        color: mediumseagreen;
+        .red {
+            color: crimson;
+        }
+
+        .green {
+            color: mediumseagreen;
+        }
     }
 }
