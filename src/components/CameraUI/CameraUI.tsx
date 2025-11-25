@@ -29,7 +29,7 @@ export function CameraUI() {
                         controls.setLookAt(0, 4.5, 16, 0, 5, -10, true);
                     }}
                 >
-                    Look at Start
+                    Back to Start
                 </button>
                 <button
                     onClick={(event) => {
@@ -56,6 +56,19 @@ export function CameraUI() {
                     }}
                 >
                     Overhead
+                </button>
+                <button
+                    onClick={(event) => {
+                        event.preventDefault();
+
+                        const controls = cameraControlsRef.current;
+
+                        if (!controls) return;
+
+                        controls.setLookAt(0, -6, 32, 0, 12, 4, true);
+                    }}
+                >
+                    Inside Roof
                 </button>
             </div>
         </div>

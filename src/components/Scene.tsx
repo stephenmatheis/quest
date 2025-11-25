@@ -24,8 +24,6 @@ export function Scene() {
 
         if (!controls) return;
 
-        // controls.setLookAt(0, 24, 48, 0, 0, -24, false);
-
         // start
         controls.setLookAt(0, 4.5, 16, 0, 5, -10, false);
 
