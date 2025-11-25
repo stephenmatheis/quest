@@ -10,7 +10,15 @@ export default function App() {
         <>
             <WorldProvider>
                 <CameraProvider>
-                    <Canvas shadows camera={{ position: [0, 8, 12], fov: 75 }}>
+                    <Canvas
+                        shadows
+                        camera={{
+                            position: [0, 10, 10],
+                            fov: 50,
+                            near: 0.1,
+                            far: 1000,
+                        }}
+                    >
                         <Scene />
                     </Canvas>
                     <CameraUI />
