@@ -16,6 +16,7 @@ export function CameraUI() {
 
                         if (prev === false && controls) {
                             controls.reset(true);
+                            controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
                         }
 
                         return !prev;

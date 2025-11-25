@@ -16,37 +16,22 @@ export function Scene() {
 
         if (!controls) return;
 
-        // 1. Start FAR away — as if you just opened the door and are standing at the entrance
-        controls.setLookAt(
-            0,
-            4.5,
-            16, // far back, slightly lower than final position
-            0,
-            5,
-            -10, // already looking straight at the quest board
-            false
-        );
+        controls.setLookAt(0, 24, 48, 0, 0, -24, false);
 
-        // 2. One frame later → smooth cinematic walk-up to the board
-        requestAnimationFrame(() => {
-            controls.setLookAt(
-                0,
-                4.5,
-                11, // final position: close enough to read quests comfortably
-                0,
-                5,
-                -10, // looking right at the center of the WoodenWall
-                true
-            );
-        });
+        // start
+        // controls.setLookAt(0, 4.5, 16, 0, 5, -10, false);
 
-        // Polish settings (feel free to copy-paste)
-        controls.minDistance = 2;
-        controls.maxDistance = 30;
-        controls.minPolarAngle = 0.2; // don’t look straight up
-        controls.maxPolarAngle = Math.PI / 2; // don’t go under floor
-        controls.smoothTime = 1.1; // cinematic walk speed
-        controls.draggingSmoothTime = 0.12; // snappy when user grabs
+        // end
+        // requestAnimationFrame(() => {
+        //     controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
+        // });
+
+        // controls.minDistance = 2;
+        // controls.maxDistance = 100;
+        // controls.minPolarAngle = 0.2; // don’t look straight up
+        // controls.maxPolarAngle = Math.PI / 2; // don’t go under floor
+        // controls.smoothTime = 1.1; // cinematic walk speed
+        // controls.draggingSmoothTime = 0.12; // snappy when user grabs
     }, [cameraControlsRef]);
 
     return (
