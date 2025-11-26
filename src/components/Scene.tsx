@@ -94,7 +94,8 @@ export function Scene() {
             <directionalLight ref={leftDirLightRef} position={[-40, 15, 15]} intensity={0.5} />
             <hemisphereLight
                 ref={hemiLightRef}
-                position={[0, 15, 30]}
+                // position={[0, 15, 30]}
+                position={[0, 15, 80]}
                 intensity={5}
                 // color="#ffd4a3"
                 color="#fff2e2"
@@ -110,18 +111,20 @@ export function Scene() {
             <Torch position={[-17, 10, 3.5]} scale={8} />
 
             {/* Roof */}
-            {/* <group>
-                <mesh position={[0, 10, 8]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[32, 1, 16]} />
+            <group>
+                <mesh position={[0, 30.5, 40]} rotation={[0, 0, 0]}>
+                    <boxGeometry args={[80, 1, 84]} />
                     <meshStandardMaterial color="#643A16" />
                 </mesh>
-            </group> */}
+            </group>
 
+            {/* Back Wall */}
             <mesh position={[0, 15, 0]}>
                 <boxGeometry args={[80, 30, 4]} />
                 <meshStandardMaterial color="#808080" />
             </mesh>
 
+            {/* Floor */}
             <mesh position={[0, 0.25, 42]}>
                 <boxGeometry args={[80, 0.5, 80]} />
                 <meshStandardMaterial color="#A6703E" />
@@ -151,6 +154,12 @@ export function Scene() {
                 <mesh position={[-14.5, 12.5, 2.5]} rotation={[0, 0, 0]}>
                     <boxGeometry args={[1, 14, 1]} />
                     <meshStandardMaterial color="#643A16" />
+                </mesh>
+
+                {/* Center */}
+                <mesh position={[-0, 12.5, 2.25]} rotation={[0, 0, 0]}>
+                    <boxGeometry args={[28, 14, .25]} />
+                    <meshStandardMaterial color="#ffffff" />
                 </mesh>
             </group>
 
