@@ -252,9 +252,6 @@ export function UI() {
                 </div>
             </div>
             <div className={styles.right}>
-                {/* Mini Map */}
-                <div className={styles['mini-map']}>Mini Map</div>
-
                 {/* Tracked Quests */}
                 <div className={styles['tracked-quests']}>Tracked Quests</div>
 

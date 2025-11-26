@@ -30,20 +30,13 @@
         gap: 16px;
         padding: 16px;
 
-        .mini-map {
-            width: 200px;
-            height: 200px;
-            @include bg;
-        }
-
         .tracked-quests {
+            margin-top: 200px;
+            pointer-events: all;
             flex: 1;
-            top: 232px;
             right: 0;
             width: 300px;
-            // border: solid 1px red;
-            // color: var(--tan);
-            color: var(--black);
+            @include bg;
         }
 
         .buttons {
@@ -56,13 +49,14 @@
 
             button {
                 pointer-events: all;
+                display: flex;
                 height: 44px;
                 width: 44px;
+                padding: 8px;
                 font-size: 1rem;
-                font-weight: 700;
-                color: var(--black);
-                background-color: var(--tan);
-                border-radius: 50%;
+                color: hsl(25, 76%, 20%);
+                background-image: url('/public/images/keycap.svg');
+                background-position: center;
             }
         }
     }
@@ -87,15 +81,14 @@
             .action {
                 pointer-events: all;
                 display: flex;
-                align-items: center;
-                justify-content: center;
                 height: 44px;
                 width: 44px;
+                padding: 8px;
                 font-size: 1rem;
-                font-weight: 700;
-                color: var(--black);
-                background-color: var(--tan);
-                border-radius: 50%;
+                color: hsl(25, 76%, 20%);
+                background-image: url('/public/images/keycap.svg');
+                background-position: center;
+                background-size: contain;
             }
         }
 

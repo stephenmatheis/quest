@@ -3,7 +3,7 @@ import { Scene } from '@/components/Scene';
 import { WorldProvider } from '@/providers/WorldProvider';
 import { CameraProvider } from './providers/CameraProvider';
 import { CameraUI } from './components/CameraUI';
-// import { UI } from '@/components/UI';
+import { UI } from '@/components/UI';
 
 export default function App() {
     return (
@@ -23,7 +23,7 @@ export default function App() {
                     </Canvas>
                     <CameraUI />
                 </CameraProvider>
-                {/* <UI /> */}
+                <UI />
             </WorldProvider>
         </>
     );
