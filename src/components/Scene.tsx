@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import supabase from '@/lib/supabase';
 import { type Database } from '@/types/supabase';
-import { CameraControls, CameraControlsImpl, Grid, Text, useHelper } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Edges, Grid, Text, useHelper } from '@react-three/drei';
 import {
     DirectionalLight,
     DirectionalLightHelper,
@@ -86,11 +86,14 @@ function Board() {
 }
 
 function QuestCard({ text, grade, position }: { text: string; grade: string; position: [number, number, number] }) {
+    const [highlight, setHighlight] = useState<boolean>(false);
+
     return (
         <group position={position}>
-            <mesh>
+            <mesh onPointerEnter={() => setHighlight(true)} onPointerLeave={() => setHighlight(false)}>
                 <boxGeometry args={[0.5, 0.7, 0.03125]} />
                 <meshStandardMaterial color="#F1E9D2" />
+                {highlight && <Edges linewidth={5} scale={1.01} threshold={15} color="#643A16" />}
             </mesh>
             <Text
                 position={[0, 0.2, 0.016]}

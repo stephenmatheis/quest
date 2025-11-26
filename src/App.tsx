@@ -23,7 +23,7 @@ export default function App() {
                     </Canvas>
                     <CameraUI />
                 </CameraProvider>
-                <UI />
+                {/* <UI /> */}
             </WorldProvider>
         </>
     );
