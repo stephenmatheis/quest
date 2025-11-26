@@ -9,29 +9,29 @@
 
     .buttons {
         position: absolute;
-        bottom: 0px;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 0;
+        right: 0px;
         display: flex;
-        align-items: center;
-        justify-self: center;
-        gap: 16px;
-        width: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
         font-size: 1rem;
-        font-weight: 700;
-        padding: 1rem;
+        background-color: rgb(0 0 0 / 0.5);
 
         button {
             flex: 1;
             pointer-events: all;
-            background-color: transparent;
-            font-family: inherit;
+            min-height: 28px;
+            padding-inline: 1rem;
+            font-weight: 400;
             font-size: 14px;
-            border: none;
-            color: inherit;
-            background-color: black;
-            padding: 0.5rem;
-            color: white;
+            text-align: left;
+            color: #cccccc;
+            background-color: transparent;
+
+            &:hover {
+                color: #ffffff;
+                font-weight: 700;
+            }
         }
 
         .red {
