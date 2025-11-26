@@ -13,6 +13,69 @@ import {
 
 const { ACTION } = CameraControlsImpl;
 
+function Floor() {
+    return (
+        <mesh position={[0, 0.125, 4]}>
+            <boxGeometry args={[8, 0.25, 8]} />
+            <meshStandardMaterial color="#A6703E" />
+        </mesh>
+    );
+}
+
+function BackWall() {
+    return (
+        <mesh position={[0, 2, -0.25]}>
+            <boxGeometry args={[8, 4, 0.5]} />
+            <meshStandardMaterial color="#808080" />
+        </mesh>
+    );
+}
+
+function Roof() {
+    return (
+        <mesh position={[0, 3.875, 4]}>
+            <boxGeometry args={[8, 0.25, 8]} />
+            <meshStandardMaterial color="#643A16" />
+        </mesh>
+    );
+}
+
+function Board() {
+    return (
+        <group>
+            {/* Top */}
+            <mesh position={[0, 3, 0.0625]}>
+                <boxGeometry args={[4, 0.125, 0.125]} />
+                <meshStandardMaterial color="#643A16" />
+            </mesh>
+
+            {/* Bottom */}
+            <mesh position={[0, 1, 0.0625]}>
+                <boxGeometry args={[4, 0.125, 0.125]} />
+                <meshStandardMaterial color="#643A16" />
+            </mesh>
+
+            {/* Right */}
+            <mesh position={[1.9375, 2, 0.0625]}>
+                <boxGeometry args={[0.125, 1.875, 0.125]} />
+                <meshStandardMaterial color="#643A16" />
+            </mesh>
+
+            {/* Left */}
+            <mesh position={[-1.9375, 2, 0.0625]}>
+                <boxGeometry args={[0.125, 1.875, 0.125]} />
+                <meshStandardMaterial color="#643A16" />
+            </mesh>
+
+            {/* Center */}
+            <mesh position={[0, 2, 0.0625]}>
+                <boxGeometry args={[3.75, 2, 0.0125]} />
+                <meshStandardMaterial color="#f1d29c" />
+            </mesh>
+        </group>
+    );
+}
+
 export function Scene() {
     const { cameraControlsRef, isCameraLocked } = useCamera();
     const rightDirLightRef = useRef<DirectionalLight>(null);
@@ -21,23 +84,23 @@ export function Scene() {
     const leftTorchLight = useRef<PointLight>(null);
     const rightTorchLight = useRef<PointLight>(null);
 
-    useHelper(rightDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 1, 'red');
-    useHelper(leftDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 1, 'red');
-    useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 1, 'red');
-    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, .25, 'red');
-    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, .25, 'red');
+    useHelper(rightDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 0.25, 'red');
+    useHelper(leftDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 0.25, 'red');
+    useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 0.25, 'red');
+    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
+    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
+
         if (!controls) return;
 
-        // Camera now starts much closer — everything is 8× smaller
         controls.setLookAt(
             0, // posX
-            1.875, // posY (15 → 15/8)
-            6.25, // posZ (50 → 50/8)
+            2, // posY
+            12, // posZ
             0, // lookAtX
-            1.875, // lookAtY (15 → 15/8)
+            2, // lookAtY
             0, // lookAtZ
             false
         );
@@ -64,73 +127,28 @@ export function Scene() {
             />
 
             {/* Lights */}
-            <directionalLight ref={rightDirLightRef} position={[5, 1.875, 1.875]} intensity={0.5} />
-            <directionalLight ref={leftDirLightRef} position={[-5, 1.875, 1.875]} intensity={0.5} />
+            <directionalLight ref={rightDirLightRef} position={[6, 2, 2]} intensity={1} />
+            <directionalLight ref={leftDirLightRef} position={[-6, 2, 2]} intensity={1} />
             <hemisphereLight
                 ref={hemiLightRef}
-                position={[0, 1.875, 10]}
-                intensity={2}
+                position={[0, 2, 10]}
+                intensity={3}
                 color="#fff2e2"
                 groundColor="#4a341f"
             />
 
             {/* Right Torch - now at scale 1 */}
-            <pointLight ref={rightTorchLight} position={[2.125, 1.75, 0.4375]} intensity={1} color="#ffb84d" />
-            <Torch position={[2.125, 1.25, 0.4375]} scale={1} />
+            <pointLight ref={rightTorchLight} position={[3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
+            <Torch position={[3, 2, 0.25]} scale={1} />
 
             {/* Left Torch */}
-            <pointLight ref={leftTorchLight} position={[-2.125, 1.75, 0.4375]} intensity={1} color="#ffb84d" />
-            <Torch position={[-2.125, 1.25, 0.4375]} scale={1} />
+            <pointLight ref={leftTorchLight} position={[-3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
+            <Torch position={[-3, 2, 0.25]} scale={1} />
 
-            {/* Roof */}
-            <mesh position={[0, 3.8125, 5]}>
-                <boxGeometry args={[10, 0.125, 10.5]} />
-                <meshStandardMaterial color="#643A16" />
-            </mesh>
-
-            {/* Back Wall */}
-            <mesh position={[0, 1.875, 0]}>
-                <boxGeometry args={[10, 3.75, 0.5]} />
-                <meshStandardMaterial color="#808080" />
-            </mesh>
-
-            {/* Floor */}
-            <mesh position={[0, 0.03125, 5.25]}>
-                <boxGeometry args={[10, 0.0625, 10]} />
-                <meshStandardMaterial color="#A6703E" />
-            </mesh>
-
-            {/* Quest Board - scaled down */}
-            <group>
-                {/* Top */}
-                <mesh position={[0, 2.5, 0.3125]}>
-                    <boxGeometry args={[3.75, 0.125, 0.125]} />
-                    <meshStandardMaterial color="#643A16" />
-                </mesh>
-
-                {/* Bottom */}
-                <mesh position={[0, 0.625, 0.3125]}>
-                    <boxGeometry args={[3.75, 0.125, 0.125]} />
-                    <meshStandardMaterial color="#643A16" />
-                </mesh>
-
-                {/* Sides */}
-                <mesh position={[1.8125, 1.5625, 0.3125]}>
-                    <boxGeometry args={[0.125, 1.75, 0.125]} />
-                    <meshStandardMaterial color="#643A16" />
-                </mesh>
-                <mesh position={[-1.8125, 1.5625, 0.3125]}>
-                    <boxGeometry args={[0.125, 1.75, 0.125]} />
-                    <meshStandardMaterial color="#643A16" />
-                </mesh>
-
-                {/* Center panel */}
-                <mesh position={[0, 1.5625, 0.28125]}>
-                    <boxGeometry args={[3.5, 1.75, 0.03125]} />
-                    <meshStandardMaterial color="#ffffff" />
-                </mesh>
-            </group>
-
+            <Roof />
+            <BackWall />
+            <Floor />
+            <Board />
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}
