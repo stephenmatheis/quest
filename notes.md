@@ -2,6 +2,7 @@
 
 ## Resources
 
+-   https://github.com/yomotsu/camera-controls
 -   https://www.gameuidatabase.com
 
 ## Names

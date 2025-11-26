@@ -8,7 +8,7 @@ Files: public/models/Book2.glb [61.62KB] > /Users/stephenmatheis/GitHub/quest/Bo
 
 import { useGLTF } from '@react-three/drei';
 
-export function Book2(props) {
+export function BoundBook(props) {
     const { nodes, materials } = useGLTF('/models/Book2-transformed.glb');
 
     return (

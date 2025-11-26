@@ -11,6 +11,8 @@ import { useGLTF } from '@react-three/drei';
 export function WoodenWall(props) {
     const { nodes, materials } = useGLTF('/models/WoodenWall-transformed.glb');
 
+    console.log(materials);
+
     return (
         <group {...props} dispose={null}>
             <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>
