@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import supabase from '@/lib/supabase';
+import { type Database } from '@/types/supabase';
 import { CameraControls, CameraControlsImpl, Grid, Text, useHelper } from '@react-three/drei';
 import {
     DirectionalLight,
@@ -11,6 +13,8 @@ import {
 import { useCamera } from '@/providers/CameraProvider';
 import { Torch } from '@/components/Models/Torch';
 import { Dagger } from '@/components/Models/Dagger';
+
+type Quest = Database['public']['Tables']['quests']['Row'];
 
 const { ACTION } = CameraControlsImpl;
 
@@ -81,6 +85,73 @@ function Board() {
     );
 }
 
+function QuestCard({ text, grade, position }: { text: string; grade: string; position: [number, number, number] }) {
+    return (
+        <group position={position}>
+            <mesh>
+                <boxGeometry args={[0.5, 0.7, 0.03125]} />
+                <meshStandardMaterial color="#F1E9D2" />
+            </mesh>
+            <Text position={[0, 0.2, 0.016]} fontSize={0.1} color="hsl(29, 52%, 25%)" textAlign="center">
+                {text}
+            </Text>
+            <Text position={[0, -0.2, 0.016]} fontSize={0.1} color="hsl(5, 95%, 40%)" textAlign="center">
+                [ {grade} ]
+            </Text>
+        </group>
+    );
+}
+
+export default function Quests() {
+    const [quests, setQuests] = useState<Quest[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const COLUMNS = 6;
+    const COL_WIDTH = 0.6;
+    const ROW_HEIGHT = 0.8;
+    const START_Y = 2.4;
+
+    useEffect(() => {
+        async function fetchQuests() {
+            const { data, error } = await supabase
+                .from('quests')
+                .select('id, created_at, text, grade')
+                .order('id', { ascending: true });
+
+            if (error) {
+                console.error('Supabase error:', error);
+            } else {
+                setQuests(data || []);
+            }
+            setLoading(false);
+        }
+
+        fetchQuests();
+    }, []);
+
+    if (loading) {
+        return (
+            <group position={[-1.5, 0, 0]}>
+                <Text position={[0, 0, 0.1]} fontSize={0.2} color="white">
+                    Loading quests...
+                </Text>
+            </group>
+        );
+    }
+
+    return (
+        <group position={[-1.5, 0, 0]}>
+            {quests.map(({ text, grade }, index) => {
+                const col = index % COLUMNS;
+                const row = Math.floor(index / COLUMNS);
+                const position: [number, number, number] = [col * COL_WIDTH, START_Y - row * ROW_HEIGHT, 0.078125];
+
+                return <QuestCard key={index} text={text} grade={grade || 'F'} position={position} />;
+            })}
+        </group>
+    );
+}
+
 function RightTorch() {
     const rightTorchLight = useRef<PointLight>(null);
 
@@ -108,7 +179,7 @@ function LeftTorch() {
 }
 
 export function Scene() {
-    const { cameraControlsRef, isCameraLocked } = useCamera();
+    const { cameraControlsRef, isCameraLocked, start, end } = useCamera();
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
@@ -118,34 +189,18 @@ export function Scene() {
     useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 0.25, 'red');
 
     useEffect(() => {
+        start();
+
+        requestAnimationFrame(() => {
+            end();
+        });
+
         const controls = cameraControlsRef.current;
 
         if (!controls) return;
 
-        controls.setLookAt(
-            0, // posX
-            2.5, // posY
-            12, // posZ
-            0, // lookAtX
-            2.5, // lookAtY
-            0, // lookAtZ
-            false
-        );
-
-        requestAnimationFrame(() => {
-            controls.setLookAt(
-                0, // posX
-                2.5, // posY
-                6, // posZ
-                0, // lookAtX
-                2.5, // lookAtY
-                0, // lookAtZ
-                true
-            );
-        });
-
         controls.smoothTime = 1.1;
-    }, [cameraControlsRef]);
+    }, [cameraControlsRef, end, start]);
 
     return (
         <>
@@ -181,25 +236,8 @@ export function Scene() {
             <BackWall />
             <Floor />
             <Board />
-
             <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
-
-            {/* Paper */}
-            <group position={[-1.1, 2.25, 0.078125]}>
-                <mesh>
-                    <boxGeometry args={[0.5, 0.7, 0.03125]} />
-                    <meshStandardMaterial color="#F1E9D2" />
-                </mesh>
-                <Text
-                    position={[0, 0.2, 0.016]}
-                    font="fonts/Jacquard24-Regular.ttf"
-                    fontSize={0.1}
-                    textAlign="center"
-                    color="hsl(29, 52%, 25%)"
-                >
-                    Quest
-                </Text>
-            </group>
+            <Quests />
 
             <Grid
                 position={[0, 0, 0]}

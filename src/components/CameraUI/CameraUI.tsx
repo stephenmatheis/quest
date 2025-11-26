@@ -20,7 +20,7 @@ export function CameraUI() {
                 <button
                     onClick={(event) => {
                         event.preventDefault();
-                        start();
+                        start(true);
                     }}
                 >
                     Back to Start

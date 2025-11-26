@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    createContext,
-    useContext,
-    useState,
-    type ReactNode,
-    type RefObject,
-    useRef,
-} from 'react';
+import { createContext, useContext, useState, type ReactNode, type RefObject, useRef } from 'react';
 import type { CameraControlsImpl } from '@react-three/drei';
 import type CameraControlsType from 'camera-controls';
 
@@ -15,7 +8,7 @@ type CameraContext = {
     cameraControlsRef: RefObject<CameraControlsImpl | null>;
     isCameraLocked: boolean;
     toggleCameraLock: () => void;
-    start: () => void;
+    start: (enableTransition?: boolean) => void;
     end: () => void;
     overhead: () => void;
     inside: () => void;
@@ -41,12 +34,20 @@ export function CameraProvider({ children }: { children: ReactNode }) {
         setIsCameraLocked((prev) => !prev);
     }
 
-    function start() {
+    function start(enableTransition = false) {
         const controls = cameraControlsRef.current;
 
         if (!controls) return;
 
-        controls.setLookAt(0, 4.5, 16, 0, 5, -10, true);
+        controls.setLookAt(
+            0, // posX
+            2.5, // posY
+            12, // posZ
+            0, // lookAtX
+            2.5, // lookAtY
+            0, // lookAtZ
+            enableTransition
+        );
     }
 
     function end() {
@@ -54,7 +55,15 @@ export function CameraProvider({ children }: { children: ReactNode }) {
 
         if (!controls) return;
 
-        controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
+        controls.setLookAt(
+            0, // posX
+            2.5, // posY
+            6, // posZ
+            0, // lookAtX
+            2.5, // lookAtY
+            0, // lookAtZ
+            true
+        );
     }
 
     function overhead() {
