@@ -1,7 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
-import { useCamera } from '@/providers/CameraProvider';
-import { Torch } from '@/components/Models/Torch';
 import {
     DirectionalLight,
     DirectionalLightHelper,
@@ -10,6 +8,8 @@ import {
     PointLight,
     PointLightHelper,
 } from 'three';
+import { useCamera } from '@/providers/CameraProvider';
+import { Torch } from '@/components/Models/Torch';
 
 const { ACTION } = CameraControlsImpl;
 
@@ -76,19 +76,41 @@ function Board() {
     );
 }
 
+function RightTorch() {
+    const rightTorchLight = useRef<PointLight>(null);
+
+    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
+
+    return (
+        <>
+            <pointLight ref={rightTorchLight} position={[3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
+            <Torch position={[3, 2, 0.25]} scale={1} />
+        </>
+    );
+}
+
+function LeftTorch() {
+    const leftTorchLight = useRef<PointLight>(null);
+
+    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
+
+    return (
+        <>
+            <pointLight ref={leftTorchLight} position={[-3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
+            <Torch position={[-3, 2, 0.25]} scale={1} />
+        </>
+    );
+}
+
 export function Scene() {
     const { cameraControlsRef, isCameraLocked } = useCamera();
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
-    const leftTorchLight = useRef<PointLight>(null);
-    const rightTorchLight = useRef<PointLight>(null);
 
     useHelper(rightDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 0.25, 'red');
     useHelper(leftDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 0.25, 'red');
     useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 0.25, 'red');
-    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
-    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
@@ -97,13 +119,25 @@ export function Scene() {
 
         controls.setLookAt(
             0, // posX
-            2, // posY
+            2.5, // posY
             12, // posZ
             0, // lookAtX
-            2, // lookAtY
+            2.5, // lookAtY
             0, // lookAtZ
             false
         );
+
+        requestAnimationFrame(() => {
+            controls.setLookAt(
+                0, // posX
+                2.5, // posY
+                6, // posZ
+                0, // lookAtX
+                2.5, // lookAtY
+                0, // lookAtZ
+                true
+            );
+        });
 
         controls.smoothTime = 1.1;
     }, [cameraControlsRef]);
@@ -136,15 +170,8 @@ export function Scene() {
                 color="#fff2e2"
                 groundColor="#4a341f"
             />
-
-            {/* Right Torch - now at scale 1 */}
-            <pointLight ref={rightTorchLight} position={[3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
-            <Torch position={[3, 2, 0.25]} scale={1} />
-
-            {/* Left Torch */}
-            <pointLight ref={leftTorchLight} position={[-3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
-            <Torch position={[-3, 2, 0.25]} scale={1} />
-
+            <RightTorch />
+            <LeftTorch />
             <Roof />
             <BackWall />
             <Floor />
