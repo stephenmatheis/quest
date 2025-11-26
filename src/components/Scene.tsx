@@ -21,56 +21,28 @@ export function Scene() {
     const leftTorchLight = useRef<PointLight>(null);
     const rightTorchLight = useRef<PointLight>(null);
 
-    useHelper(rightDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 2, 'red');
-    useHelper(leftDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 2, 'red');
-    useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 2, 'red');
-    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, 2, 'red');
-    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, 2, 'red');
+    useHelper(rightDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 1, 'red');
+    useHelper(leftDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 1, 'red');
+    useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 1, 'red');
+    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, .25, 'red');
+    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, .25, 'red');
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
-
         if (!controls) return;
 
-        // // start
-        // controls.setLookAt(0, 4.5, 16, 0, 5, -10, false);
-
-        // // end
-        // requestAnimationFrame(() => {
-        //     controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
-        // });
-
-        // start
-        // controls.setLookAt(
-        //     0, // positionX	number	Camera position x.
-        //     15, // positionY	number	Camera position y.
-        //     200, // positionZ	number	Camera position z.
-        //     0, // targetX	number	Orbit center position x.
-        //     0, // targetY	number	Orbit center position y.
-        //     0, // targetZ	number	Orbit center position z.
-        //     false // enableTransition	boolean	Whether to move smoothly or immediately
-        // );
-
-        // end
+        // Camera now starts much closer — everything is 8× smaller
         controls.setLookAt(
-            0, // positionX	number	Camera position x.
-            15, // positionY	number	Camera position y.
-            50, // positionZ	number	Camera position z.
-            0, // targetX	number	Orbit center position x.
-            15, // targetY	number	Orbit center position y.
-            0, // targetZ	number	Orbit center position z.
-            // true // enableTransition	boolean	Whether to move smoothly or immediately
-            false // enableTransition	boolean	Whether to move smoothly or immediately
+            0, // posX
+            1.875, // posY (15 → 15/8)
+            6.25, // posZ (50 → 50/8)
+            0, // lookAtX
+            1.875, // lookAtY (15 → 15/8)
+            0, // lookAtZ
+            false
         );
 
-        controls.smoothTime = 1.1; // cinematic walk speed
-
-        // controls.minDistance = 2;a
-        // controls.minPolarAngle = 0.2; // don’t look straight up
-        // controls.maxPolarAngle = Math.PI / 2; // don’t go under floor
-        // controls.smoothTime = 1.1; // cinematic walk speed
-
-        // controls.draggingSmoothTime = 0.12; // snappy when user grabs
+        controls.smoothTime = 1.1;
     }, [cameraControlsRef]);
 
     return (
@@ -90,105 +62,81 @@ export function Scene() {
                     three: ACTION.TOUCH_DOLLY_TRUCK,
                 }}
             />
-            <directionalLight ref={rightDirLightRef} position={[40, 15, 15]} intensity={0.5} />
-            <directionalLight ref={leftDirLightRef} position={[-40, 15, 15]} intensity={0.5} />
+
+            {/* Lights */}
+            <directionalLight ref={rightDirLightRef} position={[5, 1.875, 1.875]} intensity={0.5} />
+            <directionalLight ref={leftDirLightRef} position={[-5, 1.875, 1.875]} intensity={0.5} />
             <hemisphereLight
                 ref={hemiLightRef}
-                // position={[0, 15, 30]}
-                position={[0, 15, 80]}
-                intensity={5}
-                // color="#ffd4a3"
+                position={[0, 1.875, 10]}
+                intensity={2}
                 color="#fff2e2"
                 groundColor="#4a341f"
             />
 
-            {/* Right Torch */}
-            <pointLight ref={rightTorchLight} position={[17, 14, 3.5]} intensity={50} color="#ffb84d" />
-            <Torch position={[17, 10, 3.5]} scale={8} />
+            {/* Right Torch - now at scale 1 */}
+            <pointLight ref={rightTorchLight} position={[2.125, 1.75, 0.4375]} intensity={1} color="#ffb84d" />
+            <Torch position={[2.125, 1.25, 0.4375]} scale={1} />
 
             {/* Left Torch */}
-            <pointLight ref={leftTorchLight} position={[-17, 14, 3.5]} intensity={50} color="#ffb84d" />
-            <Torch position={[-17, 10, 3.5]} scale={8} />
+            <pointLight ref={leftTorchLight} position={[-2.125, 1.75, 0.4375]} intensity={1} color="#ffb84d" />
+            <Torch position={[-2.125, 1.25, 0.4375]} scale={1} />
 
             {/* Roof */}
-            <group>
-                <mesh position={[0, 30.5, 40]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[80, 1, 84]} />
-                    <meshStandardMaterial color="#643A16" />
-                </mesh>
-            </group>
+            <mesh position={[0, 3.8125, 5]}>
+                <boxGeometry args={[10, 0.125, 10.5]} />
+                <meshStandardMaterial color="#643A16" />
+            </mesh>
 
             {/* Back Wall */}
-            <mesh position={[0, 15, 0]}>
-                <boxGeometry args={[80, 30, 4]} />
+            <mesh position={[0, 1.875, 0]}>
+                <boxGeometry args={[10, 3.75, 0.5]} />
                 <meshStandardMaterial color="#808080" />
             </mesh>
 
             {/* Floor */}
-            <mesh position={[0, 0.25, 42]}>
-                <boxGeometry args={[80, 0.5, 80]} />
+            <mesh position={[0, 0.03125, 5.25]}>
+                <boxGeometry args={[10, 0.0625, 10]} />
                 <meshStandardMaterial color="#A6703E" />
             </mesh>
 
-            {/* Quest Board */}
+            {/* Quest Board - scaled down */}
             <group>
                 {/* Top */}
-                <mesh position={[0, 20, 2.5]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[30, 1, 1]} />
+                <mesh position={[0, 2.5, 0.3125]}>
+                    <boxGeometry args={[3.75, 0.125, 0.125]} />
                     <meshStandardMaterial color="#643A16" />
                 </mesh>
 
                 {/* Bottom */}
-                <mesh position={[0, 5, 2.5]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[30, 1, 1]} />
+                <mesh position={[0, 0.625, 0.3125]}>
+                    <boxGeometry args={[3.75, 0.125, 0.125]} />
                     <meshStandardMaterial color="#643A16" />
                 </mesh>
 
-                {/* Right */}
-                <mesh position={[14.5, 12.5, 2.5]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[1, 14, 1]} />
+                {/* Sides */}
+                <mesh position={[1.8125, 1.5625, 0.3125]}>
+                    <boxGeometry args={[0.125, 1.75, 0.125]} />
+                    <meshStandardMaterial color="#643A16" />
+                </mesh>
+                <mesh position={[-1.8125, 1.5625, 0.3125]}>
+                    <boxGeometry args={[0.125, 1.75, 0.125]} />
                     <meshStandardMaterial color="#643A16" />
                 </mesh>
 
-                {/* Left */}
-                <mesh position={[-14.5, 12.5, 2.5]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[1, 14, 1]} />
-                    <meshStandardMaterial color="#643A16" />
-                </mesh>
-
-                {/* Center */}
-                <mesh position={[-0, 12.5, 2.25]} rotation={[0, 0, 0]}>
-                    <boxGeometry args={[28, 14, .25]} />
+                {/* Center panel */}
+                <mesh position={[0, 1.5625, 0.28125]}>
+                    <boxGeometry args={[3.5, 1.75, 0.03125]} />
                     <meshStandardMaterial color="#ffffff" />
                 </mesh>
             </group>
-
-            {/* Cutting Board */}
-            {/* <CuttingBoard position={[0, 4.45, 0.68]} scale={[7.5, 1, 15.8]} rotation={[Math.PI / 2, Math.PI / 2, 0]} /> */}
-
-            {/* Quests */}
-
-            {/* <group>
-                <group position={[5, 5.5, 1]}>
-                    <Paper scale={4} rotation={[Math.PI / -1.175, Math.PI / 1, Math.PI / 1]} />
-                    <Html>1</Html>
-                </group>
-                <Paper position={[2.7, 5.2, 1]} scale={4} rotation={[Math.PI / -1.175, Math.PI / 1, Math.PI / 1.1]} />
-                <Paper position={[0, 5.5, 1]} scale={4} rotation={[Math.PI / -1.175, Math.PI / 1, Math.PI / 1.2]} />
-                <Paper position={[-2.5, 5.3, 1]} scale={4} rotation={[Math.PI / -1.175, Math.PI / 1, Math.PI / 1.2]} />
-                <Paper position={[-4.5, 5.4, 1]} scale={4} rotation={[Math.PI / -1.175, Math.PI / 1, Math.PI / 1.3]} />
-                <Paper position={[-3.7, 3.3, 1]} scale={4} rotation={[Math.PI / -1.175, Math.PI / 1, Math.PI / 1.2]} />
-            </group> */}
-
-            {/* Left Knife */}
-            {/* <Knife position={[-3, 6.25, 1.6]} scale={1} rotation={[Math.PI / 4, Math.PI / -3.5, Math.PI / 1]} /> */}
 
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}
                 cellThickness={1}
                 cellColor="#6f6f6f"
-                sectionSize={5}
+                sectionSize={4}
                 sectionThickness={1}
                 sectionColor="#000000"
                 followCamera={false}
