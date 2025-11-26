@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import supabase from '@/lib/supabase';
 import { type Database } from '@/types/supabase';
 import { CameraControls, CameraControlsImpl, Grid, Text, useHelper } from '@react-three/drei';
@@ -92,10 +92,22 @@ function QuestCard({ text, grade, position }: { text: string; grade: string; pos
                 <boxGeometry args={[0.5, 0.7, 0.03125]} />
                 <meshStandardMaterial color="#F1E9D2" />
             </mesh>
-            <Text position={[0, 0.2, 0.016]} fontSize={0.1} color="hsl(29, 52%, 25%)" textAlign="center">
+            <Text
+                position={[0, 0.2, 0.016]}
+                font="fonts/Jacquard24-Regular.ttf"
+                fontSize={0.1}
+                color="hsl(29, 52%, 25%)"
+                textAlign="center"
+            >
                 {text}
             </Text>
-            <Text position={[0, -0.2, 0.016]} fontSize={0.1} color="hsl(5, 95%, 40%)" textAlign="center">
+            <Text
+                position={[0, -0.2, 0.016]}
+                font="fonts/Jacquard24-Regular.ttf"
+                fontSize={0.1}
+                color="hsl(5, 95%, 40%)"
+                textAlign="center"
+            >
                 [ {grade} ]
             </Text>
         </group>
@@ -104,7 +116,6 @@ function QuestCard({ text, grade, position }: { text: string; grade: string; pos
 
 export default function Quests() {
     const [quests, setQuests] = useState<Quest[]>([]);
-    const [loading, setLoading] = useState(true);
 
     const COLUMNS = 6;
     const COL_WIDTH = 0.6;
@@ -123,21 +134,10 @@ export default function Quests() {
             } else {
                 setQuests(data || []);
             }
-            setLoading(false);
         }
 
         fetchQuests();
     }, []);
-
-    if (loading) {
-        return (
-            <group position={[-1.5, 0, 0]}>
-                <Text position={[0, 0, 0.1]} fontSize={0.2} color="white">
-                    Loading quests...
-                </Text>
-            </group>
-        );
-    }
 
     return (
         <group position={[-1.5, 0, 0]}>
@@ -220,7 +220,6 @@ export function Scene() {
                 }}
             />
 
-            {/* Lights */}
             <directionalLight ref={rightDirLightRef} position={[6, 2, 2]} intensity={1} />
             <directionalLight ref={leftDirLightRef} position={[-6, 2, 2]} intensity={1} />
             <hemisphereLight
@@ -237,8 +236,9 @@ export function Scene() {
             <Floor />
             <Board />
             <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
-            <Quests />
-
+            <Suspense>
+                <Quests />
+            </Suspense>
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}
