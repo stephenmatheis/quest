@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Grid, Text, useHelper } from '@react-three/drei';
 import {
     DirectionalLight,
     DirectionalLightHelper,
@@ -10,13 +10,17 @@ import {
 } from 'three';
 import { useCamera } from '@/providers/CameraProvider';
 import { Torch } from '@/components/Models/Torch';
+import { Dagger } from '@/components/Models/Dagger';
 
 const { ACTION } = CameraControlsImpl;
 
+const ROOM_WIDTH = 24;
+const ROOM_DEPTH = 24;
+
 function Floor() {
     return (
-        <mesh position={[0, 0.125, 4]}>
-            <boxGeometry args={[8, 0.25, 8]} />
+        <mesh position={[0, 0.125, ROOM_DEPTH / 2]}>
+            <boxGeometry args={[ROOM_WIDTH, 0.25, ROOM_DEPTH]} />
             <meshStandardMaterial color="#A6703E" />
         </mesh>
     );
@@ -24,8 +28,8 @@ function Floor() {
 
 function BackWall() {
     return (
-        <mesh position={[0, 2, -0.25]}>
-            <boxGeometry args={[8, 4, 0.5]} />
+        <mesh position={[0, 3.0625, -0.25]}>
+            <boxGeometry args={[ROOM_WIDTH, 6.125, 0.5]} />
             <meshStandardMaterial color="#808080" />
         </mesh>
     );
@@ -33,8 +37,9 @@ function BackWall() {
 
 function Roof() {
     return (
-        <mesh position={[0, 3.875, 4]}>
-            <boxGeometry args={[8, 0.25, 8]} />
+        // <mesh position={[0, 3.875, ROOM_DEPTH / 2]}>
+        <mesh position={[0, 6, ROOM_DEPTH / 2]}>
+            <boxGeometry args={[ROOM_WIDTH, 0.25, ROOM_DEPTH]} />
             <meshStandardMaterial color="#643A16" />
         </mesh>
     );
@@ -70,7 +75,7 @@ function Board() {
             {/* Center */}
             <mesh position={[0, 2, 0.0625]}>
                 <boxGeometry args={[3.75, 2, 0.0125]} />
-                <meshStandardMaterial color="#f1d29c" />
+                <meshStandardMaterial color="#c2ac99" />
             </mesh>
         </group>
     );
@@ -176,6 +181,26 @@ export function Scene() {
             <BackWall />
             <Floor />
             <Board />
+
+            <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
+
+            {/* Paper */}
+            <group position={[-1.1, 2.25, 0.078125]}>
+                <mesh>
+                    <boxGeometry args={[0.5, 0.7, 0.03125]} />
+                    <meshStandardMaterial color="#F1E9D2" />
+                </mesh>
+                <Text
+                    position={[0, 0.2, 0.016]}
+                    font="fonts/Jacquard24-Regular.ttf"
+                    fontSize={0.1}
+                    textAlign="center"
+                    color="hsl(29, 52%, 25%)"
+                >
+                    Quest
+                </Text>
+            </group>
+
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}

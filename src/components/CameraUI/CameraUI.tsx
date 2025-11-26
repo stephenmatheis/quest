@@ -2,7 +2,7 @@ import { useCamera } from '@/providers/CameraProvider';
 import styles from './CameraUI.module.scss';
 
 export function CameraUI() {
-    const { isCameraLocked, cameraControlsRef, setIsCameraLocked } = useCamera();
+    const { isCameraLocked, toggleCameraLock, start, end, overhead, inside } = useCamera();
 
     return (
         <div className={styles.ui}>
@@ -11,22 +11,16 @@ export function CameraUI() {
                     className={`${isCameraLocked ? styles.red : styles.green}`}
                     onClick={(event) => {
                         event.preventDefault();
-
-                        setIsCameraLocked((prev) => !prev);
+                        toggleCameraLock();
                     }}
                 >
-                    {isCameraLocked ? 'Locked' : 'Free'} Camera
+                    Camera {isCameraLocked ? 'Locked' : 'Free'}
                 </button>
 
                 <button
                     onClick={(event) => {
                         event.preventDefault();
-
-                        const controls = cameraControlsRef.current;
-
-                        if (!controls) return;
-
-                        controls.setLookAt(0, 4.5, 16, 0, 5, -10, true);
+                        start();
                     }}
                 >
                     Back to Start
@@ -34,12 +28,7 @@ export function CameraUI() {
                 <button
                     onClick={(event) => {
                         event.preventDefault();
-
-                        const controls = cameraControlsRef.current;
-
-                        if (!controls) return;
-
-                        controls.setLookAt(0, 4.5, 11, 0, 5, -10, true);
+                        end();
                     }}
                 >
                     Look at Quest Board
@@ -47,12 +36,7 @@ export function CameraUI() {
                 <button
                     onClick={(event) => {
                         event.preventDefault();
-
-                        const controls = cameraControlsRef.current;
-
-                        if (!controls) return;
-
-                        controls.setLookAt(0, 24, 48, 0, 0, -24, true);
+                        overhead();
                     }}
                 >
                     Overhead
@@ -60,12 +44,7 @@ export function CameraUI() {
                 <button
                     onClick={(event) => {
                         event.preventDefault();
-
-                        const controls = cameraControlsRef.current;
-
-                        if (!controls) return;
-
-                        controls.setLookAt(0, -6, 32, 0, 12, 4, true);
+                        inside();
                     }}
                 >
                     Inside Roof

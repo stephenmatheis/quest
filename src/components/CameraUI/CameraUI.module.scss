@@ -9,26 +9,28 @@
 
     .buttons {
         position: absolute;
-        bottom: 16px;
+        bottom: 0px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         align-items: center;
         justify-self: center;
         gap: 16px;
-        width: max-content;
+        width: 100%;
         font-size: 1rem;
         font-weight: 700;
+        padding: 1rem;
 
         button {
+            flex: 1;
             pointer-events: all;
             background-color: transparent;
             font-family: inherit;
-            font-size: inherit;
+            font-size: 14px;
             border: none;
             color: inherit;
             background-color: black;
-            padding: 1rem;
+            padding: 0.5rem;
             color: white;
         }
 
