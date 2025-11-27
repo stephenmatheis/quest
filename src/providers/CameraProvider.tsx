@@ -8,6 +8,8 @@ type CameraContext = {
     cameraControlsRef: RefObject<CameraControlsImpl | null>;
     isCameraLocked: boolean;
     toggleCameraLock: () => void;
+    showHelpers: boolean;
+    toggleShowHelpers: () => void;
     start: (enableTransition?: boolean) => void;
     end: () => void;
     overhead: () => void;
@@ -27,11 +29,16 @@ export function useCamera() {
 }
 
 export function CameraProvider({ children }: { children: ReactNode }) {
+    const [showHelpers, setShowHelpers] = useState<boolean>(false);
     const [isCameraLocked, setIsCameraLocked] = useState<boolean>(false);
     const cameraControlsRef = useRef<CameraControlsType>(null);
 
     function toggleCameraLock() {
         setIsCameraLocked((prev) => !prev);
+    }
+
+    function toggleShowHelpers() {
+        setShowHelpers((prev) => !prev);
     }
 
     function start(enableTransition = false) {
@@ -88,6 +95,8 @@ export function CameraProvider({ children }: { children: ReactNode }) {
                 cameraControlsRef,
                 isCameraLocked,
                 toggleCameraLock,
+                showHelpers,
+                toggleShowHelpers,
                 start,
                 end,
                 overhead,

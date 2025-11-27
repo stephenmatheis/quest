@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
 import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper } from 'three';
 import { useCamera } from '@/providers/CameraProvider';
@@ -17,16 +17,34 @@ const ROOM_WIDTH = 24;
 const ROOM_DEPTH = 24;
 
 export function Scene() {
-    const { cameraControlsRef, isCameraLocked, start, end } = useCamera();
+    const [mounted, setMounted] = useState<boolean>(false);
+    const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
 
-    useHelper(rightDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 0.25, 'red');
-    useHelper(leftDirLightRef as React.RefObject<DirectionalLight>, DirectionalLightHelper, 0.25, 'red');
-    useHelper(hemiLightRef as React.RefObject<HemisphereLight>, HemisphereLightHelper, 0.25, 'red');
+    useHelper(
+        showHelpers ? (rightDirLightRef as React.RefObject<DirectionalLight>) : false,
+        DirectionalLightHelper,
+        0.25,
+        'red'
+    );
+    useHelper(
+        showHelpers ? (leftDirLightRef as React.RefObject<DirectionalLight>) : false,
+        DirectionalLightHelper,
+        0.25,
+        'red'
+    );
+    useHelper(
+        showHelpers ? (hemiLightRef as React.RefObject<HemisphereLight>) : false,
+        HemisphereLightHelper,
+        0.25,
+        'red'
+    );
 
     useEffect(() => {
+        if (mounted) return;
+
         start();
 
         requestAnimationFrame(() => {
@@ -38,11 +56,12 @@ export function Scene() {
         if (!controls) return;
 
         controls.smoothTime = 1.1;
+
+        setMounted(true);
     }, [cameraControlsRef, end, start]);
 
     return (
         <>
-            {/* Camera */}
             <CameraControls
                 ref={cameraControlsRef}
                 mouseButtons={{
@@ -57,7 +76,6 @@ export function Scene() {
                     three: ACTION.TOUCH_DOLLY_TRUCK,
                 }}
             />
-
             <directionalLight ref={rightDirLightRef} position={[6, 2, 2]} intensity={1} />
             <directionalLight ref={leftDirLightRef} position={[-6, 2, 2]} intensity={1} />
             <hemisphereLight

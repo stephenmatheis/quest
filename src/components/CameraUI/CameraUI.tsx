@@ -2,7 +2,8 @@ import { useCamera } from '@/providers/CameraProvider';
 import styles from './CameraUI.module.scss';
 
 export function CameraUI() {
-    const { isCameraLocked, toggleCameraLock, start, end, overhead, inside } = useCamera();
+    const { isCameraLocked, showHelpers, toggleShowHelpers, toggleCameraLock, start, end, overhead, inside } =
+        useCamera();
 
     return (
         <div className={styles.ui}>
@@ -16,7 +17,16 @@ export function CameraUI() {
                 >
                     Camera {isCameraLocked ? 'Locked' : 'Free'}
                 </button>
-
+                <button
+                    className={`${showHelpers ? styles.green : styles.red}`}
+                    onClick={(event) => {
+                        event.preventDefault();
+                        toggleShowHelpers();
+                    }}
+                >
+                    Helpers {showHelpers ? 'On' : 'Off'}
+                </button>
+                <hr />
                 <button
                     onClick={(event) => {
                         event.preventDefault();
