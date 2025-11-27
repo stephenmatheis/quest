@@ -1,52 +1,20 @@
 import { Suspense, useEffect, useRef } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
-import {
-    DirectionalLight,
-    DirectionalLightHelper,
-    HemisphereLight,
-    HemisphereLightHelper,
-    PointLight,
-    PointLightHelper,
-} from 'three';
+import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper } from 'three';
 import { useCamera } from '@/providers/CameraProvider';
-import { Torch } from '@/components/Models/Torch';
 import { Dagger } from '@/components/Models/Dagger';
-import { Roof } from './Roof';
-import { BackWall } from './BackWall';
-import { Floor } from './Floor';
-import { Board } from './Board';
-import { Quests } from './Quests';
+import { Roof } from '@/components/Roof';
+import { BackWall } from '@/components/BackWall';
+import { Floor } from '@/components/Floor';
+import { Board } from '@/components/Board';
+import { Quests } from '@/components/Quests';
+import { RightTorch } from '@/components/RightTorch';
+import { LeftTorch } from '@/components/LeftTorch';
 
 const { ACTION } = CameraControlsImpl;
 
 const ROOM_WIDTH = 24;
 const ROOM_DEPTH = 24;
-
-function RightTorch() {
-    const rightTorchLight = useRef<PointLight>(null);
-
-    useHelper(rightTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
-
-    return (
-        <>
-            <pointLight ref={rightTorchLight} position={[3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
-            <Torch position={[3, 2, 0.25]} scale={1} />
-        </>
-    );
-}
-
-function LeftTorch() {
-    const leftTorchLight = useRef<PointLight>(null);
-
-    useHelper(leftTorchLight as React.RefObject<PointLight>, PointLightHelper, 0.25, 'red');
-
-    return (
-        <>
-            <pointLight ref={leftTorchLight} position={[-3, 2.5, 0.25]} intensity={1} color="#ffb84d" />
-            <Torch position={[-3, 2, 0.25]} scale={1} />
-        </>
-    );
-}
 
 export function Scene() {
     const { cameraControlsRef, isCameraLocked, start, end } = useCamera();
@@ -99,16 +67,17 @@ export function Scene() {
                 color="#fff2e2"
                 groundColor="#4a341f"
             />
+
+            <Roof width={ROOM_WIDTH} depth={ROOM_DEPTH} />
+            <Floor width={ROOM_WIDTH} depth={ROOM_DEPTH} />
+            <BackWall width={ROOM_WIDTH} />
+            <Board />
             <RightTorch />
             <LeftTorch />
-            <Roof width={ROOM_WIDTH} depth={ROOM_DEPTH} />
-            <BackWall width={ROOM_WIDTH} />
-            <Floor width={ROOM_WIDTH} depth={ROOM_DEPTH} />
-            <Board />
-            <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
             <Suspense>
                 <Quests />
             </Suspense>
+            <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}
