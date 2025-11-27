@@ -1,7 +1,5 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
-import supabase from '@/lib/supabase';
-import { type Database } from '@/types/supabase';
-import { CameraControls, CameraControlsImpl, Edges, Grid, Text, useHelper } from '@react-three/drei';
+import { Suspense, useEffect, useRef } from 'react';
+import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
 import {
     DirectionalLight,
     DirectionalLightHelper,
@@ -13,147 +11,16 @@ import {
 import { useCamera } from '@/providers/CameraProvider';
 import { Torch } from '@/components/Models/Torch';
 import { Dagger } from '@/components/Models/Dagger';
-
-type Quest = Database['public']['Tables']['quests']['Row'];
+import { Roof } from './Roof';
+import { BackWall } from './BackWall';
+import { Floor } from './Floor';
+import { Board } from './Board';
+import { Quests } from './Quests';
 
 const { ACTION } = CameraControlsImpl;
 
 const ROOM_WIDTH = 24;
 const ROOM_DEPTH = 24;
-
-function Floor() {
-    return (
-        <mesh position={[0, 0.125, ROOM_DEPTH / 2]}>
-            <boxGeometry args={[ROOM_WIDTH, 0.25, ROOM_DEPTH]} />
-            <meshStandardMaterial color="#A6703E" />
-        </mesh>
-    );
-}
-
-function BackWall() {
-    return (
-        <mesh position={[0, 3.0625, -0.25]}>
-            <boxGeometry args={[ROOM_WIDTH, 6.125, 0.5]} />
-            <meshStandardMaterial color="#808080" />
-        </mesh>
-    );
-}
-
-function Roof() {
-    return (
-        // <mesh position={[0, 3.875, ROOM_DEPTH / 2]}>
-        <mesh position={[0, 6, ROOM_DEPTH / 2]}>
-            <boxGeometry args={[ROOM_WIDTH, 0.25, ROOM_DEPTH]} />
-            <meshStandardMaterial color="#643A16" />
-        </mesh>
-    );
-}
-
-function Board() {
-    return (
-        <group>
-            {/* Top */}
-            <mesh position={[0, 3, 0.0625]}>
-                <boxGeometry args={[4, 0.125, 0.125]} />
-                <meshStandardMaterial color="#643A16" />
-            </mesh>
-
-            {/* Bottom */}
-            <mesh position={[0, 1, 0.0625]}>
-                <boxGeometry args={[4, 0.125, 0.125]} />
-                <meshStandardMaterial color="#643A16" />
-            </mesh>
-
-            {/* Right */}
-            <mesh position={[1.9375, 2, 0.0625]}>
-                <boxGeometry args={[0.125, 1.875, 0.125]} />
-                <meshStandardMaterial color="#643A16" />
-            </mesh>
-
-            {/* Left */}
-            <mesh position={[-1.9375, 2, 0.0625]}>
-                <boxGeometry args={[0.125, 1.875, 0.125]} />
-                <meshStandardMaterial color="#643A16" />
-            </mesh>
-
-            {/* Center */}
-            <mesh position={[0, 2, 0.0625]}>
-                <boxGeometry args={[3.75, 2, 0.0125]} />
-                <meshStandardMaterial color="#c2ac99" />
-            </mesh>
-        </group>
-    );
-}
-
-function QuestCard({ text, grade, position }: { text: string; grade: string; position: [number, number, number] }) {
-    const [highlight, setHighlight] = useState<boolean>(false);
-
-    return (
-        <group position={position}>
-            <mesh onPointerEnter={() => setHighlight(true)} onPointerLeave={() => setHighlight(false)}>
-                <boxGeometry args={[0.5, 0.7, 0.03125]} />
-                <meshStandardMaterial color="#F1E9D2" />
-                {highlight && <Edges linewidth={5} scale={1.01} threshold={15} color="#643A16" />}
-            </mesh>
-            <Text
-                position={[0, 0.2, 0.016]}
-                font="fonts/Jacquard24-Regular.ttf"
-                fontSize={0.1}
-                color="hsl(29, 52%, 25%)"
-                textAlign="center"
-            >
-                {text}
-            </Text>
-            <Text
-                position={[0, -0.2, 0.016]}
-                font="fonts/Jacquard24-Regular.ttf"
-                fontSize={0.1}
-                color="hsl(5, 95%, 40%)"
-                textAlign="center"
-            >
-                [ {grade} ]
-            </Text>
-        </group>
-    );
-}
-
-export default function Quests() {
-    const [quests, setQuests] = useState<Quest[]>([]);
-
-    const COLUMNS = 6;
-    const COL_WIDTH = 0.6;
-    const ROW_HEIGHT = 0.8;
-    const START_Y = 2.4;
-
-    useEffect(() => {
-        async function fetchQuests() {
-            const { data, error } = await supabase
-                .from('quests')
-                .select('id, created_at, text, grade')
-                .order('id', { ascending: true });
-
-            if (error) {
-                console.error('Supabase error:', error);
-            } else {
-                setQuests(data || []);
-            }
-        }
-
-        fetchQuests();
-    }, []);
-
-    return (
-        <group position={[-1.5, 0, 0]}>
-            {quests.map(({ text, grade }, index) => {
-                const col = index % COLUMNS;
-                const row = Math.floor(index / COLUMNS);
-                const position: [number, number, number] = [col * COL_WIDTH, START_Y - row * ROW_HEIGHT, 0.078125];
-
-                return <QuestCard key={index} text={text} grade={grade || 'F'} position={position} />;
-            })}
-        </group>
-    );
-}
 
 function RightTorch() {
     const rightTorchLight = useRef<PointLight>(null);
@@ -234,9 +101,9 @@ export function Scene() {
             />
             <RightTorch />
             <LeftTorch />
-            <Roof />
-            <BackWall />
-            <Floor />
+            <Roof width={ROOM_WIDTH} depth={ROOM_DEPTH} />
+            <BackWall width={ROOM_WIDTH} />
+            <Floor width={ROOM_WIDTH} depth={ROOM_DEPTH} />
             <Board />
             <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
             <Suspense>
