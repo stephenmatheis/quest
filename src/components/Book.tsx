@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
 import { useCamera } from '@/providers/CameraProvider';
-import { DirectionalLightHelper, type DirectionalLight } from 'three';
+import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
 
 const { ACTION } = CameraControlsImpl;
 
@@ -74,12 +74,24 @@ function Cover({ position, side = 'left' }: { position: [number, number, number]
     );
 }
 
+function Pages({ position }: { position: [number, number, number] }) {
+    return (
+        <group position={position}>
+            {/* Cover */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1.25, 0.25]} />
+                <meshStandardMaterial color="hsla(0, 0%, 100%, 1.00)" />
+            </mesh>
+        </group>
+    );
+}
+
 function Spine() {
     return (
         <group position={[0, 0, -0.5]}>
             {/* <group position={[0, 0, -0.1875]}> */}
             <mesh>
-                <boxGeometry args={[0.5, 1.25, 0.0625]} />
+                <boxGeometry args={[0.625, 1.25, 0.0625]} />
                 <meshStandardMaterial color="#00ffff" />
             </mesh>
 
@@ -88,37 +100,37 @@ function Spine() {
                 <meshStandardMaterial color="#ff0000" />
             </mesh>
 
-            <mesh position={[-0.21875, 0, 0.0625]}>
+            <mesh position={[-0.28125, 0, 0.0625]}>
                 <boxGeometry args={[0.0625, 1.25, 0.0625]} />
                 <meshStandardMaterial color="#00ffff" />
             </mesh>
 
-            <mesh position={[0.21875, 0, 0.0625]}>
+            <mesh position={[0.28125, 0, 0.0625]}>
                 <boxGeometry args={[0.0625, 1.25, 0.0625]} />
                 <meshStandardMaterial color="#00ffff" />
             </mesh>
 
             {/* Top Left */}
             <mesh position={[-0.21875, 0.59375, -0.0625]}>
-                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <boxGeometry args={[0.1875, 0.0625, 0.0625]} />
                 <meshStandardMaterial color="#ff0000" />
             </mesh>
 
             {/* Top Right */}
             <mesh position={[0.21875, 0.59375, -0.0625]}>
-                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <boxGeometry args={[0.1875, 0.0625, 0.0625]} />
                 <meshStandardMaterial color="#ff0000" />
             </mesh>
 
             {/* Bottom Left */}
             <mesh position={[-0.21875, -0.59375, -0.0625]}>
-                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <boxGeometry args={[0.1875, 0.0625, 0.0625]} />
                 <meshStandardMaterial color="#ff0000" />
             </mesh>
 
             {/* Bottom Right */}
             <mesh position={[0.21875, -0.59375, -0.0625]}>
-                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <boxGeometry args={[0.1875, 0.0625, 0.0625]} />
                 <meshStandardMaterial color="#ff0000" />
             </mesh>
         </group>
@@ -128,10 +140,17 @@ function Spine() {
 export function Book() {
     const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
     const dirLightRef = useRef<DirectionalLight>(null);
+    const hemiLightRef = useRef<HemisphereLight>(null);
 
     useHelper(
         showHelpers ? (dirLightRef as React.RefObject<DirectionalLight>) : false,
         DirectionalLightHelper,
+        1,
+        'red'
+    );
+    useHelper(
+        showHelpers ? (hemiLightRef as React.RefObject<HemisphereLight>) : false,
+        HemisphereLightHelper,
         1,
         'red'
     );
@@ -172,13 +191,26 @@ export function Book() {
 
             {/* Lights */}
             <ambientLight intensity={0.5} />
-            <directionalLight ref={dirLightRef} position={[4, 5, 3]} intensity={2} />
+            <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={2} />
+            <hemisphereLight
+                ref={hemiLightRef}
+                position={[0, 2, 5]}
+                intensity={0.75}
+                color="#ffffff"
+                groundColor="brown"
+            />
 
             {/* Book */}
             <group position={[0, 1, -1]}>
                 <Cover position={[-0.75, 0, 0]} side="left" />
                 <Cover position={[0.75, 0, 0]} side="right" />
                 <Spine />
+
+                {/* Left */}
+                <Pages position={[-0.75, 0, 1]} />
+
+                {/* Right */}
+                <Pages position={[0.75, 0, 1]} />
             </group>
 
             {/* Helper */}
