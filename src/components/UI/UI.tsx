@@ -38,8 +38,6 @@ export function UI() {
             name: 'Character',
             isOpen: isCharacterMenuOpen,
             setIsOpen: setIsCharacterMenuOpen,
-            top: 132,
-            left: 16,
             width: 600,
             height: 400,
             children: '[ INSERT ]',
@@ -49,10 +47,6 @@ export function UI() {
             name: 'Quest Log',
             isOpen: isQuestLogOpen,
             setIsOpen: setIsQuestLogOpen,
-            top: 132,
-            left: 16,
-            width: 800,
-            height: 400,
             children: <QuestLog />,
         },
         {
@@ -319,6 +313,7 @@ export function UI() {
                             height={w.height}
                             onFocus={() => bringToFront(w.name)}
                             onClose={() => w.setIsOpen(false)}
+                            blank
                         >
                             {w.children}
                         </Window>

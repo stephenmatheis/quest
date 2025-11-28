@@ -12,9 +12,10 @@ export type WindowProps = {
     height?: number | string;
     onFocus?: () => void;
     onClose?: () => void;
+    blank?: boolean;
 };
 
-export function Window({ children, name, top, left, width, height, onFocus, onClose }: WindowProps) {
+export function Window({ children, name, top, left, width, height, onFocus, onClose, blank }: WindowProps) {
     const dragControls = useDragControls();
 
     function handleClose(event: PointerEvent) {
@@ -27,9 +28,27 @@ export function Window({ children, name, top, left, width, height, onFocus, onCl
         dragControls.start(event);
     }
 
+    if (blank) {
+        return (
+            <motion.div
+                className={`${styles.window} ${styles.blank} ${!top || !left ? styles.center : ''}`}
+                style={{
+                    top,
+                    left,
+                    width,
+                    height,
+                }}
+                drag={!top || !left ? false : true}
+                dragMomentum={false}
+            >
+                {children}
+            </motion.div>
+        );
+    }
+
     return (
         <motion.div
-            className={styles.window}
+            className={`${styles.window} ${!top || !left ? styles.center : ''}`}
             style={{
                 top,
                 left,

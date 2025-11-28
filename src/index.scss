@@ -1,6 +1,12 @@
 #root {
+    
+
     width: 100vw;
     height: 100vh;
+}
+
+:root {
+    --background-color: #f1f1f3;
 }
 
 * {
@@ -18,12 +24,14 @@ html {
     overscroll-behavior: none;
 
     cursor: url('images/cursor.svg') 0 0, auto;
+    background-color: var(--background-color);
 }
 
 body {
     font-family: monospace;
     font-weight: 400;
     font-style: normal;
+    background-color: var(--background-color);
     overscroll-behavior: none;
 }
 
