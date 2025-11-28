@@ -1,15 +1,16 @@
 import { Canvas } from '@react-three/fiber';
-import { Scene } from '@/components/Scene';
 import { WorldProvider } from '@/providers/WorldProvider';
 import { CameraProvider } from './providers/CameraProvider';
 import { CameraUI } from './components/CameraUI';
 import { UI } from '@/components/UI';
+// import { Scene } from '@/components/Scene';
+import { Book } from '@/components/Book';
 
 export default function App() {
     return (
         <>
             <WorldProvider>
-                {/* <CameraProvider>
+                <CameraProvider>
                     <Canvas
                         shadows
                         camera={{
@@ -19,10 +20,10 @@ export default function App() {
                             far: 1000,
                         }}
                     >
-                        <Scene />
+                        <Book />
                     </Canvas>
                     <CameraUI />
-                </CameraProvider> */}
+                </CameraProvider>
                 <UI />
             </WorldProvider>
         </>
