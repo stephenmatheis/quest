@@ -5,6 +5,126 @@ import { DirectionalLightHelper, type DirectionalLight } from 'three';
 
 const { ACTION } = CameraControlsImpl;
 
+function Cover({ position, side = 'left' }: { position: [number, number, number]; side?: 'left' | 'right' }) {
+    return (
+        <group position={position}>
+            {/* Cover */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1.25, 0.125]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Corners */}
+            <group position={[0, 0, -0.0625]}>
+                {side === 'left' && (
+                    <>
+                        {/* Top Left */}
+                        <group position={[-0.4375, 0.625, 0]}>
+                            <mesh position={[0, 0, 0]}>
+                                <boxGeometry args={[0.25, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                            <mesh position={[-0.0625, -0.125, 0]}>
+                                <boxGeometry args={[0.125, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                        </group>
+                        {/* Bottom Left */}
+                        <group position={[-0.4375, -0.625, 0]} rotation={[Math.PI, 0, 0]}>
+                            <mesh position={[0, 0, 0]}>
+                                <boxGeometry args={[0.25, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                            <mesh position={[-0.0625, -0.125, 0]}>
+                                <boxGeometry args={[0.125, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                        </group>
+                    </>
+                )}
+
+                {side === 'right' && (
+                    <>
+                        {/* Top Right */}
+                        <group position={[0.4375, 0.625, 0]} rotation={[0, Math.PI, 0]}>
+                            <mesh position={[0, 0, 0]}>
+                                <boxGeometry args={[0.25, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                            <mesh position={[-0.0625, -0.125, 0]}>
+                                <boxGeometry args={[0.125, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                        </group>
+                        {/* Bottom Right */}
+                        <group position={[0.4375, -0.625, 0]} rotation={[Math.PI, Math.PI, 0]}>
+                            <mesh position={[0, 0, 0]}>
+                                <boxGeometry args={[0.25, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                            <mesh position={[-0.0625, -0.125, 0]}>
+                                <boxGeometry args={[0.125, 0.125, 0.125]} />
+                                <meshStandardMaterial color="#00ffff" />
+                            </mesh>
+                        </group>
+                    </>
+                )}
+            </group>
+        </group>
+    );
+}
+
+function Spine() {
+    return (
+        <group position={[0, 0, -0.5]}>
+            {/* <group position={[0, 0, -0.1875]}> */}
+            <mesh>
+                <boxGeometry args={[0.5, 1.25, 0.0625]} />
+                <meshStandardMaterial color="#00ffff" />
+            </mesh>
+
+            <mesh position={[0, 0, -0.0625]}>
+                <boxGeometry args={[0.375, 1.25, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            <mesh position={[-0.21875, 0, 0.0625]}>
+                <boxGeometry args={[0.0625, 1.25, 0.0625]} />
+                <meshStandardMaterial color="#00ffff" />
+            </mesh>
+
+            <mesh position={[0.21875, 0, 0.0625]}>
+                <boxGeometry args={[0.0625, 1.25, 0.0625]} />
+                <meshStandardMaterial color="#00ffff" />
+            </mesh>
+
+            {/* Top Left */}
+            <mesh position={[-0.21875, 0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Top Right */}
+            <mesh position={[0.21875, 0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Bottom Left */}
+            <mesh position={[-0.21875, -0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Bottom Right */}
+            <mesh position={[0.21875, -0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+        </group>
+    );
+}
+
 export function Book() {
     const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
     const dirLightRef = useRef<DirectionalLight>(null);
@@ -56,163 +176,9 @@ export function Book() {
 
             {/* Book */}
             <group position={[0, 1, -1]}>
-                {/* Front  */}
-                <group position={[-0.75, 0, 0]}>
-                    {/* Cover */}
-                    <mesh position={[0, 0, 0]}>
-                        <boxGeometry args={[1, 1.25, 0.125]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-
-                    {/* Corners */}
-                    <group position={[0, 0, -0.0625]}>
-                        {/* Top Left */}
-                        <group position={[-0.4375, 0.625, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-
-                        {/* Top Right */}
-                        <group position={[0.4375, 0.625, 0]} rotation={[0, Math.PI, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-
-                        {/* Bottom Right */}
-                        <group position={[0.4375, -0.625, 0]} rotation={[Math.PI, Math.PI, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-
-                        {/* Bottom Left */}
-                        <group position={[-0.4375, -0.625, 0]} rotation={[Math.PI, 0, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-                    </group>
-                </group>
-
-                {/* Back  */}
-                <group position={[0.75, 0, 0]}>
-                    {/* Cover */}
-                    <mesh position={[0, 0, 0]}>
-                        <boxGeometry args={[1, 1.25, 0.125]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-
-                    {/* Corners */}
-                    <group position={[0, 0, -0.0625]}>
-                        {/* Top Left */}
-                        <group position={[-0.4375, 0.625, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-
-                        {/* Top Right */}
-                        <group position={[0.4375, 0.625, 0]} rotation={[0, Math.PI, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-
-                        {/* Bottom Right */}
-                        <group position={[0.4375, -0.625, 0]} rotation={[Math.PI, Math.PI, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-
-                        {/* Bottom Left */}
-                        <group position={[-0.4375, -0.625, 0]} rotation={[Math.PI, 0, 0]}>
-                            <mesh position={[0, 0, 0]}>
-                                <boxGeometry args={[0.25, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                            <mesh position={[-0.0625, -0.125, 0]}>
-                                <boxGeometry args={[0.125, 0.125, 0.125]} />
-                                <meshStandardMaterial color="#00ffff" />
-                            </mesh>
-                        </group>
-                    </group>
-                </group>
-
-                {/* Spine */}
-                {/* <group position={[0, 0, -0.1875]}> */}
-                <group position={[0, 0, -0.5]}>
-                    <mesh>
-                        <boxGeometry args={[0.5, 1.25, 0.125]} />
-                        <meshStandardMaterial color="#00ffff" />
-                    </mesh>
-
-                    <mesh position={[0, 0, -0.094]}>
-                        <boxGeometry args={[0.375, 1.25, 0.0625]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-
-                    {/* Top Left */}
-                    <mesh position={[-0.21875, 0.59375, -0.094]}>
-                        <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-
-                    {/* Top Right */}
-                    <mesh position={[0.21875, 0.59375, -0.094]}>
-                        <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-
-                    {/* Bottom Left */}
-                    <mesh position={[-0.21875, -0.59375, -0.094]}>
-                        <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-
-                    {/* Bottom Right */}
-                    <mesh position={[0.21875, -0.59375, -0.094]}>
-                        <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
-                        <meshStandardMaterial color="#ff0000" />
-                    </mesh>
-                </group>
+                <Cover position={[-0.75, 0, 0]} side="left" />
+                <Cover position={[0.75, 0, 0]} side="right" />
+                <Spine />
             </group>
 
             {/* Helper */}
