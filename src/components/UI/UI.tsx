@@ -1,8 +1,9 @@
 import { useEffect, useMemo, type Dispatch, type SetStateAction } from 'react';
+import { useWorld } from '@/providers/WorldProvider';
 import { Window, type WindowProps } from '@/components/Window';
 import { Modal, type ModalProps } from '@/components/Modal';
 import { Tooltip } from '@/components/Tooltip';
-import { useWorld } from '@/providers/WorldProvider';
+import { QuestLog } from '@/components/QuestLog';
 import styles from './UI.module.scss';
 
 type Pane = 'window' | 'modal';
@@ -41,7 +42,7 @@ export function UI() {
             left: 16,
             width: 600,
             height: 400,
-            children: 'This is your Character.',
+            children: '[ INSERT ]',
         },
         {
             type: 'window',
@@ -52,7 +53,7 @@ export function UI() {
             left: 16,
             width: 800,
             height: 400,
-            children: 'This is your Quest Log.',
+            children: <QuestLog />,
         },
         {
             type: 'modal',

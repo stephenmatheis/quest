@@ -9,7 +9,7 @@ export default function App() {
     return (
         <>
             <WorldProvider>
-                <CameraProvider>
+                {/* <CameraProvider>
                     <Canvas
                         shadows
                         camera={{
@@ -22,8 +22,8 @@ export default function App() {
                         <Scene />
                     </Canvas>
                     <CameraUI />
-                </CameraProvider>
-                {/* <UI /> */}
+                </CameraProvider> */}
+                <UI />
             </WorldProvider>
         </>
     );

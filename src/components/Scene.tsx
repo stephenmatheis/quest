@@ -17,8 +17,8 @@ const ROOM_WIDTH = 24;
 const ROOM_DEPTH = 24;
 
 export function Scene() {
-    const [mounted, setMounted] = useState<boolean>(false);
     const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
+    const [mounted, setMounted] = useState<boolean>(false);
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
@@ -62,6 +62,7 @@ export function Scene() {
 
     return (
         <>
+            {/* Camera */}
             <CameraControls
                 ref={cameraControlsRef}
                 mouseButtons={{
@@ -76,6 +77,8 @@ export function Scene() {
                     three: ACTION.TOUCH_DOLLY_TRUCK,
                 }}
             />
+
+            {/* Lights */}
             <directionalLight ref={rightDirLightRef} position={[6, 2, 2]} intensity={1} />
             <directionalLight ref={leftDirLightRef} position={[-6, 2, 2]} intensity={1} />
             <hemisphereLight
@@ -86,16 +89,19 @@ export function Scene() {
                 groundColor="#4a341f"
             />
 
-            <Roof width={ROOM_WIDTH} depth={ROOM_DEPTH} />
-            <Floor width={ROOM_WIDTH} depth={ROOM_DEPTH} />
-            <BackWall width={ROOM_WIDTH} />
+            {/* Scene objects */}
+            {/* <Roof width={ROOM_WIDTH} depth={ROOM_DEPTH} /> */}
+            {/* <Floor width={ROOM_WIDTH} depth={ROOM_DEPTH} /> */}
+            {/* <BackWall width={ROOM_WIDTH} /> */}
             <Board />
-            <RightTorch />
-            <LeftTorch />
-            <Suspense>
+            {/* <RightTorch /> */}
+            {/* <LeftTorch /> */}
+            {/* <Suspense>
                 <Quests />
-            </Suspense>
-            <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} />
+            </Suspense> */}
+            {/* <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} /> */}
+
+            {/* Helper */}
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}
