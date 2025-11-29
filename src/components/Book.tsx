@@ -5,9 +5,17 @@ import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type Di
 
 const { ACTION } = CameraControlsImpl;
 
-function Cover({ position, side = 'left' }: { position: [number, number, number]; side?: 'left' | 'right' }) {
+function Cover({
+    position,
+    rotation,
+    side = 'left',
+}: {
+    position: [number, number, number];
+    rotation: [number, number, number];
+    side?: 'left' | 'right';
+}) {
     return (
-        <group position={position}>
+        <group position={position} rotation={rotation}>
             {/* Cover */}
             <mesh position={[0, 0, 0]}>
                 <boxGeometry args={[1, 1.25, 0.125]} />
@@ -74,22 +82,9 @@ function Cover({ position, side = 'left' }: { position: [number, number, number]
     );
 }
 
-function Pages({ position }: { position: [number, number, number] }) {
+function Spine({ position }: { position: [number, number, number] }) {
     return (
         <group position={position}>
-            {/* Cover */}
-            <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[1, 1.25, 0.25]} />
-                <meshStandardMaterial color="hsla(0, 0%, 100%, 1.00)" />
-            </mesh>
-        </group>
-    );
-}
-
-function Spine() {
-    return (
-        <group position={[0, 0, -0.5]}>
-            {/* <group position={[0, 0, -0.1875]}> */}
             <mesh>
                 <boxGeometry args={[0.625, 1.25, 0.0625]} />
                 <meshStandardMaterial color="#00ffff" />
@@ -137,6 +132,26 @@ function Spine() {
     );
 }
 
+function Page({
+    position,
+    rotation,
+    thickness = 0.25,
+}: {
+    position: [number, number, number];
+    rotation?: [number, number, number];
+    thickness?: number;
+}) {
+    return (
+        <group position={position} rotation={rotation}>
+            {/* Cover */}
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[0.95, 1.15, thickness]} />
+                <meshStandardMaterial color="hsla(0, 0%, 100%, 1.00)" />
+            </mesh>
+        </group>
+    );
+}
+
 export function Book() {
     const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
     const dirLightRef = useRef<DirectionalLight>(null);
@@ -162,8 +177,8 @@ export function Book() {
 
         controls.setLookAt(
             0, // posX
-            1, // posY
-            3, // posZ
+            3, // posY
+            5, // posZ
             0, // lookAtX
             1, // lookAtY
             0, // lookAtZ
@@ -200,17 +215,54 @@ export function Book() {
                 groundColor="brown"
             />
 
-            {/* Book */}
-            <group position={[0, 1, -1]}>
-                <Cover position={[-0.75, 0, 0]} side="left" />
-                <Cover position={[0.75, 0, 0]} side="right" />
-                <Spine />
+            {/* Exploded */}
+            <group position={[0, 1, -15]}>
+                <Cover position={[-0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="left" />
+                <Cover position={[0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="right" />
+                <Spine position={[0, 0, -0.5]} />
 
                 {/* Left */}
-                <Pages position={[-0.75, 0, 1]} />
+                <Page position={[-0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
 
                 {/* Right */}
-                <Pages position={[0.75, 0, 1]} />
+                <Page position={[0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
+            </group>
+
+            {/* Closed */}
+            <group position={[0, 1, -10]}>
+                <Cover position={[-0.3125, 0, 0.5935]} rotation={[Math.PI, Math.PI / 2, Math.PI]} side="left" />
+                <Cover position={[0.3125, 0, 0.5935]} rotation={[Math.PI, Math.PI / -2, Math.PI]} side="right" />
+
+                <Spine position={[0, 0, 0]} />
+
+                {/* Left */}
+                <Page position={[-0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
+
+                {/* Right */}
+                <Page position={[0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
+            </group>
+
+            {/* Opened 2 */}
+            <group position={[0, 1, -5]}>
+                <Cover position={[-0.75, 0, 0.1565]} rotation={[0, 0, 0]} side="left" />
+                <Cover position={[0.75, 0, 0.1565]} rotation={[0, 0, 0]} side="right" />
+                <Spine position={[0, 0, 0]} />
+
+                {/* Left */}
+                <Page thickness={0.025} position={[-0.725 + 0, 0, 0.2315 + 0]} />
+                <Page thickness={0.025} position={[-0.725 + 0.05 * 1, 0, 0.2315 + 0.025]} />
+                <Page thickness={0.025} position={[-0.725 + 0.05 * 2, 0, 0.2315 + 0.025 * 2]} />
+                <Page thickness={0.025} position={[-0.725 + 0.05 * 3, 0, 0.2315 + 0.025 * 3]} />
+                <Page thickness={0.025} position={[-0.725 + 0.05 * 4, 0, 0.2315 + 0.025 * 4]} />
+                <Page thickness={0.025} position={[-0.725 + 0.05 * 5, 0, 0.2315 + 0.025 * 5]} />
+
+                {/* Right */}
+                <Page thickness={0.025} position={[0.725 + 0, 0, 0.2315 + 0]} />
+                <Page thickness={0.025} position={[0.725 - 0.05 * 1, 0, 0.2315 + 0.025]} />
+                <Page thickness={0.025} position={[0.725 - 0.05 * 2, 0, 0.2315 + 0.025 * 2]} />
+                <Page thickness={0.025} position={[0.725 - 0.05 * 3, 0, 0.2315 + 0.025 * 3]} />
+                <Page thickness={0.025} position={[0.725 - 0.05 * 4, 0, 0.2315 + 0.025 * 4]} />
+                <Page thickness={0.025} position={[0.725 - 0.05 * 5, 0, 0.2315 + 0.025 * 5]} />
             </group>
 
             {/* Helper */}
