@@ -172,132 +172,7 @@ function Page({
     );
 }
 
-function Exploded() {
-    return (
-        <group position={[15, 1, 0]}>
-            <Cover position={[-0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="left" />
-            <Cover position={[0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="right" />
-            <Spine position={[0, 0, -0.5]} />
-
-            {/* Left */}
-            <Page position={[-0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
-
-            {/* Right */}
-            <Page position={[0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
-        </group>
-    );
-}
-
-function Closed() {
-    return (
-        <group position={[10, 1, 0]}>
-            <Cover position={[-0.3125, 0, 0.0935]} rotation={[Math.PI, Math.PI / 2, Math.PI]} side="left" />
-            <Cover position={[0.3125, 0, 0.0935]} rotation={[Math.PI, Math.PI / -2, Math.PI]} side="right" />
-
-            <Spine position={[0, 0, 0]} />
-
-            {/* Left */}
-            <Page position={[-0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
-
-            {/* Right */}
-            <Page position={[0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
-        </group>
-    );
-}
-
-function Opened() {
-    const rotate = 1;
-
-    return (
-        <group position={[5, 1, 0]}>
-            <Cover position={[-0.25, 0, 0.1565]} rotation={[Math.PI, Math.PI, Math.PI]} side="left" />
-            <Cover position={[0.25, 0, 0.1565]} rotation={[Math.PI, Math.PI, Math.PI]} side="right" />
-            <Spine position={[0, 0, 0]} />
-
-            {/* Left */}
-            <group position={[-0.25, 0, 0]}>
-                <Page
-                    thickness={0.025}
-                    position={[0, 0, 0.2315 + 0]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="left"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * 1, 0, 0.2315 + 0.025]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="left"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * 2, 0, 0.2315 + 0.025 * 2]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="left"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * 3, 0, 0.2315 + 0.025 * 3]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="left"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * 4, 0, 0.2315 + 0.025 * 4]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="left"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * 5, 0, 0.2315 + 0.025 * 5]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="left"
-                />
-            </group>
-
-            {/* Right */}
-            <group position={[0.25, 0, 0]}>
-                <Page
-                    thickness={0.025}
-                    position={[0, 0, 0.2315 + 0]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="right"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * -1, 0, 0.2315 + 0.025]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="right"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * -2, 0, 0.2315 + 0.025 * 2]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="right"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * -3, 0, 0.2315 + 0.025 * 3]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="right"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * -4, 0, 0.2315 + 0.025 * 4]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="right"
-                />
-                <Page
-                    thickness={0.025}
-                    position={[0.05 * -5, 0, 0.2315 + 0.025 * 5]}
-                    rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                    side="right"
-                />
-            </group>
-        </group>
-    );
-}
-
-function OpenedWithPages() {
+function AnimatedBook() {
     const x = 0.025;
     const { rotate } = useControls({
         rotate: {
@@ -422,10 +297,8 @@ export function Book() {
                 color="#ffffff"
                 groundColor="brown"
             />
-            <Exploded />
-            <Closed />
-            <Opened />
-            <OpenedWithPages />
+
+            <AnimatedBook />
 
             {/* Helper */}
             <Grid
