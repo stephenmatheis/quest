@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Grid, useHelper, useTexture } from '@react-three/drei';
 import { useControls } from 'leva';
 import { useCamera } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
@@ -144,21 +144,26 @@ function Page({
     rotation,
     thickness = 0.25,
     side = 'left',
+    texture,
 }: {
     position: [number, number, number];
     rotation?: [number, number, number];
     thickness?: number;
     side?: 'left' | 'right';
+    texture?: string;
 }) {
     const pageWidth = 0.95;
     const offsetX = side === 'left' ? -pageWidth / 2 : pageWidth / 2;
+    const map = useTexture(texture || '/images/page-blank.png');
+
+    console.log(texture);
 
     return (
         <group position={position} rotation={rotation}>
             <group position={[offsetX, 0, 0]}>
                 <mesh position={[0, 0, 0]}>
                     <boxGeometry args={[0.95, 1.15, thickness]} />
-                    <meshStandardMaterial color="hsla(0, 0%, 100%, 1.00)" />
+                    <meshStandardMaterial map={map} />
                 </mesh>
             </group>
         </group>
@@ -328,6 +333,7 @@ function OpenedWithPages() {
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / rotate, Math.PI]}
                             side="left"
+                            texture={i === pages - 1 ? '/images/page-left.png' : ''}
                         />
                     );
                 })}
@@ -345,6 +351,7 @@ function OpenedWithPages() {
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / -rotate, Math.PI]}
                             side="right"
+                            texture={i === pages - 1 ? '/images/page-right.png' : ''}
                         />
                     );
                 })}
