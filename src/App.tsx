@@ -22,9 +22,9 @@ export default function App() {
                     >
                         <Book />
                     </Canvas>
-                    <CameraUI />
+                    {/* <CameraUI /> */}
                 </CameraProvider>
-                <UI />
+                {/* <UI /> */}
             </WorldProvider>
         </>
     );
