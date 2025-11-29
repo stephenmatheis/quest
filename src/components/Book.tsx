@@ -154,7 +154,7 @@ function Page({
 }) {
     const pageWidth = 0.95;
     const offsetX = side === 'left' ? -pageWidth / 2 : pageWidth / 2;
-    const map = useTexture(texture || '/images/page-blank.png');
+    const map = texture ? useTexture(texture) : null;
 
     console.log(texture);
 
@@ -164,7 +164,7 @@ function Page({
                 <mesh position={[0, 0, 0]}>
                     <boxGeometry args={[0.95, 1.15, thickness]} />
                     {/* <meshStandardMaterial map={map} /> */}
-                    <meshStandardMaterial color="#efc88e" />
+                    <meshStandardMaterial map={map} color="#efc88e" />
                     <Edges linewidth={2} scale={1} threshold={15} color="hsla(36, 75%, 30%, 1.00)" />
                 </mesh>
             </group>
@@ -335,7 +335,6 @@ function OpenedWithPages() {
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / rotate, Math.PI]}
                             side="left"
-                            texture={i === pages - 1 ? '/images/page-left.png' : ''}
                         />
                     );
                 })}
@@ -353,7 +352,6 @@ function OpenedWithPages() {
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / -rotate, Math.PI]}
                             side="right"
-                            texture={i === pages - 1 ? '/images/page-right.png' : ''}
                         />
                     );
                 })}
