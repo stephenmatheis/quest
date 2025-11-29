@@ -174,13 +174,20 @@ function Page({
 
 function AnimatedBook() {
     const x = 0.025;
-    const { rotate } = useControls({
+    const { rotate, angle } = useControls({
         rotate: {
             value: 1,
             min: 1,
             max: 2,
             step: 0.001,
             label: 'Open/Close',
+        },
+        angle: {
+            value: 1.25,
+            min: 1,
+            max: 2,
+            step: 0.001,
+            label: 'Angle',
         },
     });
 
@@ -192,7 +199,7 @@ function AnimatedBook() {
     const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, t);
 
     return (
-        <group position={[0, 1, 0]} rotation={[Math.PI / 1.25, Math.PI, Math.PI]}>
+        <group position={[0, 1, 0]} rotation={[Math.PI / angle, Math.PI, Math.PI]}>
             <Spine position={[0, 0, 0]} />
             <Cover position={[-coverX, 0, coverZ]} rotation={[Math.PI, Math.PI / rotate, Math.PI]} side="left" />
             <Cover position={[coverX, 0, coverZ]} rotation={[Math.PI, Math.PI / -rotate, Math.PI]} side="right" />
