@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Grid, useHelper, useTexture } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Edges, Grid, useHelper, useTexture } from '@react-three/drei';
 import { useControls } from 'leva';
 import { useCamera } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
@@ -163,7 +163,9 @@ function Page({
             <group position={[offsetX, 0, 0]}>
                 <mesh position={[0, 0, 0]}>
                     <boxGeometry args={[0.95, 1.15, thickness]} />
-                    <meshStandardMaterial map={map} />
+                    {/* <meshStandardMaterial map={map} /> */}
+                    <meshStandardMaterial color="#efc88e" />
+                    <Edges linewidth={2} scale={1} threshold={15} color="hsla(36, 75%, 30%, 1.00)" />
                 </mesh>
             </group>
         </group>
