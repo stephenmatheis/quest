@@ -165,7 +165,7 @@ function Page({
                     <boxGeometry args={[0.95, 1.15, thickness]} />
                     {/* <meshStandardMaterial map={map} /> */}
                     <meshStandardMaterial map={map} color="#efc88e" />
-                    <Edges linewidth={2} scale={1} threshold={15} color="hsla(36, 75%, 30%, 1.00)" />
+                    <Edges linewidth={3} scale={1} threshold={15} color="hsla(36, 75%, 30%, 1.00)" />
                 </mesh>
             </group>
         </group>
@@ -180,6 +180,7 @@ function AnimatedBook() {
             min: 1,
             max: 2,
             step: 0.001,
+            label: 'Open/Close',
         },
     });
 
@@ -189,8 +190,6 @@ function AnimatedBook() {
 
     const coverX = THREE.MathUtils.lerp(0.3125, 0.25, t);
     const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, t);
-
-    console.log(coverX, t);
 
     return (
         <group position={[0, 1, 0]} rotation={[Math.PI / 1.25, Math.PI, Math.PI]}>

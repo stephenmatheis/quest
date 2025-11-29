@@ -29,7 +29,7 @@ export function useCamera() {
 }
 
 export function CameraProvider({ children }: { children: ReactNode }) {
-    const [showHelpers, setShowHelpers] = useState<boolean>(true);
+    const [showHelpers, setShowHelpers] = useState<boolean>(false);
     const [isCameraLocked, setIsCameraLocked] = useState<boolean>(false);
     const cameraControlsRef = useRef<CameraControlsType>(null);
 
