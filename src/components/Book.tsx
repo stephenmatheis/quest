@@ -132,6 +132,46 @@ function Spine({ position }: { position: [number, number, number] }) {
     );
 }
 
+function NewSpine({ position }: { position: [number, number, number] }) {
+    return (
+        <group position={position}>
+            <mesh>
+                <boxGeometry args={[0.5, 1.25, 0.0625]} />
+                <meshStandardMaterial color="#00ffff" />
+            </mesh>
+
+            <mesh position={[0, 0, -0.0625]}>
+                <boxGeometry args={[0.375, 1.25, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Top Left */}
+            <mesh position={[-0.21875, 0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Top Right */}
+            <mesh position={[0.21875, 0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Bottom Left */}
+            <mesh position={[-0.21875, -0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+
+            {/* Bottom Right */}
+            <mesh position={[0.21875, -0.59375, -0.0625]}>
+                <boxGeometry args={[0.0625, 0.0625, 0.0625]} />
+                <meshStandardMaterial color="#ff0000" />
+            </mesh>
+        </group>
+    );
+}
+
 function Page({
     position,
     rotation,
@@ -148,6 +188,109 @@ function Page({
                 <boxGeometry args={[0.95, 1.15, thickness]} />
                 <meshStandardMaterial color="hsla(0, 0%, 100%, 1.00)" />
             </mesh>
+        </group>
+    );
+}
+
+function Exploded() {
+    return (
+        <group position={[0, 1, -20]}>
+            <Cover position={[-0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="left" />
+            <Cover position={[0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="right" />
+            <Spine position={[0, 0, -0.5]} />
+
+            {/* Left */}
+            <Page position={[-0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
+
+            {/* Right */}
+            <Page position={[0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
+        </group>
+    );
+}
+
+function Closed() {
+    return (
+        <group position={[0, 1, -15]}>
+            <Cover position={[-0.3125, 0, 0.5935]} rotation={[Math.PI, Math.PI / 2, Math.PI]} side="left" />
+            <Cover position={[0.3125, 0, 0.5935]} rotation={[Math.PI, Math.PI / -2, Math.PI]} side="right" />
+
+            <Spine position={[0, 0, 0]} />
+
+            {/* Left */}
+            <Page position={[-0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
+
+            {/* Right */}
+            <Page position={[0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
+        </group>
+    );
+}
+
+function Opened() {
+    return (
+        <group position={[0, 1, -10]}>
+            <Cover position={[-0.75, 0, 0.1565]} rotation={[0, 0, 0]} side="left" />
+            <Cover position={[0.75, 0, 0.1565]} rotation={[0, 0, 0]} side="right" />
+            <Spine position={[0, 0, 0]} />
+
+            {/* Left */}
+            <Page thickness={0.025} position={[-0.725 + 0, 0, 0.2315 + 0]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 1, 0, 0.2315 + 0.025]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 2, 0, 0.2315 + 0.025 * 2]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 3, 0, 0.2315 + 0.025 * 3]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 4, 0, 0.2315 + 0.025 * 4]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 5, 0, 0.2315 + 0.025 * 5]} />
+
+            {/* Right */}
+            <Page thickness={0.025} position={[0.725 + 0, 0, 0.2315 + 0]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 1, 0, 0.2315 + 0.025]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 2, 0, 0.2315 + 0.025 * 2]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 3, 0, 0.2315 + 0.025 * 3]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 4, 0, 0.2315 + 0.025 * 4]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 5, 0, 0.2315 + 0.025 * 5]} />
+        </group>
+    );
+}
+
+
+
+function OpenedWithNewSpine() {
+    return (
+        <group position={[0, 1, -5]}>
+            <Cover position={[-0.75, 0, 0.094]} rotation={[0, 0, 0]} side="left" />
+            <Cover position={[0.75, 0, 0.094]} rotation={[0, 0, 0]} side="right" />
+            <NewSpine position={[0, 0, 0]} />
+
+            {/* Left */}
+            <Page thickness={0.025} position={[-0.725 + 0, 0, 0.169 + 0]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 1, 0, 0.169 + 0.025]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 2, 0, 0.169 + 0.025 * 2]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 3, 0, 0.169 + 0.025 * 3]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 4, 0, 0.169 + 0.025 * 4]} />
+            <Page thickness={0.025} position={[-0.725 + 0.05 * 5, 0, 0.169 + 0.025 * 5]} />
+
+            {/* Right */}
+            <Page thickness={0.025} position={[0.725 + 0, 0, 0.169 + 0]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 1, 0, 0.169 + 0.025]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 2, 0, 0.169 + 0.025 * 2]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 3, 0, 0.169 + 0.025 * 3]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 4, 0, 0.169 + 0.025 * 4]} />
+            <Page thickness={0.025} position={[0.725 - 0.05 * 5, 0, 0.169 + 0.025 * 5]} />
+        </group>
+    );
+}
+
+function ClosedWithNewSpine() {
+    return (
+        <group position={[0, 1, 0]}>
+            <Cover position={[-0.3125, 0, 0.5935 - 0.0625]} rotation={[Math.PI, Math.PI / 2, Math.PI]} side="left" />
+            <Cover position={[0.3125, 0, 0.5935 - 0.0625]} rotation={[Math.PI, Math.PI / -2, Math.PI]} side="right" />
+            <NewSpine position={[0, 0, 0]} />
+
+            {/* Left */}
+            <Page position={[-0.125, 0, 0.5685 - 0.0625]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
+
+            {/* Right */}
+            <Page position={[0.125, 0, 0.5685 - 0.0625]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
         </group>
     );
 }
@@ -214,56 +357,11 @@ export function Book() {
                 color="#ffffff"
                 groundColor="brown"
             />
-
-            {/* Exploded */}
-            <group position={[0, 1, -15]}>
-                <Cover position={[-0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="left" />
-                <Cover position={[0.75, 0, 0]} rotation={[Math.PI, Math.PI, Math.PI]} side="right" />
-                <Spine position={[0, 0, -0.5]} />
-
-                {/* Left */}
-                <Page position={[-0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
-
-                {/* Right */}
-                <Page position={[0.75, 0, 1]} rotation={[Math.PI, Math.PI, Math.PI]} />
-            </group>
-
-            {/* Closed */}
-            <group position={[0, 1, -10]}>
-                <Cover position={[-0.3125, 0, 0.5935]} rotation={[Math.PI, Math.PI / 2, Math.PI]} side="left" />
-                <Cover position={[0.3125, 0, 0.5935]} rotation={[Math.PI, Math.PI / -2, Math.PI]} side="right" />
-
-                <Spine position={[0, 0, 0]} />
-
-                {/* Left */}
-                <Page position={[-0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
-
-                {/* Right */}
-                <Page position={[0.125, 0, 0.5685]} rotation={[Math.PI, Math.PI / 2, Math.PI]} />
-            </group>
-
-            {/* Opened 2 */}
-            <group position={[0, 1, -5]}>
-                <Cover position={[-0.75, 0, 0.1565]} rotation={[0, 0, 0]} side="left" />
-                <Cover position={[0.75, 0, 0.1565]} rotation={[0, 0, 0]} side="right" />
-                <Spine position={[0, 0, 0]} />
-
-                {/* Left */}
-                <Page thickness={0.025} position={[-0.725 + 0, 0, 0.2315 + 0]} />
-                <Page thickness={0.025} position={[-0.725 + 0.05 * 1, 0, 0.2315 + 0.025]} />
-                <Page thickness={0.025} position={[-0.725 + 0.05 * 2, 0, 0.2315 + 0.025 * 2]} />
-                <Page thickness={0.025} position={[-0.725 + 0.05 * 3, 0, 0.2315 + 0.025 * 3]} />
-                <Page thickness={0.025} position={[-0.725 + 0.05 * 4, 0, 0.2315 + 0.025 * 4]} />
-                <Page thickness={0.025} position={[-0.725 + 0.05 * 5, 0, 0.2315 + 0.025 * 5]} />
-
-                {/* Right */}
-                <Page thickness={0.025} position={[0.725 + 0, 0, 0.2315 + 0]} />
-                <Page thickness={0.025} position={[0.725 - 0.05 * 1, 0, 0.2315 + 0.025]} />
-                <Page thickness={0.025} position={[0.725 - 0.05 * 2, 0, 0.2315 + 0.025 * 2]} />
-                <Page thickness={0.025} position={[0.725 - 0.05 * 3, 0, 0.2315 + 0.025 * 3]} />
-                <Page thickness={0.025} position={[0.725 - 0.05 * 4, 0, 0.2315 + 0.025 * 4]} />
-                <Page thickness={0.025} position={[0.725 - 0.05 * 5, 0, 0.2315 + 0.025 * 5]} />
-            </group>
+            <Exploded />
+            <Closed />
+            <Opened />
+            <ClosedWithNewSpine />
+            <OpenedWithNewSpine />
 
             {/* Helper */}
             <Grid
