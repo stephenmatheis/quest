@@ -3,7 +3,6 @@ import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-thre
 import { useControls } from 'leva';
 import { useCamera } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
-import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const { ACTION } = CameraControlsImpl;
@@ -302,33 +301,25 @@ function OpenedWithPages() {
         },
     });
 
+    const pages = 10;
     const t = 2 - rotate;
     const leftPagesXOffset = THREE.MathUtils.lerp(0.0125, 0.025, t);
-    // const leftPagesXOffset = 0.0125;
-    // const leftPagesXOffset = 0.025;
-    const pages = 10;
+
+    const coverX = THREE.MathUtils.lerp(0.3125, 0.25, t);
+    const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, t);
+
+    console.log(coverX, t);
 
     return (
         <group position={[0, 1, 0]} rotation={[Math.PI / 1.25, Math.PI, Math.PI]}>
             <Spine position={[0, 0, 0]} />
-            <Cover position={[-0.25, 0, 0.1565]} rotation={[Math.PI, Math.PI, Math.PI]} side="left" />
-            <Cover position={[0.25, 0, 0.1565]} rotation={[Math.PI, Math.PI, Math.PI]} side="right" />
+            <Cover position={[-coverX, 0, coverZ]} rotation={[Math.PI, Math.PI / rotate, Math.PI]} side="left" />
+            <Cover position={[coverX, 0, coverZ]} rotation={[Math.PI, Math.PI / -rotate, Math.PI]} side="right" />
             <group position={[-0.25 + leftPagesXOffset, 0, 0]}>
-                {/* 
-                
-                NOTE:  
-
-                Page thickness is 0.025. Spine thickness is .5.
-                Spine / Page = 20 pages. 10 ages per side.
-
-                However, pages are offset to mat the cover's edge.
-                So I added an 11th page to each side.
-                
-                */}
                 {Array.from({ length: pages }).map((_, i) => {
                     const startingZ = 0.2315 + 0.025 * i;
-                    const posX = i === 0 ? 0 : x * i; // rotate = 2
-                    const posZ = THREE.MathUtils.lerp(0.219, startingZ, t);
+                    const posX = i === 0 ? 0 : x * i;
+                    const posZ = THREE.MathUtils.lerp(0.094, startingZ, t);
 
                     return (
                         <Page
@@ -345,7 +336,7 @@ function OpenedWithPages() {
                 {Array.from({ length: pages }).map((_, i) => {
                     const startingZ = 0.2315 + 0.025 * i;
                     const posX = i === 0 ? 0 : x * -i;
-                    const posZ = THREE.MathUtils.lerp(0.219, startingZ, t);
+                    const posZ = THREE.MathUtils.lerp(0.094, startingZ, t);
 
                     return (
                         <Page
@@ -416,7 +407,7 @@ export function Book() {
 
             {/* Lights */}
             <ambientLight intensity={0.5} />
-            <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={2} />
+            <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={2} castShadow={true} />
             <hemisphereLight
                 ref={hemiLightRef}
                 position={[0, 2, 5]}
