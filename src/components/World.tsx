@@ -17,8 +17,6 @@ export function World() {
         requestAnimationFrame(() => {
             controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, true);
         });
-
-  
     }, []);
 
     return (
