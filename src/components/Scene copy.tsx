@@ -1,12 +1,24 @@
-import { useRef } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
 import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper } from 'three';
 import { useCamera } from '@/providers/CameraProvider';
+import { Dagger } from '@/components/Models/Dagger';
+import { Roof } from '@/components/Roof';
+import { BackWall } from '@/components/BackWall';
+import { Floor } from '@/components/Floor';
+import { Board } from '@/components/Board';
+import { Quests } from '@/components/Quests';
+import { RightTorch } from '@/components/RightTorch';
+import { LeftTorch } from '@/components/LeftTorch';
 
 const { ACTION } = CameraControlsImpl;
 
+const ROOM_WIDTH = 24;
+const ROOM_DEPTH = 24;
+
 export function Scene() {
-    const { cameraControlsRef, isCameraLocked, showHelpers } = useCamera();
+    const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
+    const [mounted, setMounted] = useState<boolean>(false);
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
@@ -29,6 +41,24 @@ export function Scene() {
         0.25,
         'red'
     );
+
+    useEffect(() => {
+        if (mounted) return;
+
+        start();
+
+        requestAnimationFrame(() => {
+            end();
+        });
+
+        const controls = cameraControlsRef.current;
+
+        if (!controls) return;
+
+        controls.smoothTime = 1.1;
+
+        setMounted(true);
+    }, [cameraControlsRef, end, start]);
 
     return (
         <>
@@ -58,6 +88,18 @@ export function Scene() {
                 color="#fff2e2"
                 groundColor="#4a341f"
             />
+
+            {/* Scene objects */}
+            {/* <Roof width={ROOM_WIDTH} depth={ROOM_DEPTH} /> */}
+            {/* <Floor width={ROOM_WIDTH} depth={ROOM_DEPTH} /> */}
+            {/* <BackWall width={ROOM_WIDTH} /> */}
+            <Board />
+            {/* <RightTorch /> */}
+            {/* <LeftTorch /> */}
+            {/* <Suspense>
+                <Quests />
+            </Suspense> */}
+            {/* <Dagger position={[1.5, 2.7, 0.5]} scale={0.75} rotation={[Math.PI / 1, Math.PI / 2.2, Math.PI / 2.75]} /> */}
 
             {/* Helper */}
             <Grid

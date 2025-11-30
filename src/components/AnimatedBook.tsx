@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
+import { useFrame } from '@react-three/fiber';
 import { CameraControls, CameraControlsImpl, Edges, Grid, useHelper, useTexture } from '@react-three/drei';
-import { useControls } from 'leva';
 import { useCamera } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
 import * as THREE from 'three';
@@ -8,10 +8,12 @@ import * as THREE from 'three';
 const { ACTION } = CameraControlsImpl;
 
 function Cover({
+    ref,
     position,
     rotation,
     side = 'left',
 }: {
+    ref?: RefObject<THREE.Group | null>;
     position: [number, number, number];
     rotation: [number, number, number];
     side?: 'left' | 'right';
@@ -20,7 +22,7 @@ function Cover({
     const offsetX = side === 'left' ? -coverWidth / 2 : coverWidth / 2;
 
     return (
-        <group position={position} rotation={rotation}>
+        <group ref={ref} position={position} rotation={rotation}>
             <group position={[offsetX, 0, 0]}>
                 {/* Cover */}
                 <mesh position={[0, 0, 0]}>
@@ -140,12 +142,14 @@ function Spine({ position }: { position: [number, number, number] }) {
 }
 
 function Page({
+    ref,
     position,
     rotation,
     thickness = 0.25,
     side = 'left',
     texture,
 }: {
+    ref?: React.RefCallback<THREE.Group> | RefObject<THREE.Group>;
     position: [number, number, number];
     rotation?: [number, number, number];
     thickness?: number;
@@ -156,14 +160,11 @@ function Page({
     const offsetX = side === 'left' ? -pageWidth / 2 : pageWidth / 2;
     const map = texture ? useTexture(texture) : null;
 
-    console.log(texture);
-
     return (
-        <group position={position} rotation={rotation}>
+        <group ref={ref} position={position} rotation={rotation}>
             <group position={[offsetX, 0, 0]}>
                 <mesh position={[0, 0, 0]}>
                     <boxGeometry args={[0.95, 1.15, thickness]} />
-                    {/* <meshStandardMaterial map={map} /> */}
                     <meshStandardMaterial map={map} color="#efc88e" />
                     <Edges linewidth={3} scale={1} threshold={15} color="hsla(36, 75%, 30%, 1.00)" />
                 </mesh>
@@ -172,38 +173,109 @@ function Page({
     );
 }
 
-function AnimatedBook() {
+function Book() {
+    const ANIMATE = true;
+
+    const { cameraControlsRef } = useCamera();
+    const startTime = useRef<number | null>(null);
+    const delay = 0.5;
+    const duration = 1;
+    const rotate = 2;
+    const pages = 10;
     const x = 0.025;
-    const { rotate, angle } = useControls({
-        rotate: {
-            value: 1,
-            min: 1,
-            max: 2,
-            step: 0.001,
-            label: 'Open/Close',
-        },
-        angle: {
-            value: 1.25,
-            min: 1,
-            max: 2,
-            step: 0.001,
-            label: 'Angle',
-        },
+    const t = 2 - rotate;
+    const bookRef = useRef<THREE.Group | null>(null);
+    const leftCoverRef = useRef<THREE.Group | null>(null);
+    const rightCoverRef = useRef<THREE.Group | null>(null);
+    const leftPagesGroupRef = useRef<THREE.Group | null>(null);
+    const leftPageRefs = useRef<(THREE.Group | null)[]>(null);
+    leftPageRefs.current = Array(pages).fill(null);
+    const rightPagesGroupRef = useRef<THREE.Group | null>(null);
+    const rightPageRefs = useRef<(THREE.Group | null)[]>(null);
+    rightPageRefs.current = Array(pages).fill(null);
+
+    function easeOutQuint(t: number): number {
+        return 1 - Math.pow(1 - t, 5);
+    }
+
+    useFrame((state) => {
+        if (!ANIMATE) return;
+
+        if (!startTime.current) {
+            startTime.current = state.clock.getElapsedTime();
+        }
+
+        const elapsed = state.clock.getElapsedTime() - startTime.current;
+
+        if (elapsed < delay) {
+            return;
+        }
+
+        const offsetElapsed = elapsed - delay;
+
+        if (offsetElapsed <= duration) {
+            const progress = easeOutQuint(offsetElapsed / duration);
+            const rotate = THREE.MathUtils.lerp(2, 1, progress);
+            const coverX = THREE.MathUtils.lerp(0.3125, 0.25, progress);
+            const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, progress);
+            const pagesXOffset = THREE.MathUtils.lerp(0.0125, 0.025, progress);
+
+            leftCoverRef.current?.rotation.set(Math.PI, Math.PI / rotate, Math.PI);
+            leftCoverRef.current?.position.set(-coverX, 0, coverZ);
+            rightCoverRef.current?.rotation.set(Math.PI, Math.PI / -rotate, Math.PI);
+            rightCoverRef.current?.position.set(coverX, 0, coverZ);
+            leftPagesGroupRef.current?.position.set(-0.25 + pagesXOffset, 0, 0);
+            rightPagesGroupRef.current?.position.set(0.25 - pagesXOffset, 0, 0);
+            leftPageRefs.current!.forEach((page, i) => {
+                const endZ = 0.2315 + 0.025 * i;
+                const posZ = THREE.MathUtils.lerp(0.094, endZ, progress);
+                const posX = i === 0 ? 0 : x * i;
+
+                page?.rotation.set(Math.PI, Math.PI / rotate, Math.PI);
+                page?.position.set(posX, 0, posZ);
+            });
+            rightPageRefs.current!.forEach((page, i) => {
+                const endZ = 0.2315 + 0.025 * i;
+                const posZ = THREE.MathUtils.lerp(0.094, endZ, progress);
+                const posX = i === 0 ? 0 : x * -i;
+
+                page?.rotation.set(Math.PI, Math.PI / -rotate, Math.PI);
+                page?.position.set(posX, 0, posZ);
+            });
+        }
     });
 
-    const pages = 10;
-    const t = 2 - rotate;
-    const leftPagesXOffset = THREE.MathUtils.lerp(0.0125, 0.025, t);
+    useEffect(() => {
+        if (!ANIMATE) return;
 
-    const coverX = THREE.MathUtils.lerp(0.3125, 0.25, t);
-    const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, t);
+        const controls = cameraControlsRef.current;
+
+        if (!controls) return;
+
+        // controls.setLookAt(0, 6, 5, 0, 6, 0, false);
+        controls.setLookAt(0, 2, 0, -1, 6, 0, false); // NOTE: I don't know why these values work.
+
+        requestAnimationFrame(() => {
+            controls.setLookAt(0.15, 2, 5, 0, 1, 0, true);
+        });
+    }, [cameraControlsRef]);
 
     return (
-        <group position={[0, 1, 0]} rotation={[Math.PI / angle, Math.PI, Math.PI]}>
+        <group ref={bookRef} position={[0, 1, 0]} rotation={[Math.PI / 1.1, Math.PI, Math.PI]}>
             <Spine position={[0, 0, 0]} />
-            <Cover position={[-coverX, 0, coverZ]} rotation={[Math.PI, Math.PI / rotate, Math.PI]} side="left" />
-            <Cover position={[coverX, 0, coverZ]} rotation={[Math.PI, Math.PI / -rotate, Math.PI]} side="right" />
-            <group position={[-0.25 + leftPagesXOffset, 0, 0]}>
+            <Cover
+                ref={leftCoverRef}
+                position={[-0.3125, 0, 0.094]}
+                rotation={[Math.PI, Math.PI / rotate, Math.PI]}
+                side="left"
+            />
+            <Cover
+                ref={rightCoverRef}
+                position={[0.3125, 0, 0.094]}
+                rotation={[Math.PI, Math.PI / -rotate, Math.PI]}
+                side="right"
+            />
+            <group ref={leftPagesGroupRef} position={[-0.25 + 0.0125, 0, 0]}>
                 {Array.from({ length: pages }).map((_, i) => {
                     const startingZ = 0.2315 + 0.025 * i;
                     const posX = i === 0 ? 0 : x * i;
@@ -212,6 +284,9 @@ function AnimatedBook() {
                     return (
                         <Page
                             key={i}
+                            ref={(el) => {
+                                leftPageRefs.current![i] = el;
+                            }}
                             thickness={0.025}
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / rotate, Math.PI]}
@@ -220,7 +295,7 @@ function AnimatedBook() {
                     );
                 })}
             </group>
-            <group position={[0.25 - leftPagesXOffset, 0, 0]}>
+            <group ref={rightPagesGroupRef} position={[0.25 - 0.0125, 0, 0]}>
                 {Array.from({ length: pages }).map((_, i) => {
                     const startingZ = 0.2315 + 0.025 * i;
                     const posX = i === 0 ? 0 : x * -i;
@@ -229,6 +304,9 @@ function AnimatedBook() {
                     return (
                         <Page
                             key={i}
+                            ref={(el) => {
+                                rightPageRefs.current![i] = el;
+                            }}
                             thickness={0.025}
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / -rotate, Math.PI]}
@@ -241,8 +319,8 @@ function AnimatedBook() {
     );
 }
 
-export function Book() {
-    const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
+export function AnimatedBook() {
+    const { cameraControlsRef, isCameraLocked, showHelpers } = useCamera();
     const dirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
 
@@ -259,27 +337,13 @@ export function Book() {
         'red'
     );
 
-    useEffect(() => {
-        const controls = cameraControlsRef.current;
-
-        if (!controls) return;
-
-        controls.setLookAt(
-            0, // posX
-            3, // posY
-            5, // posZ
-            0, // lookAtX
-            1, // lookAtY
-            0, // lookAtZ
-            false
-        );
-    }, [cameraControlsRef, end, start]);
-
     return (
         <>
             {/* Camera */}
             <CameraControls
                 ref={cameraControlsRef}
+                makeDefault
+                camera={undefined}
                 mouseButtons={{
                     left: isCameraLocked ? ACTION.NONE : ACTION.ROTATE,
                     middle: ACTION.DOLLY,
@@ -304,20 +368,22 @@ export function Book() {
                 groundColor="brown"
             />
 
-            <AnimatedBook />
+            <Book />
 
             {/* Helper */}
-            <Grid
-                position={[0, 0, 0]}
-                cellSize={1}
-                cellThickness={1}
-                cellColor="#6f6f6f"
-                sectionSize={4}
-                sectionThickness={1}
-                sectionColor="#000000"
-                followCamera={false}
-                infiniteGrid={true}
-            />
+            {showHelpers && (
+                <Grid
+                    position={[0, 0, 0]}
+                    cellSize={1}
+                    cellThickness={1}
+                    cellColor="#6f6f6f"
+                    sectionSize={4}
+                    sectionThickness={1}
+                    sectionColor="#000000"
+                    followCamera={false}
+                    infiniteGrid={true}
+                />
+            )}
         </>
     );
 }
