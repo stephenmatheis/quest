@@ -1,15 +1,17 @@
-import { useCamera } from '@/providers/CameraProvider';
+import { useCameraControls } from '@/providers/CameraProvider';
 import { useFrame } from '@react-three/fiber';
 import { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { Cover } from './Cover';
 import { Page } from './Page';
 import { Spine } from './Spine';
+import { useWorld } from '@/providers/WorldProvider';
 
 export function Book() {
     const ANIMATE = true;
 
-    const { cameraControlsRef } = useCamera();
+    const { isQuestLogOpen } = useWorld();
+    const { cameraControlsRef } = useCameraControls();
     const startTime = useRef<number | null>(null);
     const delay = 0.5;
     const duration = 1;
@@ -100,12 +102,14 @@ export function Book() {
                 ref={leftCoverRef}
                 position={[-0.3125, 0, 0.094]}
                 rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                side="left" />
+                side="left"
+            />
             <Cover
                 ref={rightCoverRef}
                 position={[0.3125, 0, 0.094]}
                 rotation={[Math.PI, Math.PI / -rotate, Math.PI]}
-                side="right" />
+                side="right"
+            />
             <group ref={leftPagesGroupRef} position={[-0.25 + 0.0125, 0, 0]}>
                 {Array.from({ length: pages }).map((_, i) => {
                     const startingZ = 0.2315 + 0.025 * i;
@@ -121,7 +125,8 @@ export function Book() {
                             thickness={0.025}
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / rotate, Math.PI]}
-                            side="left" />
+                            side="left"
+                        />
                     );
                 })}
             </group>
@@ -140,7 +145,8 @@ export function Book() {
                             thickness={0.025}
                             position={[posX, 0, posZ]}
                             rotation={[Math.PI, Math.PI / -rotate, Math.PI]}
-                            side="right" />
+                            side="right"
+                        />
                     );
                 })}
             </group>

@@ -1,11 +1,11 @@
 import { CameraControls, CameraControlsImpl, Grid, Sky } from '@react-three/drei';
-import { useCamera } from '@/providers/CameraProvider';
+import { useCameraControls } from '@/providers/CameraProvider';
 import { useEffect } from 'react';
 
 const { ACTION } = CameraControlsImpl;
 
 export function World() {
-    const { cameraControlsRef, isCameraLocked } = useCamera();
+    const { cameraControlsRef, isCameraLocked } = useCameraControls();
 
     useEffect(() => {
         const controls = cameraControlsRef.current;

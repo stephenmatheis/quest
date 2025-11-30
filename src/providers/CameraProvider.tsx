@@ -18,7 +18,7 @@ type CameraContext = {
 
 const CameraContext = createContext<CameraContext | undefined>(undefined);
 
-export function useCamera() {
+export function useCameraControls() {
     const context = useContext(CameraContext);
 
     if (!context) {

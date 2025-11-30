@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { useHelper } from '@react-three/drei';
 import { PointLight, PointLightHelper } from 'three';
 import { Torch } from '@/components/Models/Torch';
-import { useCamera } from '@/providers/CameraProvider';
+import { useCameraControls } from '@/providers/CameraProvider';
 
 export function LeftTorch() {
-    const { showHelpers } = useCamera();
+    const { showHelpers } = useCameraControls();
     const leftTorchLight = useRef<PointLight>(null);
 
     useHelper(showHelpers ? (leftTorchLight as React.RefObject<PointLight>) : false, PointLightHelper, 0.25, 'red');

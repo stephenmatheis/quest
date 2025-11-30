@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
 import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper } from 'three';
-import { useCamera } from '@/providers/CameraProvider';
+import { useCameraControls } from '@/providers/CameraProvider';
 import { Dagger } from '@/components/Models/Dagger';
 import { Roof } from '@/components/Roof';
 import { BackWall } from '@/components/BackWall';
@@ -17,7 +17,7 @@ const ROOM_WIDTH = 24;
 const ROOM_DEPTH = 24;
 
 export function Scene() {
-    const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCamera();
+    const { cameraControlsRef, isCameraLocked, start, end, showHelpers } = useCameraControls();
     const [mounted, setMounted] = useState<boolean>(false);
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);

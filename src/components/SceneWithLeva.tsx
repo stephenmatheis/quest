@@ -1,6 +1,6 @@
 import { CameraControls, CameraControlsImpl, Edges, Grid } from '@react-three/drei';
 import { useControls } from 'leva';
-import { useCamera } from '@/providers/CameraProvider';
+import { useCameraControls } from '@/providers/CameraProvider';
 
 const { ACTION } = CameraControlsImpl;
 
@@ -9,7 +9,7 @@ function Outline({ linewidth = 4, scale = 1, threshold = 1, color = '#000000' })
 }
 
 export function SceneWithLeva() {
-    const { cameraControlsRef, isCameraLocked } = useCamera();
+    const { cameraControlsRef, isCameraLocked } = useCameraControls();
     const { x, y, z, color, intensity } = useControls({ x: 0, y: 3, z: 1, color: '#ffffff', intensity: 10 });
 
     return (

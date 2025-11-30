@@ -1,13 +1,13 @@
 import { useRef } from 'react';
 import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
-import { useCamera } from '@/providers/CameraProvider';
+import { useCameraControls } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
 import { Book } from './Book';
 
 const { ACTION } = CameraControlsImpl;
 
 export function AnimatedBook() {
-    const { cameraControlsRef, isCameraLocked, showHelpers } = useCamera();
+    const { cameraControlsRef, isCameraLocked, showHelpers } = useCameraControls();
     const dirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
 
