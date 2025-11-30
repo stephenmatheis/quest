@@ -5,7 +5,7 @@ import { useCamera } from '@/providers/CameraProvider';
 
 const { ACTION } = CameraControlsImpl;
 
-export function Scene() {
+export function World() {
     const { cameraControlsRef, isCameraLocked, showHelpers } = useCamera();
     const rightDirLightRef = useRef<DirectionalLight>(null);
     const leftDirLightRef = useRef<DirectionalLight>(null);
