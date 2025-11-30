@@ -199,7 +199,7 @@ export function UI() {
                 },
             },
             {
-                key: 'r',
+                key: 'r', // FIXME: Might mess with reload (cmd + r)
                 action() {
                     console.log('Action R');
                 },

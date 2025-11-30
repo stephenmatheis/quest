@@ -1,6 +1,6 @@
 import { useCameraControls } from '@/providers/CameraProvider';
 import { useFrame } from '@react-three/fiber';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Cover } from './Cover';
 import { Page } from './Page';
@@ -12,13 +12,17 @@ export function Book() {
 
     const { isQuestLogOpen } = useWorld();
     const { cameraControlsRef } = useCameraControls();
-    const startTime = useRef<number | null>(null);
+
     const delay = 0.5;
     const duration = 1;
     const rotate = 2;
     const pages = 10;
     const x = 0.025;
     const t = 2 - rotate;
+
+    const [mounted, setMounted] = useState<boolean>(false);
+
+    const startTime = useRef<number | null>(null);
     const bookRef = useRef<THREE.Group | null>(null);
     const leftCoverRef = useRef<THREE.Group | null>(null);
     const rightCoverRef = useRef<THREE.Group | null>(null);
@@ -29,27 +33,22 @@ export function Book() {
     const rightPageRefs = useRef<(THREE.Group | null)[]>(null);
     rightPageRefs.current = Array(pages).fill(null);
 
-    function easeOutQuint(t: number): number {
-        return 1 - Math.pow(1 - t, 5);
-    }
-
     useFrame((state) => {
         if (!ANIMATE) return;
 
-        if (!startTime.current) {
-            startTime.current = state.clock.getElapsedTime();
-        }
+        // Opening animation
+        if (isQuestLogOpen) {
+            if (!startTime.current) {
+                startTime.current = state.clock.getElapsedTime();
+            }
 
-        const elapsed = state.clock.getElapsedTime() - startTime.current;
+            const elapsed = state.clock.getElapsedTime() - startTime.current;
 
-        if (elapsed < delay) {
-            return;
-        }
+            if (elapsed < delay) return;
 
-        const offsetElapsed = elapsed - delay;
+            const t = (elapsed - delay) / duration;
+            const progress = Math.min(1, t);
 
-        if (offsetElapsed <= duration) {
-            const progress = easeOutQuint(offsetElapsed / duration);
             const rotate = THREE.MathUtils.lerp(2, 1, progress);
             const coverX = THREE.MathUtils.lerp(0.3125, 0.25, progress);
             const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, progress);
@@ -81,6 +80,10 @@ export function Book() {
     });
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
         if (!ANIMATE) return;
 
         const controls = cameraControlsRef.current;
@@ -90,10 +93,19 @@ export function Book() {
         // controls.setLookAt(0, 6, 5, 0, 6, 0, false);
         controls.setLookAt(0, 2, 0, -1, 6, 0, false); // NOTE: I don't know why these values work.
 
-        requestAnimationFrame(() => {
-            controls.setLookAt(0.15, 2, 5, 0, 1, 0, true);
-        });
-    }, [cameraControlsRef]);
+        if (isQuestLogOpen) {
+            console.log('opening...');
+            requestAnimationFrame(() => {
+                controls.setLookAt(0.15, 2, 5, 0, 1, 0, true);
+            });
+
+            return;
+        }
+
+        if (mounted) {
+            console.log('closing...');
+        }
+    }, [cameraControlsRef, isQuestLogOpen]);
 
     return (
         <group ref={bookRef} position={[0, 1, 0]} rotation={[Math.PI / 1.1, Math.PI, Math.PI]}>
