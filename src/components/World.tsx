@@ -15,7 +15,8 @@ export function World() {
         controls.setLookAt(0, 5, 6, 0, 5, 0, false);
 
         requestAnimationFrame(() => {
-            controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, true);
+            // controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, true);
+            controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, false);
         });
     }, []);
 

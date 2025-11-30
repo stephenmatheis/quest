@@ -1,4 +1,5 @@
 import { useCameraControls } from '@/providers/CameraProvider';
+import { useFrame } from '@react-three/fiber';
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Cover } from './Cover';
@@ -6,14 +7,14 @@ import { Page } from './Page';
 import { Spine } from './Spine';
 import { useWorld } from '@/providers/WorldProvider';
 
-import { useSpring, animated } from '@react-spring/three';
-
 export function Book() {
     const ANIMATE = true;
 
     const { isQuestLogOpen } = useWorld();
     const { cameraControlsRef } = useCameraControls();
 
+    const delay = 0.5;
+    const duration = 1;
     const rotate = 2;
     const pages = 10;
     const x = 0.025;
@@ -21,6 +22,7 @@ export function Book() {
 
     const [mounted, setMounted] = useState<boolean>(false);
 
+    const startTime = useRef<number | null>(null);
     const bookRef = useRef<THREE.Group | null>(null);
     const leftCoverRef = useRef<THREE.Group | null>(null);
     const rightCoverRef = useRef<THREE.Group | null>(null);
@@ -31,9 +33,50 @@ export function Book() {
     const rightPageRefs = useRef<(THREE.Group | null)[]>(null);
     rightPageRefs.current = Array(pages).fill(null);
 
-    const [clicked, setClicked] = useState<boolean>(false);
-    const springs = useSpring({
-        position: (clicked ? [0, 2, 0] : [0, 1, 0]) as [number, number, number],
+    useFrame((state) => {
+        if (!ANIMATE) return;
+
+        // Opening animation
+        if (isQuestLogOpen) {
+            if (!startTime.current) {
+                startTime.current = state.clock.getElapsedTime();
+            }
+
+            const elapsed = state.clock.getElapsedTime() - startTime.current;
+
+            if (elapsed < delay) return;
+
+            const t = (elapsed - delay) / duration;
+            const progress = Math.min(1, t);
+
+            const rotate = THREE.MathUtils.lerp(2, 1, progress);
+            const coverX = THREE.MathUtils.lerp(0.3125, 0.25, progress);
+            const coverZ = THREE.MathUtils.lerp(0.094, 0.1565, progress);
+            const pagesXOffset = THREE.MathUtils.lerp(0.0125, 0.025, progress);
+
+            leftCoverRef.current?.rotation.set(Math.PI, Math.PI / rotate, Math.PI);
+            leftCoverRef.current?.position.set(-coverX, 0, coverZ);
+            rightCoverRef.current?.rotation.set(Math.PI, Math.PI / -rotate, Math.PI);
+            rightCoverRef.current?.position.set(coverX, 0, coverZ);
+            leftPagesGroupRef.current?.position.set(-0.25 + pagesXOffset, 0, 0);
+            rightPagesGroupRef.current?.position.set(0.25 - pagesXOffset, 0, 0);
+            leftPageRefs.current!.forEach((page, i) => {
+                const endZ = 0.2315 + 0.025 * i;
+                const posZ = THREE.MathUtils.lerp(0.094, endZ, progress);
+                const posX = i === 0 ? 0 : x * i;
+
+                page?.rotation.set(Math.PI, Math.PI / rotate, Math.PI);
+                page?.position.set(posX, 0, posZ);
+            });
+            rightPageRefs.current!.forEach((page, i) => {
+                const endZ = 0.2315 + 0.025 * i;
+                const posZ = THREE.MathUtils.lerp(0.094, endZ, progress);
+                const posX = i === 0 ? 0 : x * -i;
+
+                page?.rotation.set(Math.PI, Math.PI / -rotate, Math.PI);
+                page?.position.set(posX, 0, posZ);
+            });
+        }
     });
 
     useEffect(() => {
@@ -47,9 +90,8 @@ export function Book() {
 
         if (!controls) return;
 
-        if (!mounted) {
-            controls.setLookAt(0, 2, 0, -1, 6, 0, false);
-        }
+        // controls.setLookAt(0, 6, 5, 0, 6, 0, false);
+        controls.setLookAt(0, 2, 0, -1, 6, 0, false); // NOTE: I don't know why these values work.
 
         if (isQuestLogOpen) {
             console.log('opening...');
@@ -60,23 +102,13 @@ export function Book() {
             return;
         }
 
-        if (!isQuestLogOpen && mounted) {
+        if (mounted) {
             console.log('closing...');
-            requestAnimationFrame(() => {
-                controls.setLookAt(0, 2, 0, -1, 6, 0, true);
-            });
-
-            return;
         }
     }, [cameraControlsRef, isQuestLogOpen]);
 
     return (
-        <animated.group
-            ref={bookRef}
-            position={springs.position}
-            rotation={[Math.PI / 1.1, Math.PI, Math.PI]}
-            onClick={() => setClicked((prev) => !prev)}
-        >
+        <group ref={bookRef} position={[0, 1, 0]} rotation={[Math.PI / 1.1, Math.PI, Math.PI]}>
             <Spine position={[0, 0, 0]} />
             <Cover
                 ref={leftCoverRef}
@@ -130,6 +162,6 @@ export function Book() {
                     );
                 })}
             </group>
-        </animated.group>
+        </group>
     );
 }
