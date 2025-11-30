@@ -10,25 +10,15 @@ export function AppContent() {
 
     return (
         <>
-            <Canvas
-                shadows
-                camera={{
-                    position: [0, 3, 10],
-                    fov: 50,
-                    near: 0.1,
-                    far: 1000,
-                }}
-            >
+            <Canvas shadows>
                 <World />
             </Canvas>
-
             <Canvas
                 style={{ position: 'absolute', top: 0, left: 0, pointerEvents: isQuestLogOpen ? 'all' : 'none' }}
                 camera={{ position: [0, 0, 0], fov: 25 }}
             >
                 {isQuestLogOpen && <AnimatedBook />}
             </Canvas>
-
             <UI />
             <CameraUI />
         </>

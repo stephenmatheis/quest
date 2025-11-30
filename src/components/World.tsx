@@ -1,40 +1,31 @@
-import { useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
-import { DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper } from 'three';
+import { CameraControls, CameraControlsImpl, Grid, Sky } from '@react-three/drei';
 import { useCamera } from '@/providers/CameraProvider';
+import { useEffect } from 'react';
 
 const { ACTION } = CameraControlsImpl;
 
 export function World() {
-    const { cameraControlsRef, isCameraLocked, showHelpers } = useCamera();
-    const rightDirLightRef = useRef<DirectionalLight>(null);
-    const leftDirLightRef = useRef<DirectionalLight>(null);
-    const hemiLightRef = useRef<HemisphereLight>(null);
+    const { cameraControlsRef, isCameraLocked } = useCamera();
 
-    useHelper(
-        showHelpers ? (rightDirLightRef as React.RefObject<DirectionalLight>) : false,
-        DirectionalLightHelper,
-        0.25,
-        'red'
-    );
-    useHelper(
-        showHelpers ? (leftDirLightRef as React.RefObject<DirectionalLight>) : false,
-        DirectionalLightHelper,
-        0.25,
-        'red'
-    );
-    useHelper(
-        showHelpers ? (hemiLightRef as React.RefObject<HemisphereLight>) : false,
-        HemisphereLightHelper,
-        0.25,
-        'red'
-    );
+    useEffect(() => {
+        const controls = cameraControlsRef.current;
+
+        if (!controls) return;
+
+        controls.setLookAt(0, 5, 6, 0, 5, 0, false);
+
+        requestAnimationFrame(() => {
+            controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, true);
+        });
+
+  
+    }, []);
 
     return (
         <>
-            {/* Camera */}
             <CameraControls
                 ref={cameraControlsRef}
+                makeDefault
                 mouseButtons={{
                     left: isCameraLocked ? ACTION.NONE : ACTION.ROTATE,
                     middle: ACTION.DOLLY,
@@ -47,19 +38,9 @@ export function World() {
                     three: ACTION.TOUCH_DOLLY_TRUCK,
                 }}
             />
-
-            {/* Lights */}
-            <directionalLight ref={rightDirLightRef} position={[6, 2, 2]} intensity={1} />
-            <directionalLight ref={leftDirLightRef} position={[-6, 2, 2]} intensity={1} />
-            <hemisphereLight
-                ref={hemiLightRef}
-                position={[0, 2, 10]}
-                intensity={3}
-                color="#fff2e2"
-                groundColor="#4a341f"
-            />
-
-            {/* Helper */}
+            <Sky sunPosition={[100, 20, 100]} />
+            <ambientLight intensity={5} />
+            <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}

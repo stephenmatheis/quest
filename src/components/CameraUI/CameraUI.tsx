@@ -6,7 +6,7 @@ export function CameraUI() {
         useCamera();
 
     return (
-        <div className={styles.ui}>
+        <div className={styles['camera-ui']}>
             <div className={styles.buttons}>
                 <button
                     className={`${isCameraLocked ? styles.red : styles.green}`}
