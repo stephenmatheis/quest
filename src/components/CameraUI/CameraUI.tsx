@@ -1,9 +1,11 @@
 import { useCameraControls } from '@/providers/CameraProvider';
 import styles from './CameraUI.module.scss';
 
-export function CameraUI() {
+export function CameraUI({ off = false }: { off?: boolean }) {
     const { isCameraLocked, showHelpers, toggleShowHelpers, toggleCameraLock, start, end, overhead, inside } =
         useCameraControls();
+
+    if (off) return null;
 
     return (
         <div className={styles['camera-ui']}>

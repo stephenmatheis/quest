@@ -1,0 +1,102 @@
+.ui {
+    --black: #000000;
+    --tan: #e2ded3;
+    --bg-50: rgb(0 0 0 / 0.5);
+
+    pointer-events: none;
+    user-select: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100vw;
+
+    .right {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px;
+
+        .tracked-quests {
+            pointer-events: all;
+            margin-top: 200px;
+            flex: 1;
+            right: 0;
+            width: 300px;
+            
+            // DEV: OFF
+            pointer-events: none;
+            color: transparent;
+        }
+
+        .buttons {
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            button {
+                pointer-events: all;
+                display: flex;
+                height: 44px;
+                width: 44px;
+                padding: 8px;
+                font-size: 1rem;
+                color: hsl(25, 76%, 20%);
+                background-image: url('/public/images/keycap.svg');
+                background-position: center;
+                background-size: contain;
+            }
+        }
+    }
+
+    .left {
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px;
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+
+            .action {
+                pointer-events: all;
+                display: flex;
+                height: 44px;
+                width: 44px;
+                padding: 8px;
+                font-size: 1rem;
+                color: hsl(25, 76%, 20%);
+                background-image: url('/public/images/keycap.svg');
+                background-position: center;
+                background-size: contain;
+            }
+        }
+
+        .character-frame {
+            bottom: 0px;
+            left: 0px;
+            width: 275px;
+            height: 100px;
+
+            // DEV: OFF
+            color: transparent;
+        }
+    }
+}

@@ -1,7 +1,6 @@
 import { CameraControls, CameraControlsImpl, Grid } from '@react-three/drei';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { useEffect } from 'react';
-import { Page } from './Page';
 
 const { ACTION } = CameraControlsImpl;
 

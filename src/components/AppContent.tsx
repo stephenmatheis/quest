@@ -20,7 +20,7 @@ export function AppContent() {
                 <AnimatedBook />
             </Canvas>
             <UI />
-            <CameraUI />
+            <CameraUI off />
         </>
     );
 }
