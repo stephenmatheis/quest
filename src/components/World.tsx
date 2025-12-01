@@ -1,6 +1,9 @@
 import { CameraControls, CameraControlsImpl, Grid, Sky } from '@react-three/drei';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { useEffect } from 'react';
+import { Forest } from './Forest';
+import { SeaHouse } from './SeaHouse';
+import { SkyHome } from './SkyHome';
 
 const { ACTION } = CameraControlsImpl;
 
@@ -12,11 +15,12 @@ export function World() {
 
         if (!controls) return;
 
-        controls.setLookAt(0, 5, 6, 0, 5, 0, false);
+        // controls.setLookAt(0, 4, 35, 0, 4, 0, false);
+        controls.setLookAt(0, 20, 200, 0, 20, 0, false);
 
         requestAnimationFrame(() => {
             // controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, true);
-            controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, false);
+            // controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, false);
         });
     }, []);
 
@@ -37,9 +41,27 @@ export function World() {
                     three: ACTION.TOUCH_DOLLY_TRUCK,
                 }}
             />
-            <Sky sunPosition={[100, 20, 100]} />
+
+            {/* World */}
+            {/* <Sky sunPosition={[100, 20, 100]} />
             <ambientLight intensity={5} />
-            <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+            <pointLight castShadow intensity={0.8} position={[100, 100, 100]} /> */}
+
+            {/* <Sky sunPosition={[100, 20, 100]} /> */}
+            <ambientLight intensity={2.5} />
+
+            <group position={[0, -25, -300]}>
+                <Forest />
+            </group>
+
+            <group position={[0, 0, -150]} scale={0.25}>
+                <SeaHouse />
+            </group>
+
+            <group position={[0, 0, 0]} scale={0.25}>
+                <SkyHome />
+            </group>
+
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}

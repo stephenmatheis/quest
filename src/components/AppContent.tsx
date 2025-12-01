@@ -10,7 +10,8 @@ export function AppContent() {
 
     return (
         <>
-            <Canvas shadows>
+            {/* <Canvas shadows camera={{ fov: 30 }}> */}
+            <Canvas shadows camera={{ fov: 30 }}>
                 <World />
             </Canvas>
             <Canvas
