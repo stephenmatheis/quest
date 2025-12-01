@@ -1,19 +1,23 @@
+import { animated, SpringValue } from '@react-spring/three';
 import type { RefObject } from 'react';
 import * as THREE from 'three';
 
 export function Cover({
-    ref, position, rotation, side = 'left',
+    ref,
+    position,
+    rotation,
+    side = 'left',
 }: {
     ref?: RefObject<THREE.Group | null>;
-    position: [number, number, number];
-    rotation: [number, number, number];
+    position: [number, number, number] | SpringValue<[number, number, number]>;
+    rotation: [number, number, number] | SpringValue<[number, number, number]>;
     side?: 'left' | 'right';
 }) {
     const coverWidth = 1;
     const offsetX = side === 'left' ? -coverWidth / 2 : coverWidth / 2;
 
     return (
-        <group ref={ref} position={position} rotation={rotation}>
+        <animated.group ref={ref} position={position} rotation={rotation as [number, number, number]}>
             <group position={[offsetX, 0, 0]}>
                 {/* Cover */}
                 <mesh position={[0, 0, 0]}>
@@ -78,6 +82,6 @@ export function Cover({
                     )}
                 </group>
             </group>
-        </group>
+        </animated.group>
     );
 }

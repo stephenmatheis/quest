@@ -15,7 +15,7 @@ export function AppContent() {
             </Canvas>
             <Canvas
                 style={{ position: 'absolute', top: 0, left: 0, pointerEvents: isQuestLogOpen ? 'all' : 'none' }}
-                camera={{ position: [0, 0, 0], fov: 25 }}
+                camera={{ position: [0, 0, 5], fov: 25 }}
             >
                 <AnimatedBook />
             </Canvas>

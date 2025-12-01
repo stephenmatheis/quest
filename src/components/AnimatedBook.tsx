@@ -29,8 +29,6 @@ export function AnimatedBook() {
             {/* Camera */}
             <CameraControls
                 ref={cameraControlsRef}
-                makeDefault
-                camera={undefined}
                 mouseButtons={{
                     left: isCameraLocked ? ACTION.NONE : ACTION.ROTATE,
                     middle: ACTION.DOLLY,
