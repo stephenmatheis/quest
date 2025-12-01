@@ -169,6 +169,7 @@ export function Book() {
                             position={position}
                             rotation={lefCoverRotation}
                             side="left"
+                            edges={false}
                         />
                     );
                 })}
@@ -185,6 +186,7 @@ export function Book() {
                             position={position}
                             rotation={rightCoverRotation}
                             side="right"
+                            edges={false}
                         />
                     );
                 })}
