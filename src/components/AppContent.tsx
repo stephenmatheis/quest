@@ -1,10 +1,10 @@
 import { Canvas } from '@react-three/fiber';
 import { useWorld } from '@/providers/WorldProvider';
-import { Experience } from '@/components/Experience';
 import { AnimatedBook } from '@/components/AnimatedBook';
 import { UI } from '@/components/UI';
 import { CameraUI } from '@/components/CameraUI';
 import { KeyboardControls } from '@react-three/drei';
+import { World } from './World';
 
 export function AppContent() {
     const { isQuestLogOpen } = useWorld();
@@ -20,9 +20,8 @@ export function AppContent() {
     return (
         <>
             <KeyboardControls map={keyboardMap}>
-                <Canvas shadows camera={{ position: [3, 3, 3], near: 0.1, fov: 40 }} style={{ touchAction: 'none' }}>
-                    <color attach="background" args={['#ececec']} />
-                    <Experience />
+                <Canvas shadows>
+                    <World />
                 </Canvas>
             </KeyboardControls>
 

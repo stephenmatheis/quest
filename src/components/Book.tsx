@@ -9,6 +9,12 @@ import { useSpring, animated, useSprings } from '@react-spring/three';
 
 const PAGES = 10;
 const DELAY = 0;
+// const MASS = 1;
+// const TENSION = 170;
+// const FRICTION = 26;
+const MASS = 2;
+const TENSION = 120;
+const FRICTION = 26;
 
 export function Book() {
     const { isQuestLogOpen } = useWorld();
@@ -34,6 +40,7 @@ export function Book() {
                       bookPosition: [0, 0, 0] as [number, number, number],
                       bookRotation: [-0.325, 0, 0],
                   },
+                  config: { mass: MASS, tension: TENSION, friction: FRICTION },
               }
             : {
                   from: {
@@ -45,6 +52,7 @@ export function Book() {
                       bookRotation: [0.25, -0.5, 0.25],
                   },
                   immediate: !mounted,
+                  config: { mass: MASS, tension: TENSION, friction: FRICTION },
               }
     );
 
@@ -67,21 +75,26 @@ export function Book() {
                       rightPagesGroupPosition: [0.25 - 0.0125, 0, 0] as [number, number, number],
                   },
                   to: {
-                      lefCoverRotation: [0, 0, 0],
+                      //   lefCoverRotation: [0, 0, 0],
+                      lefCoverRotation: [0, 0.2, 0],
                       leftCoverPosition: [-0.25, 0, 0.1565] as [number, number, number],
                       leftPagesGroupPosition: [-0.25 + 0.025, 0, 0] as [number, number, number],
-                      rightCoverRotation: [0, 0, 0],
+                      //   rightCoverRotation: [0, 0, 0],
+                      rightCoverRotation: [0, -0.2, 0],
                       rightCoverPosition: [0.25, 0, 0.1565] as [number, number, number],
                       rightPagesGroupPosition: [0.25 - 0.025, 0, 0] as [number, number, number],
                   },
                   delay: DELAY,
+                  config: { mass: MASS, tension: TENSION, friction: FRICTION },
               }
             : {
                   from: {
-                      lefCoverRotation: [0, 0, 0] as [number, number, number],
+                      //   lefCoverRotation: [0, 0, 0] as [number, number, number],
+                      lefCoverRotation: [0, 0.2, 0] as [number, number, number],
                       leftCoverPosition: [-0.25, 0, 0.1565] as [number, number, number],
                       leftPagesGroupPosition: [-0.25 + 0.025, 0, 0] as [number, number, number],
-                      rightCoverRotation: [0, 0, 0] as [number, number, number],
+                      //   rightCoverRotation: [0, 0, 0] as [number, number, number],
+                      rightCoverRotation: [0, -2, 0] as [number, number, number],
                       rightCoverPosition: [0.25, 0, 0.1565] as [number, number, number],
                       rightPagesGroupPosition: [0.25 - 0.025, 0, 0] as [number, number, number],
                   },
@@ -94,6 +107,7 @@ export function Book() {
                       rightPagesGroupPosition: [0.25 - 0.0125, 0, 0] as [number, number, number],
                   },
                   immediate: !mounted,
+                  config: { mass: MASS, tension: TENSION, friction: FRICTION },
               }
     );
 
@@ -109,6 +123,7 @@ export function Book() {
                           position: [i === 0 ? 0 : 0.025 * i, 0, 0.2315 + 0.025 * i] as [number, number, number],
                       },
                       delay: DELAY,
+                      config: { mass: MASS, tension: TENSION, friction: FRICTION },
                   }
                 : {
                       from: {
@@ -118,6 +133,7 @@ export function Book() {
                           position: [i === 0 ? 0 : 0.025 * i, 0, 0.094] as [number, number, number],
                       },
                       immediate: !mounted,
+                      config: { mass: MASS, tension: TENSION, friction: FRICTION },
                   },
         [isQuestLogOpen]
     );
@@ -134,6 +150,7 @@ export function Book() {
                           position: [i === 0 ? 0 : 0.025 * -i, 0, 0.2315 + 0.025 * i] as [number, number, number],
                       },
                       delay: DELAY,
+                      config: { mass: MASS, tension: TENSION, friction: FRICTION },
                   }
                 : {
                       from: {
@@ -143,6 +160,7 @@ export function Book() {
                           position: [i === 0 ? 0 : 0.025 * -i, 0, 0.094] as [number, number, number],
                       },
                       immediate: !mounted,
+                      config: { mass: MASS, tension: TENSION, friction: FRICTION },
                   },
         [isQuestLogOpen]
     );
