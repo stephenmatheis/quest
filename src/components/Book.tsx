@@ -1,11 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
-import * as THREE from 'three';
-import { Cover } from './Cover';
-import { Page } from './Page';
-import { Spine } from './Spine';
-import { useWorld } from '@/providers/WorldProvider';
-
 import { useSpring, animated, useSprings } from '@react-spring/three';
+import { useWorld } from '@/providers/WorldProvider';
+import * as THREE from 'three';
+import { Cover } from '@/components/Cover';
+import { Page } from '@/components/Page';
+import { Spine } from '@/components/Spine';
+// import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 
 const PAGES = 10;
 const DELAY = 0;
@@ -170,7 +170,6 @@ export function Book() {
     }, []);
 
     return (
-        // <animated.group ref={bookRef} position={[0, 0, 0]} rotation={[Math.PI / 1.1, Math.PI, Math.PI]}>
         <animated.group ref={bookRef} position={bookPosition} rotation={bookRotation as any}>
             <Spine position={[0, 0, 0]} />
             <Cover ref={leftCoverRef} position={leftCoverPosition} rotation={lefCoverRotation} side="left" />
@@ -212,3 +211,36 @@ export function Book() {
         </animated.group>
     );
 }
+
+// function saveArrayBuffer(buffer: ArrayBuffer, filename: string) {
+//     const blob = new Blob([buffer], { type: 'application/octet-stream' });
+//     const link = document.createElement('a');
+//     link.href = URL.createObjectURL(blob);
+//     link.download = filename;
+//     link.click();
+// }
+
+// function downloadGroupAsGLB(group: THREE.Group, filename = 'scene.glb') {
+//     const exporter = new GLTFExporter();
+
+//     // Options: set binary to true for GLB format
+//     const options = {
+//         binary: true,
+//     };
+
+//     exporter.parse(
+//         group,
+//         // Called when the export completes
+//         function (result) {
+//             if (result instanceof ArrayBuffer) {
+//                 saveArrayBuffer(result, filename);
+//             }
+//         },
+//         // Called when the export encounters an error
+//         function (error) {
+//             console.log('An error happened during export:', error);
+//         },
+//         // Options object
+//         options
+//     );
+// }
