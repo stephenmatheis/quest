@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Grid, useHelper } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, useHelper } from '@react-three/drei';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
 import { Book } from './Book';
@@ -43,32 +43,11 @@ export function AnimatedBook() {
             />
 
             {/* Lights */}
-            <ambientLight intensity={3} />
-            {/* <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={2} castShadow={true} /> */}
-            {/* <hemisphereLight
-                ref={hemiLightRef}
-                position={[0, 2, 5]}
-                intensity={0.75}
-                color="#ffffff"
-                groundColor="brown"
-            /> */}
+            <ambientLight intensity={2.75} />
+            <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={1} castShadow={true} />
 
+            {/* Scene */}
             <Book />
-
-            {/* Helper */}
-            {showHelpers && (
-                <Grid
-                    position={[0, 0, 0]}
-                    cellSize={1}
-                    cellThickness={1}
-                    cellColor="#6f6f6f"
-                    sectionSize={4}
-                    sectionThickness={1}
-                    sectionColor="#000000"
-                    followCamera={false}
-                    infiniteGrid={true}
-                />
-            )}
         </>
     );
 }

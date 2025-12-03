@@ -1,6 +1,6 @@
 import { animated, SpringValue } from '@react-spring/three';
 import { Edges } from '@react-three/drei';
-import type { RefObject } from 'react';
+import { type RefObject } from 'react';
 import * as THREE from 'three';
 
 const COVER_COLOR = 'hsla(21, 25%, 35%, 1.00)';

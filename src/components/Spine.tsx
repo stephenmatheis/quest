@@ -5,7 +5,7 @@ const SECONDARY_COLOR = 'hsla(45, 100%, 50%, 1.00)';
 const SECONDARY_EDGE_COLOR = 'hsla(45, 100%, 41%, 1.00)';
 const PRIMARY_EDGE_COLOR = 'hsla(21, 25%, 30%, 1.00)';
 
-export function Spine({ position, edges = true }: { position: [number, number, number]; edges?: boolean }) {
+export function Spine({ position, edges = false }: { position: [number, number, number]; edges?: boolean }) {
     return (
         <group position={position}>
             <mesh>

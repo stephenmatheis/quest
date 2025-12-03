@@ -37,7 +37,7 @@ export function Page({
             <group position={[offsetX, 0, 0]}>
                 <mesh position={[0, 0, 0]}>
                     <boxGeometry args={[0.95, 1.15, thickness]} />
-                    <meshStandardMaterial color="hsla(35, 100%, 84%, 1.00)" />
+                    {/* <meshStandardMaterial color="hsla(35, 100%, 84%, 1.00)" /> */}
                     <meshStandardMaterial attach="material-0" map={sideTexture} />
                     <meshStandardMaterial attach="material-1" map={sideTexture} />
                     <meshStandardMaterial attach="material-2" map={topTexture} />
@@ -45,7 +45,6 @@ export function Page({
                     <meshStandardMaterial attach="material-4" map={pageTexture} />
                     <meshStandardMaterial attach="material-5" map={pageTexture} />
                     {edges && <Edges linewidth={3} scale={1.001} threshold={15} color="hsla(36, 75%, 30%, 1.00)" />}
-                    {/* <Edges linewidth={1} scale={1.001} threshold={15} color="hsla(45, 30%, 53%, 1.00)" /> */}
                 </mesh>
                 {text && (
                     <Text
