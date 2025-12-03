@@ -43,15 +43,15 @@ export function AnimatedBook() {
             />
 
             {/* Lights */}
-            <ambientLight intensity={0.5} />
-            <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={2} castShadow={true} />
-            <hemisphereLight
+            <ambientLight intensity={3} />
+            {/* <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={2} castShadow={true} /> */}
+            {/* <hemisphereLight
                 ref={hemiLightRef}
                 position={[0, 2, 5]}
                 intensity={0.75}
                 color="#ffffff"
                 groundColor="brown"
-            />
+            /> */}
 
             <Book />
 

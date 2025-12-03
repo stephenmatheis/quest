@@ -16,8 +16,11 @@ const MASS = 2;
 const TENSION = 120;
 const FRICTION = 26;
 
+const TEXT =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
 export function Book() {
-    const { isQuestLogOpen } = useWorld();
+    const { isQuestLogOpen, setIsQuestLogOpen } = useWorld();
     const [mounted, setMounted] = useState<boolean>(false);
     const bookRef = useRef<THREE.Group | null>(null);
     const leftCoverRef = useRef<THREE.Group | null>(null);
@@ -38,14 +41,14 @@ export function Book() {
                   },
                   to: {
                       bookPosition: [0, 0, 0] as [number, number, number],
-                      bookRotation: [-0.325, 0, 0],
+                      bookRotation: [-0.125, 0, 0],
                   },
                   config: { mass: MASS, tension: TENSION, friction: FRICTION },
               }
             : {
                   from: {
                       bookPosition: [0, 0, 0] as [number, number, number],
-                      bookRotation: [-0.325, 0, 0],
+                      bookRotation: [-0.125, 0, 0],
                   },
                   to: {
                       bookPosition: [0, -2, 0] as [number, number, number],
@@ -75,12 +78,10 @@ export function Book() {
                       rightPagesGroupPosition: [0.25 - 0.0125, 0, 0] as [number, number, number],
                   },
                   to: {
-                      //   lefCoverRotation: [0, 0, 0],
-                      lefCoverRotation: [0, 0.2, 0],
+                      lefCoverRotation: [0, 0.1, 0],
                       leftCoverPosition: [-0.25, 0, 0.1565] as [number, number, number],
                       leftPagesGroupPosition: [-0.25 + 0.025, 0, 0] as [number, number, number],
-                      //   rightCoverRotation: [0, 0, 0],
-                      rightCoverRotation: [0, -0.2, 0],
+                      rightCoverRotation: [0, -0.1, 0],
                       rightCoverPosition: [0.25, 0, 0.1565] as [number, number, number],
                       rightPagesGroupPosition: [0.25 - 0.025, 0, 0] as [number, number, number],
                   },
@@ -89,12 +90,10 @@ export function Book() {
               }
             : {
                   from: {
-                      //   lefCoverRotation: [0, 0, 0] as [number, number, number],
-                      lefCoverRotation: [0, 0.2, 0] as [number, number, number],
+                      lefCoverRotation: [0, 0.1, 0] as [number, number, number],
                       leftCoverPosition: [-0.25, 0, 0.1565] as [number, number, number],
                       leftPagesGroupPosition: [-0.25 + 0.025, 0, 0] as [number, number, number],
-                      //   rightCoverRotation: [0, 0, 0] as [number, number, number],
-                      rightCoverRotation: [0, -2, 0] as [number, number, number],
+                      rightCoverRotation: [0, -0.1, 0] as [number, number, number],
                       rightCoverPosition: [0.25, 0, 0.1565] as [number, number, number],
                       rightPagesGroupPosition: [0.25 - 0.025, 0, 0] as [number, number, number],
                   },
@@ -167,6 +166,7 @@ export function Book() {
 
     useEffect(() => {
         setMounted(true);
+        setIsQuestLogOpen(true);
     }, []);
 
     return (
@@ -178,15 +178,16 @@ export function Book() {
                 {leftSprings.map(({ position }, i) => {
                     return (
                         <Page
-                            key={i}
                             ref={(el) => {
                                 leftPageRefs.current![i] = el;
                             }}
+                            key={i}
                             thickness={0.025}
                             position={position}
                             rotation={lefCoverRotation}
                             side="left"
                             edges={false}
+                            text={i === PAGES - 1 ? TEXT : undefined}
                         />
                     );
                 })}
