@@ -48,7 +48,6 @@ export function Page({
                 </mesh>
                 {text && (
                     <Text
-                        // position={[-0.3, 0.45, 0.0126]}
                         anchorY={'top'}
                         anchorX={'left'}
                         maxWidth={0.75}
@@ -58,16 +57,6 @@ export function Page({
                         lineHeight={1.25}
                         color="#623d09"
                         font="fonts/Texturina-VariableFont.ttf"
-                        // maxWidth={0.95}
-                        // position={[-0.475, 0.575, 0.0126]}
-                        // font="fonts/Jacquard24-Regular.ttf"
-                        // clipRect={[500, 500, 500, 500]}
-                        // outlineColor="#623d09"
-                        // color="orange"
-                        // outlineColor="#000000"
-                        // outlineWidth={0.002}
-                        // outlineOffsetX={0.001}
-                        // outlineOffsetY={0.001}
                     >
                         {text}
                     </Text>

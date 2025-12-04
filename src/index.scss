@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quintessential&family=Texturina:ital,opsz,wght@0,12..72,100..900;1,12..72,100..900&display=swap');
+
 #root {
     width: 100vw;
     height: 100vh;
@@ -45,4 +47,16 @@ button {
     &:active {
         outline: none;
     }
+}
+
+.content {
+    font-family: 'Texturina', serif;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 377px;
+    // height: 200px;
+    color: white;
+    padding: 0;
+    background: black;
+    overflow-y: auto;
 }
