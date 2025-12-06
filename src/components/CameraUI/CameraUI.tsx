@@ -11,7 +11,7 @@ export function CameraUI({ off = false }: { off?: boolean }) {
         <div className={styles['camera-ui']}>
             <div className={styles.buttons}>
                 <button
-                    className={`${isCameraLocked ? styles.red : styles.green}`}
+                    // className={`${isCameraLocked ? styles.red : styles.green}`}
                     onClick={(event) => {
                         event.preventDefault();
                         toggleCameraLock();
@@ -20,7 +20,7 @@ export function CameraUI({ off = false }: { off?: boolean }) {
                     Camera {isCameraLocked ? 'Locked' : 'Free'}
                 </button>
                 <button
-                    className={`${showHelpers ? styles.green : styles.red}`}
+                    // className={`${showHelpers ? styles.green : styles.red}`}
                     onClick={(event) => {
                         event.preventDefault();
                         toggleShowHelpers();
@@ -28,7 +28,7 @@ export function CameraUI({ off = false }: { off?: boolean }) {
                 >
                     Helpers {showHelpers ? 'On' : 'Off'}
                 </button>
-                <hr />
+                {/* <hr />
                 <button
                     onClick={(event) => {
                         event.preventDefault();
@@ -60,7 +60,7 @@ export function CameraUI({ off = false }: { off?: boolean }) {
                     }}
                 >
                     Inside Roof
-                </button>
+                </button> */}
             </div>
         </div>
     );
