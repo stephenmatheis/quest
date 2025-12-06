@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
-import { CameraControls, CameraControlsImpl, Edges, Grid, Text3D } from '@react-three/drei';
-import { Shape, Vector3 } from 'three';
-import { CSS2DRenderer } from 'three/addons/renderers/CSS2DRenderer.js';
+import { useEffect, useRef } from 'react';
+import { CameraControls, CameraControlsImpl, Edges, Grid, PivotControls, Text3D } from '@react-three/drei';
+import { Group, Shape, Vector3 } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
+import { useThree } from '@react-three/fiber';
+import { m } from 'motion/react';
 
 const ASPECT_RATIO = 6 / 9;
 const WIDTH = 1;
@@ -11,41 +12,43 @@ const LARGE_FONT_SIZE = 0.1;
 const MEDIUM_FONT_SIZE = 0.09;
 const SMALL_FONT_SIZE = 0.08;
 const TOP_LEFT = new Vector3(LARGE_FONT_SIZE, HEIGHT - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
+const TOP_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE * 2.5, HEIGHT - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
 const BOTTOM_LEFT = new Vector3(LARGE_FONT_SIZE, LARGE_FONT_SIZE / 2, 0);
-const TOP_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE, HEIGHT - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
-
+const BOTTOM_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE * 2.5, LARGE_FONT_SIZE / 2, 0);
+const CENTER = new Vector3(WIDTH / 2 - LARGE_FONT_SIZE / 2, HEIGHT / 2 - LARGE_FONT_SIZE / 2, 0);
 const { ACTION } = CameraControlsImpl;
 
-function createControlShape() {
+function createLeftShape() {
     const shape = new Shape();
 
     const width = WIDTH;
     const height = HEIGHT;
     const bevel = 0.125;
 
-    // Start at bottom-left
     shape.moveTo(0, 0);
-
-    // Bottom side
     shape.lineTo(width - bevel, 0);
-
-    // Bottom-right angled corner
     shape.lineTo(width, bevel);
-
-    // Right side
     shape.lineTo(width, height - bevel);
-
-    // Top-right angled corner → top side
     shape.lineTo(width, height);
-
-    // Top side
     shape.lineTo(bevel, height);
-
-    // Top-left angled corner
     shape.lineTo(0, height - bevel);
 
-    // Left side back to start
-    shape.lineTo(0, 0);
+    return shape;
+}
+
+function createRightShape() {
+    const shape = new Shape();
+
+    const width = WIDTH;
+    const height = HEIGHT;
+    const bevel = 0.125;
+
+    shape.moveTo(bevel, 0);
+    shape.lineTo(0, bevel);
+    shape.lineTo(0, height);
+    shape.lineTo(width - bevel, height);
+    shape.lineTo(width, height - bevel);
+    shape.lineTo(width, 0);
 
     return shape;
 }
@@ -110,15 +113,34 @@ function LightText({ text, position }: { text: string; position: Vector3 }) {
     );
 }
 
-const controls = [
+const leftControls = [
     {
-        position: new Vector3(-0.5, 1, 0),
+        label: '1',
+    },
+    {
+        label: '2',
+    },
+    {
+        label: '3',
+    },
+];
+
+const rightControls = [
+    {
+        label: 'A',
+    },
+    {
+        label: 'B',
+    },
+    {
+        label: 'C',
     },
 ];
 
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
-    const shape = createControlShape();
+    const leftShape = createLeftShape();
+    const rightShape = createRightShape();
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
@@ -126,18 +148,48 @@ export function World() {
         if (!controls) return;
 
         // controls.setLookAt(1, 1.5, 2, 0, 1, 0, false);
+
         controls.setLookAt(0, 2, 12, 0, 2, 0, false);
 
         requestAnimationFrame(() => {
             // controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, true);
             // controls.setLookAt(0, 2.5, 6, 0, 2.5, 0, false);
         });
-
-        // Screen dimensions
-        const css2dRender = new CSS2DRenderer();
-
-        console.log(css2dRender.getSize());
     }, []);
+
+    const leftControlsRef = useRef<Group>(null);
+    const rightControlsRef = useRef<Group>(null);
+    const { size } = useThree();
+
+    const offsetX = 20;
+    const offsetY = 20;
+    const offsetZ = 0;
+
+    // useEffect(() => {
+    //     const leftGroup = leftControlsRef.current;
+    //     const rightGroup = rightControlsRef.current;
+
+    //     if (!leftGroup || !rightGroup) return;
+
+    //     // console.log('size:', size);
+
+    //     function update() {
+    //         // const x = -3.75;
+    //         const x = size.width / 270;
+    //         const y = -0.5;
+    //         const z = 0;
+
+    //         leftGroup?.position.set(-x, y, z);
+    //         leftGroup?.rotation.set(0, 0.25, 0);
+
+    //         rightGroup?.position.set(x - (rightControls.length - .3), y, z);
+    //         rightGroup?.rotation.set(0, -0.25, 0);
+    //     }
+
+    //     update();
+    // }, [size, offsetX, offsetY, offsetZ]);
+
+    const x = 3.3;
 
     return (
         <>
@@ -164,23 +216,51 @@ export function World() {
                 <meshBasicMaterial color="#ff0000" />
             </mesh>
 
-            {/* Controls */}
-            <group position={[0, 0, 0]}>
-                {controls.map(({ position }, index) => {
-                    return (
-                        <group key={index} position={position}>
-                            <mesh>
-                                <shapeGeometry args={[shape]} />
-                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                <Edges linewidth={2} threshold={15} color="#000000" />
-                            </mesh>
-                            <BoldText text="TL" position={TOP_LEFT} />
-                            <RegularText text="BL" position={BOTTOM_LEFT} />
-                            <LightText text="Light Text" position={TOP_RIGHT} />
-                        </group>
-                    );
-                })}
+            {/* Left Controls */}
+            {/* <PivotControls offset={[-0.1 - 0.5, 0, 0]}> */}
+            <group ref={leftControlsRef} position={[-x, 0, 0]} rotation={[0, 0.25, 0]}>
+                <group position={[-x, 0, 0]}>
+                    {leftControls.map(({ label }, index) => {
+                        const x = index > 0 ? index * WIDTH + 0.1 * index : 0;
+                        const y = index * 0.1;
+
+                        return (
+                            <group key={index} position={[x, y, 0]}>
+                                <mesh>
+                                    <shapeGeometry args={[leftShape]} />
+                                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                    <Edges linewidth={2} threshold={15} color="#000000" />
+                                </mesh>
+                                <BoldText text={label} position={CENTER} />
+                            </group>
+                        );
+                    })}
+                </group>
             </group>
+            {/* </PivotControls> */}
+
+            {/* Right Controls */}
+            {/* <PivotControls offset={[0.1 + 0.5, 0, 0]}> */}
+            <group ref={rightControlsRef} position={[0, 0, 0]} rotation={[0, -0.25, 0]}>
+                <group position={[0, 0, 0]}>
+                    {rightControls.map(({ label }, index) => {
+                        const x = index > 0 ? index * WIDTH + 0.1 * index : 0;
+                        const y = (rightControls.length - 1 - index) * 0.1;
+
+                        return (
+                            <group key={index} position={[x, y, 0]}>
+                                <mesh>
+                                    <shapeGeometry args={[rightShape]} />
+                                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                    <Edges linewidth={2} threshold={15} color="#000000" />
+                                </mesh>
+                                <BoldText text={label} position={CENTER} />
+                            </group>
+                        );
+                    })}
+                </group>
+            </group>
+            {/* </PivotControls> */}
 
             <Grid
                 position={[0, 0, 0]}
