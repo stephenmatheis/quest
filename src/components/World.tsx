@@ -1,19 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Edges, Grid, Text3D } from '@react-three/drei';
-import { Group, Shape, Vector3 } from 'three';
+import { CameraControls, CameraControlsImpl, Edges, Grid } from '@react-three/drei';
+import { Group, Shape } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
+import { Label } from './Label';
 
 const ASPECT_RATIO = 6 / 9;
 const WIDTH = 0.75;
 const HEIGHT = ASPECT_RATIO * WIDTH;
-const LARGE_FONT_SIZE = 0.1;
-const MEDIUM_FONT_SIZE = 0.09;
-const SMALL_FONT_SIZE = 0.08;
-const TOP_LEFT = new Vector3(LARGE_FONT_SIZE, HEIGHT - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
-const TOP_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE * 2.5, HEIGHT - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
-const BOTTOM_LEFT = new Vector3(LARGE_FONT_SIZE, LARGE_FONT_SIZE / 2, 0);
-const BOTTOM_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE * 2.5, LARGE_FONT_SIZE / 2, 0);
-const CENTER = new Vector3(WIDTH / 2 - LARGE_FONT_SIZE / 2, HEIGHT / 2 - LARGE_FONT_SIZE / 2, 0);
 
 const { ACTION } = CameraControlsImpl;
 
@@ -126,38 +119,10 @@ function createRightShape() {
     return shape;
 }
 
-function BoldText({ text, position }: { text: string; position: Vector3 }) {
-    return (
-        <Text3D position={position} height={0.01} size={LARGE_FONT_SIZE} font="/fonts/Mono_Bold.json">
-            {text}
-            <meshBasicMaterial color="#000000" />
-        </Text3D>
-    );
-}
-
-function RegularText({ text, position }: { text: string; position: Vector3 }) {
-    return (
-        <Text3D position={position} height={0.01} size={MEDIUM_FONT_SIZE} font="/fonts/Mono_Regular.json">
-            {text}
-            <meshBasicMaterial color="#000000" />
-        </Text3D>
-    );
-}
-
-function LightText({ text, position }: { text: string; position: Vector3 }) {
-    return (
-        <Text3D position={position} height={0.01} size={SMALL_FONT_SIZE} font="/fonts/Mono_Light.json">
-            {text}
-            <meshBasicMaterial color="#000000" />
-        </Text3D>
-    );
-}
-
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
     const leftShape = createLeftShape();
     const rightShape = createRightShape();
-
     const gapY = WIDTH / 10;
     const gapX = WIDTH / 10;
     const controlYMultiplier = 2;
@@ -219,7 +184,9 @@ export function World() {
                                             <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
                                             <Edges linewidth={2} threshold={15} color="#000000" />
                                         </mesh>
-                                        <BoldText text={label} position={CENTER} />
+                                        <Label position="center" size="large" weight="bold">
+                                            {label}
+                                        </Label>
                                     </group>
                                 );
                             })}
@@ -243,7 +210,9 @@ export function World() {
                                             <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
                                             <Edges linewidth={2} threshold={15} color="#000000" />
                                         </mesh>
-                                        <BoldText text={label} position={CENTER} />
+                                        <Label position="center" size="large" weight="bold">
+                                            {label}
+                                        </Label>
                                     </group>
                                 );
                             })}
