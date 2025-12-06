@@ -4,7 +4,7 @@ import { Group, Shape, Vector3 } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
 
 const ASPECT_RATIO = 6 / 9;
-const WIDTH = 1;
+const WIDTH = 0.75;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const LARGE_FONT_SIZE = 0.1;
 const MEDIUM_FONT_SIZE = 0.09;
@@ -14,7 +14,82 @@ const TOP_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE * 2.5, HEIGHT - LARGE_FONT
 const BOTTOM_LEFT = new Vector3(LARGE_FONT_SIZE, LARGE_FONT_SIZE / 2, 0);
 const BOTTOM_RIGHT = new Vector3(WIDTH - LARGE_FONT_SIZE * 2.5, LARGE_FONT_SIZE / 2, 0);
 const CENTER = new Vector3(WIDTH / 2 - LARGE_FONT_SIZE / 2, HEIGHT / 2 - LARGE_FONT_SIZE / 2, 0);
+
 const { ACTION } = CameraControlsImpl;
+
+const leftControls = [
+    {
+        group: '1',
+        items: [
+            {
+                label: '1',
+            },
+            {
+                label: '2',
+            },
+            {
+                label: '3',
+            },
+            {
+                label: '4',
+            },
+        ],
+    },
+    {
+        group: '2',
+        items: [
+            {
+                label: '5',
+            },
+            {
+                label: '6',
+            },
+            {
+                label: '7',
+            },
+            {
+                label: '8',
+            },
+        ],
+    },
+];
+
+const rightControls = [
+    {
+        group: 'A',
+        items: [
+            {
+                label: 'A',
+            },
+            {
+                label: 'B',
+            },
+            {
+                label: 'C',
+            },
+            {
+                label: 'D',
+            },
+        ],
+    },
+    {
+        group: 'B',
+        items: [
+            {
+                label: 'E',
+            },
+            {
+                label: 'F',
+            },
+            {
+                label: 'G',
+            },
+            {
+                label: 'H',
+            },
+        ],
+    },
+];
 
 function createLeftShape() {
     const shape = new Shape();
@@ -78,79 +153,20 @@ function LightText({ text, position }: { text: string; position: Vector3 }) {
     );
 }
 
-const leftControls = [
-    {
-        group: '1',
-        items: [
-            {
-                label: '1',
-            },
-            {
-                label: '2',
-            },
-            {
-                label: '3',
-            },
-        ],
-    },
-    {
-        group: '2',
-        items: [
-            {
-                label: '4',
-            },
-            {
-                label: '5',
-            },
-            {
-                label: '6',
-            },
-        ],
-    },
-];
-
-const rightControls = [
-    {
-        group: 'A',
-        items: [
-            {
-                label: 'A',
-            },
-            {
-                label: 'B',
-            },
-            {
-                label: 'C',
-            },
-        ],
-    },
-    {
-        group: 'B',
-        items: [
-            {
-                label: 'D',
-            },
-            {
-                label: 'E',
-            },
-            {
-                label: 'F',
-            },
-        ],
-    },
-];
-
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
     const leftShape = createLeftShape();
     const rightShape = createRightShape();
 
-    const GAP = 0.1;
+    const gapY = WIDTH / 10;
+    const gapX = WIDTH / 10;
+    const controlYMultiplier = 2;
     const controls = leftControls[0].items.length;
-    const LEFT_X = controls * WIDTH + GAP * (controls - 1);
-    const OFFSET_X = 0.3;
-
-    console.log(LEFT_X);
+    const posX = controls * WIDTH + gapX * (controls - 1);
+    const offsetX = 0.25;
+    const rotX = 0.25;
+    const rotY = 0.25;
+    const rotZ = 0.125;
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
@@ -188,13 +204,13 @@ export function World() {
                 <meshBasicMaterial color="#ff0000" />
             </mesh>
 
-            <group ref={leftControlsRef} position={[-OFFSET_X, 0, 0]} rotation={[-0.25, 0.25, 0.125]}>
+            <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
                 {leftControls.map(({ items }, index) => {
                     return (
-                        <group key={index} position={[-LEFT_X, (HEIGHT + GAP) * index, 0]}>
+                        <group key={index} position={[-posX, (HEIGHT + gapY) * index, 0]}>
                             {items.map(({ label }, index) => {
-                                const x = index > 0 ? index * WIDTH + GAP * index : 0;
-                                const y = index * GAP;
+                                const x = index > 0 ? index * WIDTH + gapX * index : 0;
+                                const y = index * (gapY * controlYMultiplier);
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
@@ -212,13 +228,13 @@ export function World() {
                 })}
             </group>
 
-            <group ref={rightControlsRef} position={[OFFSET_X, 0, 0]} rotation={[-0.25, -0.25, -0.125]}>
+            <group ref={rightControlsRef} position={[offsetX, 0, 0]} rotation={[-rotX, -rotY, -rotZ]}>
                 {rightControls.map(({ items }, index) => {
                     return (
-                        <group key={index} position={[0, (HEIGHT + GAP) * index, 0]}>
+                        <group key={index} position={[0, (HEIGHT + gapY) * index, 0]}>
                             {items.map(({ label }, index) => {
-                                const x = index > 0 ? index * WIDTH + GAP * index : 0;
-                                const y = (rightControls.length - index) * GAP;
+                                const x = index > 0 ? index * WIDTH + gapX * index : 0;
+                                const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
