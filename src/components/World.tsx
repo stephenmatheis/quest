@@ -196,19 +196,25 @@ export function World() {
                     const z = i * -3;
 
                     return (
-                        <Line
-                            key={i}
-                            points={[
-                                [0, 0, z],
-                                [-0.5, 0, z],
-                                [-1, 0.5, z],
-                                [-1, 3, z],
-                                [-0.5, 3.5, z],
-                                [0, 3.5, z],
-                            ]}
-                            color="black"
-                            lineWidth={2}
-                        />
+                        <group key={i}>
+                            <Line
+                                points={[
+                                    [0, 0, z],
+                                    [-0.5, 0, z],
+                                    [-1, 0.5, z],
+                                    [-1, 3, z],
+                                    [-0.5, 3.5, z],
+                                    [0, 3.5, z],
+                                ]}
+                                color="black"
+                                lineWidth={2}
+                            />
+
+                            <mesh position={[-.25, 3.5 + 0.2, z]}>
+                                <boxGeometry args={[.5, 0.1, 0.1]} />
+                                <meshBasicMaterial color="#000000" />
+                            </mesh>
+                        </group>
                     );
                 })}
             </group>
