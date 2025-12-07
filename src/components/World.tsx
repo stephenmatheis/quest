@@ -137,6 +137,7 @@ export function World() {
     const rotX = 0.25;
     const rotY = 0.25;
     const rotZ = 0.125;
+    const ringSize = 2.75;
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
@@ -144,7 +145,8 @@ export function World() {
         if (!controls) return;
 
         // controls.setLookAt(0, 2, 12, 0, 2, 0, false);
-        controls.setLookAt(0, 4, 12, 0, 2, 0, false);
+        // controls.setLookAt(0, 4, 12, 0, 2, 0, false);
+        controls.setLookAt(5, 4, 20, 0, 2, 0, false);
     }, []);
 
     const leftControlsRef = useRef<Group>(null);
@@ -170,10 +172,23 @@ export function World() {
 
             <ambientLight intensity={5} />
 
+            {/* Center */}
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.125]} />
                 <meshBasicMaterial color="#ff0000" />
             </mesh>
+
+            <group position={[0, ringSize, -1]}>
+                <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
+                    <torusGeometry args={[ringSize, 0.01, 24, 256, Math.PI * 2 - 1]} />
+                    <meshBasicMaterial color="#000000" side={2} />
+                </mesh>
+
+                <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
+                    <torusGeometry args={[2, 0.01, 24, 256, Math.PI * 2 - 1]} />
+                    <meshBasicMaterial color="#000000" side={2} />
+                </mesh>
+            </group>
 
             {/* Left Ribs */}
             <group position={[-RIB_X, 1, -2]}>
