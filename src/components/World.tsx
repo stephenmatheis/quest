@@ -227,6 +227,31 @@ export function World() {
                 <meshBasicMaterial color="#ff0000" />
             </mesh>
 
+            {/* Plotter */}
+            <group position={[-10, 2, 0]}>
+                {/* Horizontal */}
+                <Line
+                    points={[
+                        [0, 0, 0],
+                        [20, 0, 0],
+                    ]}
+                    color="#ff0000"
+                    lineWidth={2}
+                />
+
+                {/* Vertical */}
+                <Line
+                    position={[10, -10, 0]}
+                    points={[
+                        [0, 0, 0],
+                        [0, 20, 0],
+                    ]}
+                    color="#ff0000"
+                    lineWidth={2}
+                />
+            </group>
+
+            {/* Ring */}
             <group position={[0, ringSize, -1]}>
                 <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
                     <torusGeometry args={[ringSize, 0.01, 24, 256, Math.PI * 2 - 1]} />
