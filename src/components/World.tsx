@@ -124,10 +124,26 @@ function createRightShape() {
     return shape;
 }
 
+function createRect(width: number, height: number) {
+    const shape = new Shape();
+    const bevel = 0;
+
+    shape.moveTo(bevel, 0);
+    shape.lineTo(0, bevel);
+    shape.lineTo(0, height);
+    shape.lineTo(width - bevel, height);
+    shape.lineTo(width, height - bevel);
+    shape.lineTo(width, 0);
+
+    return shape;
+}
+
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
     const leftShape = createLeftShape();
     const rightShape = createRightShape();
+    const leftRect = createRect(WIDTH, 0.3);
+    const leftTopRect = createRect(WIDTH + 0.2, 0.2);
     const gapY = WIDTH / 10;
     const gapX = WIDTH / 10;
     const controlYMultiplier = 2;
@@ -190,6 +206,49 @@ export function World() {
                 </mesh>
             </group>
 
+            {/* Left Rib Top Box */}
+            <group position={[-RIB_X - 2.75, 3.75, -2]}>
+                <mesh position={[0, 0, 0]}>
+                    <shapeGeometry args={[leftTopRect]} />
+                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                    <Edges linewidth={2} threshold={15} color="#000000" />
+                </mesh>
+            </group>
+
+            {/* Left Rib Boxes */}
+            <group position={[-RIB_X - 3.75, 3.2, -2]}>
+                {Array.from({ length: 4 }).map((_, i) => {
+                    const y = i * -0.5;
+
+                    return (
+                        <mesh key={i} position={[0, y, 0]}>
+                            <shapeGeometry args={[leftRect]} />
+                            <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                            <Edges linewidth={2} threshold={15} color="#000000" />
+                        </mesh>
+                    );
+                })}
+            </group>
+
+            {/* Left Rib Lines */}
+            <group position={[-RIB_X - 2, 3.5, -2]}>
+                {Array.from({ length: 7 }).map((_, i) => {
+                    const y = i * -0.3;
+
+                    return (
+                        <Line
+                            key={i}
+                            points={[
+                                [0, y, 0],
+                                [-0.5, y, 0],
+                            ]}
+                            color="#000000"
+                            lineWidth={2}
+                        />
+                    );
+                })}
+            </group>
+
             {/* Left Ribs */}
             <group position={[-RIB_X, 1, -2]}>
                 {Array.from({ length: 7 }).map((_, i) => {
@@ -206,12 +265,12 @@ export function World() {
                                     [-0.5, 3.5, z],
                                     [0, 3.5, z],
                                 ]}
-                                color="black"
+                                color="#000000"
                                 lineWidth={2}
                             />
 
-                            <mesh position={[-.25, 3.5 + 0.2, z]}>
-                                <boxGeometry args={[.5, 0.1, 0.1]} />
+                            <mesh position={[-0.25, 3.5 + 0.2, z]}>
+                                <boxGeometry args={[0.5, 0.1, 0.1]} />
                                 <meshBasicMaterial color="#000000" />
                             </mesh>
                         </group>
@@ -237,7 +296,7 @@ export function World() {
                                 [x + 0.5, y + 3.5, z],
                                 [x + 0, y + 3.5, z],
                             ]}
-                            color="black"
+                            color="#000000"
                             lineWidth={2}
                         />
                     );
