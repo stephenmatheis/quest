@@ -163,7 +163,7 @@ function RightReadout() {
 
             {/* Line 4 */}
             <Text3D position={[0, -1.05, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                crest 2035 ///
+                sgnl 2035 ///
                 <meshBasicMaterial color="#000000" />
             </Text3D>
         </group>
