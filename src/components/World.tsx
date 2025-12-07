@@ -170,6 +170,21 @@ function RightReadout() {
     );
 }
 
+function CenterReadout() {
+    return (
+        <group position={[-2, 6.25, -1]}>
+            <Line
+                points={[
+                    [0, 0, 0],
+                    [4, 0, 0],
+                ]}
+                color="#0000ff"
+                lineWidth={2}
+            />
+        </group>
+    );
+}
+
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
     const leftShape = createLeftShape();
@@ -264,7 +279,11 @@ export function World() {
                 </mesh>
             </group>
 
+            {/* Right Readout */}
             <RightReadout />
+
+            {/* Center Readout */}
+            <CenterReadout />
 
             {/* Top Left Readout */}
             <group position={[-6.5, 6, -1]}>
