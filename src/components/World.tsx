@@ -138,13 +138,44 @@ function createRect(width: number, height: number) {
     return shape;
 }
 
+function RightReadout() {
+    const fontSize = 0.14;
+
+    return (
+        <group position={[4.5, 6.4, -1]}>
+            {/* Line 1 */}
+            <Text3D position={[0, 0, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
+                connected to SC 10.1
+                <meshBasicMaterial color="#000000" />
+            </Text3D>
+
+            {/* Line 2 */}
+            <Text3D position={[0, -0.35, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
+                std 4301.056.92.6
+                <meshBasicMaterial color="#000000" />
+            </Text3D>
+
+            {/* Line 3 */}
+            <Text3D position={[0, -0.7, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
+                x 231 y 492 z 69
+                <meshBasicMaterial color="#000000" />
+            </Text3D>
+
+            {/* Line 4 */}
+            <Text3D position={[0, -1.05, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
+                crest 2035 ///
+                <meshBasicMaterial color="#000000" />
+            </Text3D>
+        </group>
+    );
+}
+
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
     const leftShape = createLeftShape();
     const rightShape = createRightShape();
     const leftRect = createRect(WIDTH, 0.3);
     const leftTopRect = createRect(WIDTH + 0.2, 0.2);
-    const readoutShape = createRect(2.75, 1.75);
     const gapY = WIDTH / 10;
     const gapX = WIDTH / 10;
     const controlYMultiplier = 2;
@@ -161,10 +192,10 @@ export function World() {
 
         if (!controls) return;
 
-        // controls.setLookAt(0, 2, 12, 0, 2, 0, false);
-        // controls.setLookAt(0, 4, 12, 0, 2, 0, false);
-        // controls.setLookAt(5, 4, 20, 0, 2, 0, false);
+        // default (straight on)
         controls.setLookAt(0, 2, 20, 0, 2, 0, false);
+
+        // controls.setLookAt(0, 3, 21, 0, 2, 0, false);
     }, []);
 
     const leftControlsRef = useRef<Group>(null);
@@ -207,6 +238,8 @@ export function World() {
                     <meshBasicMaterial color="#000000" side={2} />
                 </mesh>
             </group>
+
+            <RightReadout />
 
             {/* Top Left Readout */}
             <group position={[-6.5, 6, -1]}>
@@ -314,68 +347,71 @@ export function World() {
                 })}
             </group>
 
-            {/* Left Controls */}
-            <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
-                {leftControls.map(({ items }, index) => {
-                    return (
-                        <group key={index} position={[-posX, (HEIGHT + gapY) * index, 0]}>
-                            {items.map(({ label }, index) => {
-                                const x = index > 0 ? index * WIDTH + gapX * index : 0;
-                                const y = index * (gapY * controlYMultiplier);
+            {/* Controls */}
+            <group position={[0, 0, 8.2]}>
+                {/* Left  */}
+                <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
+                    {leftControls.map(({ items }, index) => {
+                        return (
+                            <group key={index} position={[-posX, (HEIGHT + gapY) * index, 0]}>
+                                {items.map(({ label }, index) => {
+                                    const x = index > 0 ? index * WIDTH + gapX * index : 0;
+                                    const y = index * (gapY * controlYMultiplier);
 
-                                return (
-                                    <group key={index} position={[x, y, 0]}>
-                                        <Control
-                                            width={WIDTH}
-                                            height={HEIGHT}
-                                            label={
-                                                <Label position="center" size="large" weight="bold">
-                                                    {label}
-                                                </Label>
-                                            }
-                                        >
-                                            <shapeGeometry args={[leftShape]} />
-                                            <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                            <Edges linewidth={2} threshold={15} color="#000000" />
-                                        </Control>
-                                    </group>
-                                );
-                            })}
-                        </group>
-                    );
-                })}
-            </group>
+                                    return (
+                                        <group key={index} position={[x, y, 0]}>
+                                            <Control
+                                                width={WIDTH}
+                                                height={HEIGHT}
+                                                label={
+                                                    <Label position="center" size="large" weight="bold">
+                                                        {label}
+                                                    </Label>
+                                                }
+                                            >
+                                                <shapeGeometry args={[leftShape]} />
+                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                            </Control>
+                                        </group>
+                                    );
+                                })}
+                            </group>
+                        );
+                    })}
+                </group>
 
-            {/* Right Controls */}
-            <group ref={rightControlsRef} position={[offsetX, 0, 0]} rotation={[-rotX, -rotY, -rotZ]}>
-                {rightControls.map(({ items }, index) => {
-                    return (
-                        <group key={index} position={[0, (HEIGHT + gapY) * index, 0]}>
-                            {items.map(({ label }, index) => {
-                                const x = index > 0 ? index * WIDTH + gapX * index : 0;
-                                const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
+                {/* Right  */}
+                <group ref={rightControlsRef} position={[offsetX, 0, 0]} rotation={[-rotX, -rotY, -rotZ]}>
+                    {rightControls.map(({ items }, index) => {
+                        return (
+                            <group key={index} position={[0, (HEIGHT + gapY) * index, 0]}>
+                                {items.map(({ label }, index) => {
+                                    const x = index > 0 ? index * WIDTH + gapX * index : 0;
+                                    const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
 
-                                return (
-                                    <group key={index} position={[x, y, 0]}>
-                                        <Control
-                                            width={WIDTH}
-                                            height={HEIGHT}
-                                            label={
-                                                <Label position="center" size="large" weight="bold">
-                                                    {label}
-                                                </Label>
-                                            }
-                                        >
-                                            <shapeGeometry args={[rightShape]} />
-                                            <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                            <Edges linewidth={2} threshold={15} color="#000000" />
-                                        </Control>
-                                    </group>
-                                );
-                            })}
-                        </group>
-                    );
-                })}
+                                    return (
+                                        <group key={index} position={[x, y, 0]}>
+                                            <Control
+                                                width={WIDTH}
+                                                height={HEIGHT}
+                                                label={
+                                                    <Label position="center" size="large" weight="bold">
+                                                        {label}
+                                                    </Label>
+                                                }
+                                            >
+                                                <shapeGeometry args={[rightShape]} />
+                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                            </Control>
+                                        </group>
+                                    );
+                                })}
+                            </group>
+                        );
+                    })}
+                </group>
             </group>
 
             <Grid
