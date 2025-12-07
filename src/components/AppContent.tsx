@@ -1,8 +1,8 @@
 import { Canvas } from '@react-three/fiber';
 // import { useWorld } from '@/providers/WorldProvider';
 // import { AnimatedBook } from '@/components/AnimatedBook';
-import { UI } from '@/components/UI';
-import { CameraUI } from '@/components/CameraUI';
+// import { UI } from '@/components/UI';
+// import { CameraUI } from '@/components/CameraUI';
 import { World } from './World';
 
 export function AppContent() {
@@ -25,8 +25,8 @@ export function AppContent() {
             >
                 <AnimatedBook />
             </Canvas> */}
-            <UI />
-            <CameraUI />
+            {/* <UI /> */}
+            {/* <CameraUI /> */}
         </>
     );
 }
