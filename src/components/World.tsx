@@ -162,7 +162,8 @@ export function World() {
 
         // controls.setLookAt(0, 2, 12, 0, 2, 0, false);
         // controls.setLookAt(0, 4, 12, 0, 2, 0, false);
-        controls.setLookAt(5, 4, 20, 0, 2, 0, false);
+        // controls.setLookAt(5, 4, 20, 0, 2, 0, false);
+        controls.setLookAt(0, 4, 20, 0, 2, 0, false);
     }, []);
 
     const leftControlsRef = useRef<Group>(null);
