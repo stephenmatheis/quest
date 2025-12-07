@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Edges, Grid, Line } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Edges, Grid, Line, Text3D } from '@react-three/drei';
 import { Group, Shape } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { Label } from './Label';
@@ -144,6 +144,7 @@ export function World() {
     const rightShape = createRightShape();
     const leftRect = createRect(WIDTH, 0.3);
     const leftTopRect = createRect(WIDTH + 0.2, 0.2);
+    const readoutShape = createRect(2.75, 1.75);
     const gapY = WIDTH / 10;
     const gapX = WIDTH / 10;
     const controlYMultiplier = 2;
@@ -163,7 +164,7 @@ export function World() {
         // controls.setLookAt(0, 2, 12, 0, 2, 0, false);
         // controls.setLookAt(0, 4, 12, 0, 2, 0, false);
         // controls.setLookAt(5, 4, 20, 0, 2, 0, false);
-        controls.setLookAt(0, 4, 20, 0, 2, 0, false);
+        controls.setLookAt(0, 2, 20, 0, 2, 0, false);
     }, []);
 
     const leftControlsRef = useRef<Group>(null);
@@ -205,6 +206,15 @@ export function World() {
                     <torusGeometry args={[2, 0.01, 24, 256, Math.PI * 2 - 1]} />
                     <meshBasicMaterial color="#000000" side={2} />
                 </mesh>
+            </group>
+
+            {/* Top Left Readout */}
+            <group position={[-6.5, 6, -1]}>
+                <Text3D position={[0, 0, 0]} height={0.001} size={0.5} font={`/fonts/Mono_Bold.json`}>
+                    GRID 00
+                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                    <Edges linewidth={2} threshold={15} color="#000000" />
+                </Text3D>
             </group>
 
             {/* Left Rib Top Box */}
