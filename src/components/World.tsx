@@ -1,13 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { CameraControls, CameraControlsImpl, Edges, Grid } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Edges, Grid, Line } from '@react-three/drei';
 import { Group, Shape } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { Label } from './Label';
 import { Control } from './Control';
 
+// Controls
 const ASPECT_RATIO = 6 / 9;
 const WIDTH = 0.75;
 const HEIGHT = ASPECT_RATIO * WIDTH;
+
+// Ribs
+const RIB_X = 3;
 
 const { ACTION } = CameraControlsImpl;
 
@@ -139,7 +143,8 @@ export function World() {
 
         if (!controls) return;
 
-        controls.setLookAt(0, 2, 12, 0, 2, 0, false);
+        // controls.setLookAt(0, 2, 12, 0, 2, 0, false);
+        controls.setLookAt(0, 4, 12, 0, 2, 0, false);
     }, []);
 
     const leftControlsRef = useRef<Group>(null);
@@ -170,6 +175,55 @@ export function World() {
                 <meshBasicMaterial color="#ff0000" />
             </mesh>
 
+            {/* Left Ribs */}
+            <group position={[-RIB_X, 1, -2]}>
+                {Array.from({ length: 7 }).map((_, i) => {
+                    const z = i * -3;
+
+                    return (
+                        <Line
+                            key={i}
+                            points={[
+                                [0, 0, z],
+                                [-0.5, 0, z],
+                                [-1, 0.5, z],
+                                [-1, 3, z],
+                                [-0.5, 3.5, z],
+                                [0, 3.5, z],
+                            ]}
+                            color="black"
+                            lineWidth={2}
+                        />
+                    );
+                })}
+            </group>
+
+            {/* Right Ribs */}
+            <group position={[RIB_X, 1, -2]}>
+                {Array.from({ length: 7 }).map((_, i) => {
+                    const x = 0;
+                    const y = 0;
+                    const z = i * -3;
+
+                    return (
+                        <Line
+                            key={i}
+                            points={[
+                                [x + 0, y + 0, z],
+                                [x + 0.5, y + 0, z],
+                                [x + 1, y + 0.5, z],
+                                [x + 1, y + 3, z],
+                                [x + 0.5, y + 3.5, z],
+                                [x + 0, y + 3.5, z],
+                            ]}
+                            color="black"
+                            lineWidth={2}
+                        />
+                    );
+                })}
+            </group>
+
+            {/* Left Controls */}
             <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
                 {leftControls.map(({ items }, index) => {
                     return (
@@ -201,6 +255,7 @@ export function World() {
                 })}
             </group>
 
+            {/* Right Controls */}
             <group ref={rightControlsRef} position={[offsetX, 0, 0]} rotation={[-rotX, -rotY, -rotZ]}>
                 {rightControls.map(({ items }, index) => {
                     return (
