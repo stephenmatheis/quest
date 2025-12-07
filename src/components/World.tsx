@@ -3,6 +3,7 @@ import { CameraControls, CameraControlsImpl, Edges, Grid } from '@react-three/dr
 import { Group, Shape } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { Label } from './Label';
+import { Control } from './Control';
 
 const ASPECT_RATIO = 6 / 9;
 const WIDTH = 0.75;
@@ -179,14 +180,19 @@ export function World() {
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
-                                        <mesh>
+                                        <Control
+                                            width={WIDTH}
+                                            height={HEIGHT}
+                                            label={
+                                                <Label position="center" size="large" weight="bold">
+                                                    {label}
+                                                </Label>
+                                            }
+                                        >
                                             <shapeGeometry args={[leftShape]} />
                                             <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
                                             <Edges linewidth={2} threshold={15} color="#000000" />
-                                        </mesh>
-                                        <Label position="center" size="large" weight="bold">
-                                            {label}
-                                        </Label>
+                                        </Control>
                                     </group>
                                 );
                             })}
@@ -205,14 +211,19 @@ export function World() {
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
-                                        <mesh>
+                                        <Control
+                                            width={WIDTH}
+                                            height={HEIGHT}
+                                            label={
+                                                <Label position="center" size="large" weight="bold">
+                                                    {label}
+                                                </Label>
+                                            }
+                                        >
                                             <shapeGeometry args={[rightShape]} />
                                             <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
                                             <Edges linewidth={2} threshold={15} color="#000000" />
-                                        </mesh>
-                                        <Label position="center" size="large" weight="bold">
-                                            {label}
-                                        </Label>
+                                        </Control>
                                     </group>
                                 );
                             })}
