@@ -6,12 +6,18 @@ import { Control } from '@/components/Control';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
 
+const ASPECT_RATIO = 6 / 9;
+const WIDTH = 0.75;
+const HEIGHT = ASPECT_RATIO * WIDTH;
+
 type ControlsProps = {
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
 };
 
-export function Controls({ width, height }: ControlsProps) {
+export function FreeControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
+    const leftControlsRef = useRef<Group>(null);
+    const rightControlsRef = useRef<Group>(null);
     const leftShape = createLeftShape(width, height);
     const rightShape = createRightShape(width, height);
     const gapY = width / 10;
@@ -23,9 +29,6 @@ export function Controls({ width, height }: ControlsProps) {
     const rotX = 0.25;
     const rotY = 0.25;
     const rotZ = 0.125;
-
-    const leftControlsRef = useRef<Group>(null);
-    const rightControlsRef = useRef<Group>(null);
 
     return (
         <group position={[0, 0, 8.2]}>
