@@ -1,13 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { CameraControls, CameraControlsImpl, Edges, Grid, Line, Text3D } from '@react-three/drei';
-import { Group } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
-import { Label } from '@/components/Label';
-import { Control } from '@/components/Control';
-import { createLeftShape, createRightShape, createRect } from '@/utils/shapes';
-import { leftControls, rightControls } from '@/data/controls';
 import { RightReadout } from '@/components/RightReadout';
 import { CenterReadout } from '@/components/CenterReadout';
+import { Controls } from '@/components/Controls';
+import { createRect } from '@/utils/shapes';
 
 // Controls
 const ASPECT_RATIO = 6 / 9;
@@ -21,19 +18,8 @@ const { ACTION } = CameraControlsImpl;
 
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
-    const leftShape = createLeftShape(WIDTH, HEIGHT);
-    const rightShape = createRightShape(WIDTH, HEIGHT);
     const leftRect = createRect(WIDTH, 0.3);
     const leftTopRect = createRect(WIDTH + 0.2, 0.2);
-    const gapY = WIDTH / 10;
-    const gapX = WIDTH / 10;
-    const controlYMultiplier = 2;
-    const controls = leftControls[0].items.length;
-    const posX = controls * WIDTH + gapX * (controls - 1);
-    const offsetX = 0.25;
-    const rotX = 0.25;
-    const rotY = 0.25;
-    const rotZ = 0.125;
     const ringSize = 2.75;
 
     useEffect(() => {
@@ -46,9 +32,6 @@ export function World() {
 
         // controls.setLookAt(0, 3, 21, 0, 2, 0, false);
     }, []);
-
-    const leftControlsRef = useRef<Group>(null);
-    const rightControlsRef = useRef<Group>(null);
 
     return (
         <>
@@ -226,71 +209,7 @@ export function World() {
             </group>
 
             {/* Controls */}
-            <group position={[0, 0, 8.2]}>
-                {/* Left  */}
-                <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
-                    {leftControls.map(({ items }, index) => {
-                        return (
-                            <group key={index} position={[-posX, (HEIGHT + gapY) * index, 0]}>
-                                {items.map(({ label }, index) => {
-                                    const x = index > 0 ? index * WIDTH + gapX * index : 0;
-                                    const y = index * (gapY * controlYMultiplier);
-
-                                    return (
-                                        <group key={index} position={[x, y, 0]}>
-                                            <Control
-                                                width={WIDTH}
-                                                height={HEIGHT}
-                                                label={
-                                                    <Label position="center" size="large" weight="bold">
-                                                        {label}
-                                                    </Label>
-                                                }
-                                            >
-                                                <shapeGeometry args={[leftShape]} />
-                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                                <Edges linewidth={2} threshold={15} color="#000000" />
-                                            </Control>
-                                        </group>
-                                    );
-                                })}
-                            </group>
-                        );
-                    })}
-                </group>
-
-                {/* Right  */}
-                <group ref={rightControlsRef} position={[offsetX, 0, 0]} rotation={[-rotX, -rotY, -rotZ]}>
-                    {rightControls.map(({ items }, index) => {
-                        return (
-                            <group key={index} position={[0, (HEIGHT + gapY) * index, 0]}>
-                                {items.map(({ label }, index) => {
-                                    const x = index > 0 ? index * WIDTH + gapX * index : 0;
-                                    const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
-
-                                    return (
-                                        <group key={index} position={[x, y, 0]}>
-                                            <Control
-                                                width={WIDTH}
-                                                height={HEIGHT}
-                                                label={
-                                                    <Label position="center" size="large" weight="bold">
-                                                        {label}
-                                                    </Label>
-                                                }
-                                            >
-                                                <shapeGeometry args={[rightShape]} />
-                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                                <Edges linewidth={2} threshold={15} color="#000000" />
-                                            </Control>
-                                        </group>
-                                    );
-                                })}
-                            </group>
-                        );
-                    })}
-                </group>
-            </group>
+            <Controls width={WIDTH} height={HEIGHT} />
 
             <Grid
                 position={[0, 0, 0]}
