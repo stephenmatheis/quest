@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
-import { CameraControls, CameraControlsImpl, Grid, Line } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Grid } from '@react-three/drei';
 import { useCameraControls } from '@/providers/CameraProvider';
-import { RightReadout } from '@/components/RightReadout';
-import { CenterReadout } from '@/components/CenterReadout';
-import { Controls } from '@/components/Controls';
-import { Ribs } from './Ribs';
 import { LeftReadout } from '@/components/LeftReadout';
+import { CenterReadout } from '@/components/CenterReadout';
+import { RightReadout } from '@/components/RightReadout';
+import { Ribs } from '@/components/Ribs';
+import { Ring } from '@/components/Ring';
+import { Controls } from '@/components/Controls';
+import { Plotter } from '@/components/Plotter';
 
 const ASPECT_RATIO = 6 / 9;
 const WIDTH = 0.75;
@@ -52,43 +54,9 @@ export function World() {
                 <meshBasicMaterial color="#ff0000" />
             </mesh>
 
-            {/* Plotter */}
-            <group position={[-10, 2, 0]}>
-                {/* Horizontal */}
-                <Line
-                    points={[
-                        [0, 0, 0],
-                        [20, 0, 0],
-                    ]}
-                    color="#ff0000"
-                    lineWidth={2}
-                />
+            <Plotter />
 
-                {/* Vertical */}
-                <Line
-                    position={[10, -10, 0]}
-                    points={[
-                        [0, 0, 0],
-                        [0, 20, 0],
-                    ]}
-                    color="#ff0000"
-                    lineWidth={2}
-                />
-            </group>
-
-            {/* Ring */}
-            <group position={[0, ringSize, -1]}>
-                <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
-                    <torusGeometry args={[ringSize, 0.01, 24, 256, Math.PI * 2 - 1]} />
-                    <meshBasicMaterial color="#000000" side={2} />
-                </mesh>
-
-                <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
-                    <torusGeometry args={[2, 0.01, 24, 256, Math.PI * 2 - 1]} />
-                    <meshBasicMaterial color="#000000" side={2} />
-                </mesh>
-            </group>
-
+            <Ring size={ringSize} />
             <LeftReadout />
             <CenterReadout />
             <RightReadout />
