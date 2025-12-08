@@ -1,18 +1,15 @@
 import { useEffect } from 'react';
-import { CameraControls, CameraControlsImpl, Edges, Grid, Line, Text3D } from '@react-three/drei';
+import { CameraControls, CameraControlsImpl, Grid, Line } from '@react-three/drei';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { RightReadout } from '@/components/RightReadout';
 import { CenterReadout } from '@/components/CenterReadout';
 import { Controls } from '@/components/Controls';
 import { Ribs } from './Ribs';
+import { LeftReadout } from '@/components/LeftReadout';
 
-// Controls
 const ASPECT_RATIO = 6 / 9;
 const WIDTH = 0.75;
 const HEIGHT = ASPECT_RATIO * WIDTH;
-
-// Ribs
-const RIB_X = 3;
 
 const { ACTION } = CameraControlsImpl;
 
@@ -27,8 +24,6 @@ export function World() {
 
         // default (straight on)
         controls.setLookAt(0, 2, 20, 0, 2, 0, false);
-
-        // controls.setLookAt(0, 3, 21, 0, 2, 0, false);
     }, []);
 
     return (
@@ -94,22 +89,10 @@ export function World() {
                 </mesh>
             </group>
 
-            {/* Right Readout */}
-            <RightReadout />
-
-            {/* Center Readout */}
+            <LeftReadout />
             <CenterReadout />
-
-            {/* Top Left Readout */}
-            <group position={[-6.5, 6, -1]}>
-                <Text3D position={[0, 0, 0]} height={0.001} size={0.5} font={`/fonts/Mono_Bold.json`}>
-                    GRID 00
-                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-                    <Edges linewidth={2} threshold={15} color="#000000" />
-                </Text3D>
-            </group>
-
-            <Ribs width={WIDTH} x={RIB_X} />
+            <RightReadout />
+            <Ribs width={WIDTH} x={3} />
             <Controls width={WIDTH} height={HEIGHT} />
 
             <Grid
