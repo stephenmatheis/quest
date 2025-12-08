@@ -13,14 +13,12 @@ const WIDTH = 0.75;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
 export function World() {
-    const ringSize = 2.75;
-
     return (
         <>
             <Cam />
             <ambientLight intensity={5} />
             <Plotter />
-            <Ring size={ringSize} />
+            <Ring size={2.75} />
             <LeftReadout />
             <CenterReadout />
             <RightReadout />
