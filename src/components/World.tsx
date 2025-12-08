@@ -1,9 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { CameraControls, CameraControlsImpl, Edges, Grid, Line, Text3D } from '@react-three/drei';
-import { Group, Shape } from 'three';
+import { Group } from 'three';
 import { useCameraControls } from '@/providers/CameraProvider';
-import { Label } from './Label';
-import { Control } from './Control';
+import { Label } from '@/components/Label';
+import { Control } from '@/components/Control';
+import { createLeftShape, createRightShape, createRect } from '@/utils/shapes';
+import { leftControls, rightControls } from '@/data/controls';
+import { RightReadout } from '@/components/RightReadout';
+import { CenterReadout } from '@/components/CenterReadout';
 
 // Controls
 const ASPECT_RATIO = 6 / 9;
@@ -15,180 +19,10 @@ const RIB_X = 3;
 
 const { ACTION } = CameraControlsImpl;
 
-const leftControls = [
-    {
-        group: '1',
-        items: [
-            {
-                label: '1',
-            },
-            {
-                label: '2',
-            },
-            {
-                label: '3',
-            },
-            {
-                label: '4',
-            },
-        ],
-    },
-    {
-        group: '2',
-        items: [
-            {
-                label: '5',
-            },
-            {
-                label: '6',
-            },
-            {
-                label: '7',
-            },
-            {
-                label: '8',
-            },
-        ],
-    },
-];
-
-const rightControls = [
-    {
-        group: 'A',
-        items: [
-            {
-                label: 'A',
-            },
-            {
-                label: 'B',
-            },
-            {
-                label: 'C',
-            },
-            {
-                label: 'D',
-            },
-        ],
-    },
-    {
-        group: 'B',
-        items: [
-            {
-                label: 'E',
-            },
-            {
-                label: 'F',
-            },
-            {
-                label: 'G',
-            },
-            {
-                label: 'H',
-            },
-        ],
-    },
-];
-
-function createLeftShape() {
-    const shape = new Shape();
-
-    const width = WIDTH;
-    const height = HEIGHT;
-    const bevel = 0.125;
-
-    shape.moveTo(0, 0);
-    shape.lineTo(width - bevel, 0);
-    shape.lineTo(width, bevel);
-    shape.lineTo(width, height - bevel);
-    shape.lineTo(width, height);
-    shape.lineTo(bevel, height);
-    shape.lineTo(0, height - bevel);
-
-    return shape;
-}
-
-function createRightShape() {
-    const shape = new Shape();
-
-    const width = WIDTH;
-    const height = HEIGHT;
-    const bevel = 0.125;
-
-    shape.moveTo(bevel, 0);
-    shape.lineTo(0, bevel);
-    shape.lineTo(0, height);
-    shape.lineTo(width - bevel, height);
-    shape.lineTo(width, height - bevel);
-    shape.lineTo(width, 0);
-
-    return shape;
-}
-
-function createRect(width: number, height: number) {
-    const shape = new Shape();
-    const bevel = 0;
-
-    shape.moveTo(bevel, 0);
-    shape.lineTo(0, bevel);
-    shape.lineTo(0, height);
-    shape.lineTo(width - bevel, height);
-    shape.lineTo(width, height - bevel);
-    shape.lineTo(width, 0);
-
-    return shape;
-}
-
-function RightReadout() {
-    const fontSize = 0.14;
-
-    return (
-        <group position={[4.5, 6.4, -1]}>
-            {/* Line 1 */}
-            <Text3D position={[0, 0, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                connected to SC 10.1
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-
-            {/* Line 2 */}
-            <Text3D position={[0, -0.35, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                std 4301.056.92.6
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-
-            {/* Line 3 */}
-            <Text3D position={[0, -0.7, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                x 231 y 492 z 69
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-
-            {/* Line 4 */}
-            <Text3D position={[0, -1.05, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                sgnl 2035 ///
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-        </group>
-    );
-}
-
-function CenterReadout() {
-    return (
-        <group position={[-2, 6.25, -1]}>
-            <Line
-                points={[
-                    [0, 0, 0],
-                    [4, 0, 0],
-                ]}
-                color="#0000ff"
-                lineWidth={2}
-            />
-        </group>
-    );
-}
-
 export function World() {
     const { cameraControlsRef, isCameraLocked } = useCameraControls();
-    const leftShape = createLeftShape();
-    const rightShape = createRightShape();
+    const leftShape = createLeftShape(WIDTH, HEIGHT);
+    const rightShape = createRightShape(WIDTH, HEIGHT);
     const leftRect = createRect(WIDTH, 0.3);
     const leftTopRect = createRect(WIDTH + 0.2, 0.2);
     const gapY = WIDTH / 10;
