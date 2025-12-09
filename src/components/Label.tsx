@@ -23,22 +23,27 @@ type LabelProps = {
     weight: 'light' | 'regular' | 'bold';
     size: 'small' | 'medium' | 'large';
     position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
+    letterCount?: number;
     width: number;
     height: number;
 };
 
-export function Label({ children, weight, size, position, width, height }: LabelProps) {
+export function Label({ children, weight, size, position, letterCount = 1, width, height }: LabelProps) {
     const TOP_LEFT = new Vector3(LARGE_FONT_SIZE, height - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
     const TOP_RIGHT = new Vector3(width - LARGE_FONT_SIZE * 2.5, height - LARGE_FONT_SIZE - LARGE_FONT_SIZE / 2, 0);
-    const BOTTOM_LEFT = new Vector3(LARGE_FONT_SIZE, LARGE_FONT_SIZE / 2, 0);
-    const BOTTOM_RIGHT = new Vector3(width - LARGE_FONT_SIZE * 2.5, LARGE_FONT_SIZE / 2, 0);
+    const BOTTOM_LEFT = new Vector3(0.03 * (letterCount / 2), LARGE_FONT_SIZE / 2, 0);
+    const BOTTOM_RIGHT = new Vector3(0.03 * (letterCount / 2), LARGE_FONT_SIZE / 2, 0);
     const CENTER = new Vector3(width / 2 - LARGE_FONT_SIZE / 2, height / 2 - LARGE_FONT_SIZE / 2, 0);
+    const CENTER_LEFT = new Vector3(0.02 * (letterCount / 2), height / 2 - LARGE_FONT_SIZE / 2, 0);
+    const CENTER_RIGHT = new Vector3(0.035 * (letterCount / 2), height / 2 - LARGE_FONT_SIZE / 2, 0);
 
     const positions = {
         'top-left': TOP_LEFT,
         'top-right': TOP_RIGHT,
         'bottom-left': BOTTOM_LEFT,
         'bottom-right': BOTTOM_RIGHT,
+        'center-left': CENTER_LEFT,
+        'center-right': CENTER_RIGHT,
         center: CENTER,
     };
 

@@ -3,6 +3,11 @@ export const leftControls = [
         group: 1,
         items: [
             {
+                label: 'tab',
+                onKey: 'TAB',
+                position: 'bottom-left',
+            },
+            {
                 label: 'Q',
                 onKey: 'Q',
             },
@@ -28,6 +33,11 @@ export const leftControls = [
         group: 2,
         items: [
             {
+                label: 'lock',
+                onKey: 'CAPSLOCK',
+                position: 'bottom-left',
+            },
+            {
                 label: 'A',
                 onKey: 'A',
             },
@@ -52,6 +62,11 @@ export const leftControls = [
     {
         group: 3,
         items: [
+            {
+                label: 'shift',
+                onKey: 'SHIFT',
+                position: 'bottom-left',
+            },
             {
                 label: 'Z',
                 onKey: 'Z',
@@ -100,6 +115,10 @@ export const rightControls = [
                 label: 'P',
                 onKey: 'P',
             },
+            {
+                label: '[',
+                onKey: '[',
+            },
         ],
     },
     {
@@ -125,6 +144,10 @@ export const rightControls = [
                 label: ';',
                 onKey: ';',
             },
+            {
+                label: "'",
+                onKey: "'",
+            },
         ],
     },
     {
@@ -149,6 +172,11 @@ export const rightControls = [
             {
                 label: '/',
                 onKey: '/',
+            },
+            {
+                label: 'enter',
+                onKey: 'ENTER',
+                position: 'bottom-right',
             },
         ],
     },
