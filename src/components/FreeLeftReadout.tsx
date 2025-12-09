@@ -1,6 +1,6 @@
 import { Edges, Text3D } from '@react-three/drei';
 
-export function LeftReadout() {
+export function FreeLeftReadout() {
     return (
         <group position={[-6.5, 6, -1]}>
             <Text3D position={[0, 0, 0]} height={0.001} size={0.5} font={`/fonts/Mono_Bold.json`}>
