@@ -37,7 +37,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                 {leftControls.map(({ items }, index) => {
                     return (
                         <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                            {items.map(({ label }, index) => {
+                            {items.map(({ label, onKey }, index) => {
                                 const x = index > 0 ? index * width + gapX * index : 0;
                                 const y = index * (gapY * controlYMultiplier);
 
@@ -46,6 +46,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                         <Control
                                             width={width}
                                             height={height}
+                                            onKey={onKey}
                                             label={
                                                 <Label position="center" size="large" weight="bold">
                                                     {label}
@@ -69,7 +70,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                 {rightControls.map(({ items }, index) => {
                     return (
                         <group key={index} position={[0, (height + gapY) * index, 0]}>
-                            {items.map(({ label }, index) => {
+                            {items.map(({ label, onKey }, index) => {
                                 const x = index > 0 ? index * width + gapX * index : 0;
                                 const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
 
@@ -78,6 +79,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                         <Control
                                             width={width}
                                             height={height}
+                                            onKey={onKey}
                                             label={
                                                 <Label position="center" size="large" weight="bold">
                                                     {label}

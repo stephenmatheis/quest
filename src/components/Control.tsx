@@ -1,5 +1,5 @@
 import { animated, useSpring } from '@react-spring/three';
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const MASS = 2;
 const TENSION = 360;
@@ -10,11 +10,13 @@ export function Control({
     width,
     height,
     label,
+    onKey,
 }: {
     children: ReactNode;
     width: number;
     height: number;
     label: ReactNode;
+    onKey?: string;
 }) {
     const [isOver, setIsOver] = useState<boolean>(false);
     const springs = useSpring({
@@ -32,6 +34,32 @@ export function Control({
     function handleOut() {
         setIsOver(false);
     }
+
+    useEffect(() => {
+        function onKeydown(event: KeyboardEvent) {
+            console.log(event.key);
+
+            if (event.key.toUpperCase() === onKey) {
+                setIsOver(true);
+            }
+        }
+
+        function onKeyup(event: KeyboardEvent) {
+            console.log(event.key);
+
+            if (event.key.toUpperCase() === onKey) {
+                setIsOver(false);
+            }
+        }
+
+        window.addEventListener('keydown', onKeydown);
+        window.addEventListener('keyup', onKeyup);
+
+        return () => {
+            window.removeEventListener('keydown', onKeydown);
+            window.removeEventListener('keyup', onKeyup);
+        };
+    }, []);
 
     return (
         <>
