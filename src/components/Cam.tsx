@@ -13,7 +13,9 @@ export function Cam() {
         if (!controls) return;
 
         // default (straight on)
-        controls.setLookAt(0, 2, 20, 0, 2, 0, false);
+        // controls.setLookAt(0, 2, 20, 0, 2, 0, false);
+
+        controls.setLookAt(0, 7, 28, 0, 0, 0, false);
     }, []);
 
     return (

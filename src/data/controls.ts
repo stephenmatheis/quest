@@ -1,76 +1,43 @@
 export const leftControls = [
     {
-        group: '1',
+        group: 1,
         items: [
             {
-                label: '1',
-                onKey: '1',
+                label: 'Q',
+                onKey: 'Q',
             },
             {
-                label: '2',
-                onKey: '2',
+                label: 'W',
+                onKey: 'W',
             },
             {
-                label: '3',
-                onKey: '3',
+                label: 'E',
+                onKey: 'E',
             },
             {
-                label: '4',
-                onKey: '4',
+                label: 'R',
+                onKey: 'R',
+            },
+            {
+                label: 'T',
+                onKey: 'T',
             },
         ],
     },
     {
-        group: '2',
-        items: [
-            {
-                label: '5',
-                onKey: '5',
-            },
-            {
-                label: '6',
-                onKey: '6',
-            },
-            {
-                label: '7',
-                onKey: '7',
-            },
-            {
-                label: '8',
-                onKey: '8',
-            },
-        ],
-    },
-];
-
-export const rightControls = [
-    {
-        group: 'A',
+        group: 2,
         items: [
             {
                 label: 'A',
                 onKey: 'A',
             },
             {
-                label: 'B',
-                onKey: 'B',
-            },
-            {
-                label: 'C',
-                onKey: 'C',
+                label: 'S',
+                onKey: 'S',
             },
             {
                 label: 'D',
                 onKey: 'D',
-            },
-        ],
-    },
-    {
-        group: 'B',
-        items: [
-            {
-                label: 'E',
-                onKey: 'E',
             },
             {
                 label: 'F',
@@ -80,9 +47,108 @@ export const rightControls = [
                 label: 'G',
                 onKey: 'G',
             },
+        ],
+    },
+    {
+        group: 3,
+        items: [
+            {
+                label: 'Z',
+                onKey: 'Z',
+            },
+            {
+                label: 'X',
+                onKey: 'X',
+            },
+            {
+                label: 'C',
+                onKey: 'C',
+            },
+            {
+                label: 'V',
+                onKey: 'V',
+            },
+            {
+                label: 'B',
+                onKey: 'B',
+            },
+        ],
+    },
+];
+
+export const rightControls = [
+    {
+        group: 1,
+        items: [
+            {
+                label: 'Y',
+                onKey: 'Y',
+            },
+            {
+                label: 'U',
+                onKey: 'U',
+            },
+            {
+                label: 'I',
+                onKey: 'I',
+            },
+            {
+                label: 'O',
+                onKey: 'O',
+            },
+            {
+                label: 'P',
+                onKey: 'P',
+            },
+        ],
+    },
+    {
+        group: 2,
+        items: [
             {
                 label: 'H',
                 onKey: 'H',
+            },
+            {
+                label: 'J',
+                onKey: 'J',
+            },
+            {
+                label: 'K',
+                onKey: 'K',
+            },
+            {
+                label: 'L',
+                onKey: 'L',
+            },
+            {
+                label: ';',
+                onKey: ';',
+            },
+        ],
+    },
+    {
+        group: 3,
+        items: [
+            {
+                label: 'N',
+                onKey: 'N',
+            },
+            {
+                label: 'M',
+                onKey: 'M',
+            },
+            {
+                label: ',',
+                onKey: ',',
+            },
+            {
+                label: '.',
+                onKey: '.',
+            },
+            {
+                label: '/',
+                onKey: '/',
             },
         ],
     },

@@ -6,8 +6,10 @@ import { Control } from '@/components/Control';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
 
-const ASPECT_RATIO = 6 / 9;
-const WIDTH = 0.75;
+// const ASPECT_RATIO = 6 / 9;
+// const WIDTH = 0.75;
+const ASPECT_RATIO = 6 / 7;
+const WIDTH = 0.5;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
 type ControlsProps = {
@@ -34,68 +36,84 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
         <group position={[0, 0, 0]}>
             {/* Left  */}
             <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
-                {leftControls.map(({ items }, index) => {
-                    return (
-                        <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                            {items.map(({ label, onKey }, index) => {
-                                const x = index > 0 ? index * width + gapX * index : 0;
-                                const y = index * (gapY * controlYMultiplier);
+                {leftControls
+                    .sort((a, b) => b.group - a.group)
+                    .map(({ items }, index) => {
+                        return (
+                            <group key={index} position={[-posX, (height + gapY) * index, 0]}>
+                                {items.map(({ label, onKey }, index) => {
+                                    const x = index > 0 ? index * width + gapX * index : 0;
+                                    const y = index * (gapY * controlYMultiplier);
 
-                                return (
-                                    <group key={index} position={[x, y, 0]}>
-                                        <Control
-                                            width={width}
-                                            height={height}
-                                            onKey={onKey}
-                                            label={
-                                                <Label position="center" size="large" weight="bold">
-                                                    {label}
-                                                </Label>
-                                            }
-                                        >
-                                            <shapeGeometry args={[leftShape]} />
-                                            <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                            <Edges linewidth={2} threshold={15} color="#000000" />
-                                        </Control>
-                                    </group>
-                                );
-                            })}
-                        </group>
-                    );
-                })}
+                                    return (
+                                        <group key={index} position={[x, y, 0]}>
+                                            <Control
+                                                width={width}
+                                                height={height}
+                                                onKey={onKey}
+                                                label={
+                                                    <Label
+                                                        position="center"
+                                                        size="large"
+                                                        weight="regular"
+                                                        width={WIDTH}
+                                                        height={HEIGHT}
+                                                    >
+                                                        {label}
+                                                    </Label>
+                                                }
+                                            >
+                                                <shapeGeometry args={[leftShape]} />
+                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                            </Control>
+                                        </group>
+                                    );
+                                })}
+                            </group>
+                        );
+                    })}
             </group>
 
             {/* Right  */}
             <group ref={rightControlsRef} position={[offsetX, 0, 0]} rotation={[-rotX, -rotY, -rotZ]}>
-                {rightControls.map(({ items }, index) => {
-                    return (
-                        <group key={index} position={[0, (height + gapY) * index, 0]}>
-                            {items.map(({ label, onKey }, index) => {
-                                const x = index > 0 ? index * width + gapX * index : 0;
-                                const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
+                {rightControls
+                    .sort((a, b) => b.group - a.group)
+                    .map(({ items }, index) => {
+                        return (
+                            <group key={index} position={[0, (height + gapY) * index, 0]}>
+                                {items.map(({ label, onKey }, index) => {
+                                    const x = index > 0 ? index * width + gapX * index : 0;
+                                    const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
 
-                                return (
-                                    <group key={index} position={[x, y, 0]}>
-                                        <Control
-                                            width={width}
-                                            height={height}
-                                            onKey={onKey}
-                                            label={
-                                                <Label position="center" size="large" weight="bold">
-                                                    {label}
-                                                </Label>
-                                            }
-                                        >
-                                            <shapeGeometry args={[rightShape]} />
-                                            <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
-                                            <Edges linewidth={2} threshold={15} color="#000000" />
-                                        </Control>
-                                    </group>
-                                );
-                            })}
-                        </group>
-                    );
-                })}
+                                    return (
+                                        <group key={index} position={[x, y, 0]}>
+                                            <Control
+                                                width={width}
+                                                height={height}
+                                                onKey={onKey}
+                                                label={
+                                                    <Label
+                                                        position="center"
+                                                        size="large"
+                                                        weight="regular"
+                                                        width={WIDTH + 0.05} // I don't know why adding this offset center's text for right controls
+                                                        height={HEIGHT}
+                                                    >
+                                                        {label}
+                                                    </Label>
+                                                }
+                                            >
+                                                <shapeGeometry args={[rightShape]} />
+                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                            </Control>
+                                        </group>
+                                    );
+                                })}
+                            </group>
+                        );
+                    })}
             </group>
         </group>
     );
