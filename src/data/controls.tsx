@@ -1,3 +1,5 @@
+import { ExtrudedSvg } from '@/components/ExtrudedSvg';
+
 export const leftControls = [
     {
         group: 0,
@@ -429,19 +431,19 @@ export const rightControls = [
                 code: 'AltRight',
             },
             {
-                label: 'left',
+                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />,
                 code: 'ArrowLeft',
             },
             {
-                label: 'up',
+                label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
                 code: 'ArrowUp',
             },
             {
-                label: 'down',
+                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
                 code: 'ArrowDown',
             },
             {
-                label: 'right',
+                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / -2]} />,
                 code: 'ArrowRight',
             },
         ],

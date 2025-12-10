@@ -3,8 +3,9 @@ import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { createBeveledShape } from '@/utils/shapes';
+import { ExtrudedSvg } from './ExtrudedSvg';
 
-const ASPECT_RATIO = 6/6;
+const ASPECT_RATIO = 6 / 6;
 const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 'small';
@@ -30,13 +31,21 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         group: 0,
                         items: [
                             {
-                                label: 'hi',
+                                label: (
+                                    <>
+                                        <ExtrudedSvg src="/svg/arrow-up.svg" />
+                                    </>
+                                ),
                                 action() {
                                     console.log('hi');
                                 },
                             },
                             {
-                                label: 'bye',
+                                label: (
+                                    <>
+                                        <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />
+                                    </>
+                                ),
                                 action() {
                                     console.log('bye');
                                 },
