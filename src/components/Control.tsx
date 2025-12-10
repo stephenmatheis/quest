@@ -40,6 +40,8 @@ export function Control({
             // event.stopPropagation();
             // event.preventDefault();
 
+            console.log(event.code);
+
             if (event.code === code) {
                 setIsOver(true);
             }

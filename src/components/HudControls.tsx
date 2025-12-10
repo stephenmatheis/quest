@@ -29,7 +29,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const controlYMultiplier = 2;
     const controls = leftControls[0].items.length;
     const posX = controls * width + gapX * (controls - 1);
-    const offsetX = 0.15;
+    const offsetX = 0.2;
 
     // concave
     // const posY = -HEIGHT;
@@ -44,10 +44,16 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     // const rotZ = 0.05;
 
     // straight on
-    const posY = -HEIGHT;
+    // const rotX = 0.7;
+    // const rotY = -0.15;
+    // const rotZ = 0.025;
+    // const posY = -HEIGHT * (1 - rotX);
+
+    // none
     const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
+    const posY = -.5;
 
     return (
         <group position={[0, posY, 0]}>

@@ -1,6 +1,80 @@
 export const leftControls = [
     {
+        group: 0,
+        items: [
+            {
+                label: 'esc',
+                code: 'Escape',
+            },
+            {
+                label: 'F1',
+                code: 'F1',
+            },
+            {
+                label: 'F2',
+                code: 'F2',
+            },
+            {
+                label: 'F3',
+                code: 'F3',
+            },
+            {
+                label: 'F4',
+                code: 'F4',
+            },
+            {
+                label: 'F5',
+                code: 'F5',
+            },
+            {
+                label: 'F6',
+                code: 'F6',
+            },
+            {
+                label: 'F7',
+                code: 'F7',
+            },
+        ],
+    },
+    {
         group: 1,
+        items: [
+            {
+                label: '`',
+                code: 'Backquote',
+            },
+            {
+                label: '1',
+                code: 'Digit1',
+            },
+            {
+                label: '2',
+                code: 'Digit2',
+            },
+            {
+                label: '3',
+                code: 'Digit3',
+            },
+            {
+                label: '4',
+                code: 'Digit4',
+            },
+            {
+                label: '5',
+                code: 'Digit5',
+            },
+            {
+                label: '6',
+                code: 'Digit6',
+            },
+            {
+                label: '7',
+                code: 'Digit7',
+            },
+        ],
+    },
+    {
+        group: 2,
         items: [
             {
                 label: 'tab',
@@ -37,7 +111,7 @@ export const leftControls = [
         ],
     },
     {
-        group: 2,
+        group: 3,
         items: [
             {
                 label: 'lock',
@@ -74,7 +148,7 @@ export const leftControls = [
         ],
     },
     {
-        group: 3,
+        group: 4,
         items: [
             {
                 label: 'shift',
@@ -111,7 +185,7 @@ export const leftControls = [
         ],
     },
     {
-        group: 4,
+        group: 5,
         items: [
             {
                 label: 'ctl',
@@ -152,7 +226,81 @@ export const leftControls = [
 
 export const rightControls = [
     {
+        group: 0,
+        items: [
+            {
+                label: 'F8',
+                code: 'F8',
+            },
+            {
+                label: 'F9',
+                code: 'F9',
+            },
+            {
+                label: 'F10',
+                code: 'F10',
+            },
+            {
+                label: 'F11',
+                code: 'F11',
+            },
+            {
+                label: 'F12',
+                code: 'F12',
+            },
+            {
+                label: '?',
+                code: '',
+            },
+            {
+                label: '?',
+                code: '',
+            },
+            {
+                label: '?',
+                code: '',
+            },
+        ],
+    },
+    {
         group: 1,
+        items: [
+            {
+                label: '8',
+                code: 'Digit8',
+            },
+            {
+                label: '9',
+                code: 'Digit9',
+            },
+            {
+                label: '0',
+                code: 'Digit0',
+            },
+            {
+                label: '-',
+                code: 'Minus',
+            },
+            {
+                label: '=',
+                code: 'Equal',
+            },
+            {
+                label: 'dlt',
+                code: 'Backspace',
+            },
+            {
+                label: 'dlt',
+                code: 'Backspace',
+            },
+            {
+                label: 'dlt',
+                code: 'Backspace',
+            },
+        ],
+    },
+    {
+        group: 2,
         items: [
             {
                 label: 'Y',
@@ -189,7 +337,7 @@ export const rightControls = [
         ],
     },
     {
-        group: 2,
+        group: 3,
         items: [
             {
                 label: 'H',
@@ -213,7 +361,7 @@ export const rightControls = [
             },
             {
                 label: "'",
-                code: "Quote",
+                code: 'Quote',
             },
             {
                 label: 'enter',
@@ -226,7 +374,7 @@ export const rightControls = [
         ],
     },
     {
-        group: 3,
+        group: 4,
         items: [
             {
                 label: 'N',
@@ -263,7 +411,7 @@ export const rightControls = [
         ],
     },
     {
-        group: 4,
+        group: 5,
         items: [
             {
                 label: 'spc',
