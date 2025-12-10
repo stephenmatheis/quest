@@ -27,9 +27,7 @@ export function Tool({
         controlClickZ: isPointerDown ? -0.1 : 0,
         labelClickY: isPointerDown ? -0.1 : 0,
         labelClickZ: isPointerDown ? 0 : 0.1,
-        controlHoverY: isOver ? 0.05 : 0,
         controlHoverZ: isOver ? 0.05 : 0,
-        labelHoverY: isOver ? 0.05 : 0,
         labelHoverZ: isOver ? 0.15 : 0.1,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
@@ -53,7 +51,7 @@ export function Tool({
     return (
         <>
             <group position={[0, 0, 0]}>
-                <animated.mesh raycast={() => {}} position-y={springs.controlHoverY} position-z={springs.controlHoverZ}>
+                <animated.mesh raycast={() => {}} position-z={springs.controlHoverZ}>
                     <animated.mesh
                         raycast={() => {}}
                         position-y={springs.controlClickY}
@@ -74,7 +72,7 @@ export function Tool({
                     <animated.meshBasicMaterial visible={false} />
                 </mesh>
             </group>
-            <animated.group position={[0, 0, 0.1]} position-y={springs.labelHoverY} position-z={springs.labelHoverZ}>
+            <animated.group position={[0, 0, 0.1]} position-z={springs.labelHoverZ}>
                 <Center position={[width / 2 + 0.025, height / 2 - 0.0125, 0]}>
                     <animated.mesh position-y={springs.labelClickY} position-z={springs.labelClickZ}>
                         {label}
