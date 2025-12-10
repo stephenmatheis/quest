@@ -44,12 +44,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 label: (
                                     <animated.group rotation={rotation as any} position={[0, 0, 0]}>
                                         <group position={[-0.1, 0.1, 0]}>
-                                            {/* tiny Z lift so it renders on top of button */}
-                                            <ExtrudedSvg
-                                                src="/svg/arrow-up.svg"
-                                                // your arrow
-                                                position={[0, 0, 0]} // force origin to center
-                                            />
+                                            <ExtrudedSvg src="/svg/arrow-up.svg" />
                                         </group>
                                     </animated.group>
                                 ),
