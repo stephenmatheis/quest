@@ -5,6 +5,7 @@ import { Label } from '@/components/Label';
 import { Control } from '@/components/Control';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
+import { ControlPlaceholder } from './ControlPlaceholder';
 
 // const ASPECT_RATIO = 6 / 9;
 // const WIDTH = 0.75;
@@ -78,6 +79,18 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                     const x = index > 0 ? index * width + gapX * index : 0;
                                     const y = index * (gapY * controlYMultiplier);
 
+                                    if (code === '') {
+                                        return (
+                                            <group key={index} position={[x, y, 0]}>
+                                                <ControlPlaceholder width={width} height={height}>
+                                                    <shapeGeometry args={[leftShape]} />
+                                                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                                                    {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
+                                                </ControlPlaceholder>
+                                            </group>
+                                        );
+                                    }
+
                                     return (
                                         <group key={index} position={[x, y, 0]}>
                                             <Control
@@ -85,14 +98,16 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                                 height={height}
                                                 code={code}
                                                 label={
-                                                    <Label
-                                                        size={FONT_SIZE}
-                                                        weight={WEiGHT}
-                                                        width={WIDTH}
-                                                        height={HEIGHT}
-                                                    >
-                                                        {label}
-                                                    </Label>
+                                                    label && (
+                                                        <Label
+                                                            size={FONT_SIZE}
+                                                            weight={WEiGHT}
+                                                            width={WIDTH}
+                                                            height={HEIGHT}
+                                                        >
+                                                            {label}
+                                                        </Label>
+                                                    )
                                                 }
                                             >
                                                 <shapeGeometry args={[leftShape]} />
@@ -118,6 +133,18 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                     const x = index > 0 ? index * width + gapX * index : 0;
                                     const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
 
+                                    if (code === '') {
+                                        return (
+                                            <group key={index} position={[x, y, 0]}>
+                                                <ControlPlaceholder width={width} height={height}>
+                                                    <shapeGeometry args={[leftShape]} />
+                                                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                                                    {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
+                                                </ControlPlaceholder>
+                                            </group>
+                                        );
+                                    }
+
                                     return (
                                         <group key={index} position={[x, y, 0]}>
                                             <Control
@@ -125,14 +152,16 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                                 height={height}
                                                 code={code}
                                                 label={
-                                                    <Label
-                                                        size={FONT_SIZE}
-                                                        weight={WEiGHT}
-                                                        width={WIDTH}
-                                                        height={HEIGHT}
-                                                    >
-                                                        {label}
-                                                    </Label>
+                                                    label && (
+                                                        <Label
+                                                            size={FONT_SIZE}
+                                                            weight={WEiGHT}
+                                                            width={WIDTH}
+                                                            height={HEIGHT}
+                                                        >
+                                                            {label}
+                                                        </Label>
+                                                    )
                                                 }
                                             >
                                                 <shapeGeometry args={[rightShape]} />

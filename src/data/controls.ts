@@ -3,6 +3,14 @@ export const leftControls = [
         group: 0,
         items: [
             {
+                label: '',
+                code: '',
+            },
+            {
+                label: '',
+                code: '',
+            },
+            {
                 label: 'esc',
                 code: 'Escape',
             },
@@ -26,19 +34,19 @@ export const leftControls = [
                 label: 'F5',
                 code: 'F5',
             },
-            {
-                label: 'F6',
-                code: 'F6',
-            },
-            {
-                label: 'F7',
-                code: 'F7',
-            },
         ],
     },
     {
         group: 1,
         items: [
+            {
+                label: '',
+                code: '',
+            },
+            {
+                label: '',
+                code: '',
+            },
             {
                 label: '`',
                 code: 'Backquote',
@@ -63,26 +71,18 @@ export const leftControls = [
                 label: '5',
                 code: 'Digit5',
             },
-            {
-                label: '6',
-                code: 'Digit6',
-            },
-            {
-                label: '7',
-                code: 'Digit7',
-            },
         ],
     },
     {
         group: 2,
         items: [
             {
-                label: 'tab',
-                code: 'Tab',
+                label: '',
+                code: '',
             },
             {
-                label: 'tab',
-                code: 'Tab',
+                label: '',
+                code: '',
             },
             {
                 label: 'tab',
@@ -114,12 +114,12 @@ export const leftControls = [
         group: 3,
         items: [
             {
-                label: 'lock',
-                code: 'CapsLock',
+                label: '',
+                code: '',
             },
             {
-                label: 'lock',
-                code: 'CapsLock',
+                label: '',
+                code: '',
             },
             {
                 label: 'lock',
@@ -151,12 +151,12 @@ export const leftControls = [
         group: 4,
         items: [
             {
-                label: 'shift',
-                code: 'ShiftLeft',
+                label: '',
+                code: '',
             },
             {
-                label: 'shift',
-                code: 'ShiftLeft',
+                label: '',
+                code: '',
             },
             {
                 label: 'shift',
@@ -188,6 +188,18 @@ export const leftControls = [
         group: 5,
         items: [
             {
+                label: '',
+                code: '',
+            },
+            {
+                label: '',
+                code: '',
+            },
+            {
+                label: '',
+                code: '',
+            },
+            {
                 label: 'ctl',
                 code: 'ControlLeft',
             },
@@ -198,19 +210,6 @@ export const leftControls = [
             {
                 label: 'cmd',
                 code: 'MetaLeft',
-            },
-            // TODO: span three
-            {
-                label: 'spc',
-                code: 'Space',
-            },
-            {
-                label: 'spc',
-                code: 'Space',
-            },
-            {
-                label: 'spc',
-                code: 'Space',
             },
             {
                 label: 'spc',
@@ -228,6 +227,14 @@ export const rightControls = [
     {
         group: 0,
         items: [
+            {
+                label: 'F6',
+                code: 'F6',
+            },
+            {
+                label: 'F7',
+                code: 'F7',
+            },
             {
                 label: 'F8',
                 code: 'F8',
@@ -249,15 +256,7 @@ export const rightControls = [
                 code: 'F12',
             },
             {
-                label: '?',
-                code: '',
-            },
-            {
-                label: '?',
-                code: '',
-            },
-            {
-                label: '?',
+                label: '',
                 code: '',
             },
         ],
@@ -265,6 +264,14 @@ export const rightControls = [
     {
         group: 1,
         items: [
+            {
+                label: '6',
+                code: 'Digit6',
+            },
+            {
+                label: '7',
+                code: 'Digit7',
+            },
             {
                 label: '8',
                 code: 'Digit8',
@@ -284,14 +291,6 @@ export const rightControls = [
             {
                 label: '=',
                 code: 'Equal',
-            },
-            {
-                label: 'dlt',
-                code: 'Backspace',
-            },
-            {
-                label: 'dlt',
-                code: 'Backspace',
             },
             {
                 label: 'dlt',
@@ -368,8 +367,8 @@ export const rightControls = [
                 code: 'Enter',
             },
             {
-                label: 'enter',
-                code: 'Enter',
+                label: '',
+                code: '',
             },
         ],
     },
@@ -401,12 +400,12 @@ export const rightControls = [
                 code: 'ShiftRight',
             },
             {
-                label: 'shift',
-                code: 'ShiftRight',
+                label: '',
+                code: '',
             },
             {
-                label: 'shift',
-                code: 'ShiftRight',
+                label: '',
+                code: '',
             },
         ],
     },
@@ -434,16 +433,16 @@ export const rightControls = [
                 code: 'ArrowLeft',
             },
             {
-                label: 'right',
-                code: 'ArrowRight',
-            },
-            {
                 label: 'up',
                 code: 'ArrowUp',
             },
             {
                 label: 'down',
                 code: 'ArrowDown',
+            },
+            {
+                label: 'right',
+                code: 'ArrowRight',
             },
         ],
     },
