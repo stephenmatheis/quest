@@ -4,28 +4,35 @@ export const leftControls = [
         items: [
             {
                 label: 'tab',
-                onKey: 'TAB',
-                position: 'bottom-left',
+                code: 'Tab',
+            },
+            {
+                label: 'tab',
+                code: 'Tab',
+            },
+            {
+                label: 'tab',
+                code: 'Tab',
             },
             {
                 label: 'Q',
-                onKey: 'Q',
+                code: 'KeyQ',
             },
             {
                 label: 'W',
-                onKey: 'W',
+                code: 'KeyW',
             },
             {
                 label: 'E',
-                onKey: 'E',
+                code: 'KeyE',
             },
             {
                 label: 'R',
-                onKey: 'R',
+                code: 'KeyR',
             },
             {
                 label: 'T',
-                onKey: 'T',
+                code: 'KeyT',
             },
         ],
     },
@@ -34,28 +41,35 @@ export const leftControls = [
         items: [
             {
                 label: 'lock',
-                onKey: 'CAPSLOCK',
-                position: 'bottom-left',
+                code: 'CapsLock',
+            },
+            {
+                label: 'lock',
+                code: 'CapsLock',
+            },
+            {
+                label: 'lock',
+                code: 'CapsLock',
             },
             {
                 label: 'A',
-                onKey: 'A',
+                code: 'KeyA',
             },
             {
                 label: 'S',
-                onKey: 'S',
+                code: 'KeyS',
             },
             {
                 label: 'D',
-                onKey: 'D',
+                code: 'KeyD',
             },
             {
                 label: 'F',
-                onKey: 'F',
+                code: 'KeyF',
             },
             {
                 label: 'G',
-                onKey: 'G',
+                code: 'KeyG',
             },
         ],
     },
@@ -64,28 +78,73 @@ export const leftControls = [
         items: [
             {
                 label: 'shift',
-                onKey: 'SHIFT',
-                position: 'bottom-left',
+                code: 'ShiftLeft',
+            },
+            {
+                label: 'shift',
+                code: 'ShiftLeft',
+            },
+            {
+                label: 'shift',
+                code: 'ShiftLeft',
             },
             {
                 label: 'Z',
-                onKey: 'Z',
+                code: 'KeyZ',
             },
             {
                 label: 'X',
-                onKey: 'X',
+                code: 'KeyX',
             },
             {
                 label: 'C',
-                onKey: 'C',
+                code: 'KeyC',
             },
             {
                 label: 'V',
-                onKey: 'V',
+                code: 'KeyV',
             },
             {
                 label: 'B',
-                onKey: 'B',
+                code: 'KeyB',
+            },
+        ],
+    },
+    {
+        group: 4,
+        items: [
+            {
+                label: 'ctl',
+                code: 'ControlLeft',
+            },
+            {
+                label: 'opt',
+                code: 'AltLeft',
+            },
+            {
+                label: 'cmd',
+                code: 'MetaLeft',
+            },
+            // TODO: span three
+            {
+                label: 'spc',
+                code: 'Space',
+            },
+            {
+                label: 'spc',
+                code: 'Space',
+            },
+            {
+                label: 'spc',
+                code: 'Space',
+            },
+            {
+                label: 'spc',
+                code: 'Space',
+            },
+            {
+                label: 'spc',
+                code: 'Space',
             },
         ],
     },
@@ -97,27 +156,35 @@ export const rightControls = [
         items: [
             {
                 label: 'Y',
-                onKey: 'Y',
+                code: 'KeyY',
             },
             {
                 label: 'U',
-                onKey: 'U',
+                code: 'KeyU',
             },
             {
                 label: 'I',
-                onKey: 'I',
+                code: 'KeyI',
             },
             {
                 label: 'O',
-                onKey: 'O',
+                code: 'KeyO',
             },
             {
                 label: 'P',
-                onKey: 'P',
+                code: 'KeyP',
             },
             {
                 label: '[',
-                onKey: '[',
+                code: 'BracketLeft',
+            },
+            {
+                label: ']',
+                code: 'BracketRight',
+            },
+            {
+                label: '\\',
+                code: 'Backslash',
             },
         ],
     },
@@ -126,27 +193,35 @@ export const rightControls = [
         items: [
             {
                 label: 'H',
-                onKey: 'H',
+                code: 'KeyH',
             },
             {
                 label: 'J',
-                onKey: 'J',
+                code: 'KeyJ',
             },
             {
                 label: 'K',
-                onKey: 'K',
+                code: 'KeyK',
             },
             {
                 label: 'L',
-                onKey: 'L',
+                code: 'KeyL',
             },
             {
                 label: ';',
-                onKey: ';',
+                code: 'Semicolon',
             },
             {
                 label: "'",
-                onKey: "'",
+                code: "Quote",
+            },
+            {
+                label: 'enter',
+                code: 'Enter',
+            },
+            {
+                label: 'enter',
+                code: 'Enter',
             },
         ],
     },
@@ -155,28 +230,72 @@ export const rightControls = [
         items: [
             {
                 label: 'N',
-                onKey: 'N',
+                code: 'KeyN',
             },
             {
                 label: 'M',
-                onKey: 'M',
+                code: 'KeyM',
             },
             {
                 label: ',',
-                onKey: ',',
+                code: 'Comma',
             },
             {
                 label: '.',
-                onKey: '.',
+                code: 'Period',
             },
             {
                 label: '/',
-                onKey: '/',
+                code: 'Slash',
             },
             {
-                label: 'enter',
-                onKey: 'ENTER',
-                position: 'bottom-right',
+                label: 'shift',
+                code: 'ShiftRight',
+            },
+            {
+                label: 'shift',
+                code: 'ShiftRight',
+            },
+            {
+                label: 'shift',
+                code: 'ShiftRight',
+            },
+        ],
+    },
+    {
+        group: 4,
+        items: [
+            {
+                label: 'spc',
+                code: 'Space',
+            },
+            {
+                label: 'spc',
+                code: 'Space',
+            },
+            {
+                label: 'cmd',
+                code: 'MetaRight',
+            },
+            {
+                label: 'opt',
+                code: 'AltRight',
+            },
+            {
+                label: 'left',
+                code: 'ArrowLeft',
+            },
+            {
+                label: 'right',
+                code: 'ArrowRight',
+            },
+            {
+                label: 'up',
+                code: 'ArrowUp',
+            },
+            {
+                label: 'down',
+                code: 'ArrowDown',
             },
         ],
     },

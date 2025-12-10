@@ -10,13 +10,13 @@ export function Control({
     width,
     height,
     label,
-    onKey,
+    code,
 }: {
     children: ReactNode;
     width: number;
     height: number;
     label: ReactNode;
-    onKey?: string;
+    code?: string;
 }) {
     const [isOver, setIsOver] = useState<boolean>(false);
     const springs = useSpring({
@@ -37,17 +37,19 @@ export function Control({
 
     useEffect(() => {
         function onKeydown(event: KeyboardEvent) {
-            console.log(event.key);
+            // event.stopPropagation();
+            // event.preventDefault();
 
-            if (event.key.toUpperCase() === onKey) {
+            if (event.code === code) {
                 setIsOver(true);
             }
         }
 
         function onKeyup(event: KeyboardEvent) {
-            console.log(event.key);
+            // event.stopPropagation();
+            // event.preventDefault();
 
-            if (event.key.toUpperCase() === onKey) {
+            if (event.code === code) {
                 setIsOver(false);
             }
         }

@@ -1,9 +1,7 @@
 import { Shape } from 'three';
 
-export function createLeftShape(width: number, height: number) {
+export function createLeftShape(width: number, height: number, bevel = 0.125) {
     const shape = new Shape();
-
-    const bevel = 0.125;
 
     shape.moveTo(0, 0);
     shape.lineTo(width - bevel, 0);
@@ -16,10 +14,8 @@ export function createLeftShape(width: number, height: number) {
     return shape;
 }
 
-export function createRightShape(width: number, height: number) {
+export function createRightShape(width: number, height: number, bevel = 0.125) {
     const shape = new Shape();
-
-    const bevel = 0.125;
 
     shape.moveTo(bevel, 0);
     shape.lineTo(0, bevel);

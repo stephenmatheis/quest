@@ -9,48 +9,45 @@ import { leftControls, rightControls } from '@/data/controls';
 // const ASPECT_RATIO = 6 / 9;
 // const WIDTH = 0.75;
 const ASPECT_RATIO = 6 / 7;
-const WIDTH = 0.5;
+const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
+const FONT_SIZE = 'small';
+const WEiGHT = 'regular';
 
 type ControlsProps = {
     width?: number;
     height?: number;
 };
 
-type LabelPositionOptions = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-
 export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const leftControlsRef = useRef<Group>(null);
     const rightControlsRef = useRef<Group>(null);
-    const leftShape = createLeftShape(width, height);
-    const rightShape = createRightShape(width, height);
+    const leftShape = createLeftShape(width, height, 0.075);
+    const rightShape = createRightShape(width, height, 0.075);
     const gapY = width / 10;
     const gapX = width / 10;
     const controlYMultiplier = 2;
     const controls = leftControls[0].items.length;
     const posX = controls * width + gapX * (controls - 1);
-    const offsetX = 0.25;
+    const offsetX = 0.15;
 
     // concave
     // const posY = -HEIGHT;
     // const rotX = 0.25;
     // const rotY = 0.25;
     // const rotZ = 0.125;
-    // const rightLabelWidthOffset = 0.05;
 
     // convex
     // const posY = -HEIGHT;
     // const rotX = .5;
     // const rotY = -0.25;
     // const rotZ = 0.05;
-    // const rightLabelWidthOffset = 0.05;
 
     // straight on
     const posY = -HEIGHT;
     const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
-    const rightLabelWidthOffset = 0;
 
     return (
         <group position={[0, posY, 0]}>
@@ -61,7 +58,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                     .map(({ items }, index) => {
                         return (
                             <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                                {items.map(({ label, onKey, position }, index) => {
+                                {items.map(({ label, code }, index) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
                                     const y = index * (gapY * controlYMultiplier);
 
@@ -70,15 +67,13 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                             <Control
                                                 width={width}
                                                 height={height}
-                                                onKey={onKey}
+                                                code={code}
                                                 label={
                                                     <Label
-                                                        position={(position as LabelPositionOptions) || 'center'}
-                                                        size="large"
-                                                        weight="regular"
+                                                        size={FONT_SIZE}
+                                                        weight={WEiGHT}
                                                         width={WIDTH}
                                                         height={HEIGHT}
-                                                        letterCount={typeof label === 'string' ? label.length : 1}
                                                     >
                                                         {label}
                                                     </Label>
@@ -103,7 +98,7 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                     .map(({ items }, index) => {
                         return (
                             <group key={index} position={[0, (height + gapY) * index, 0]}>
-                                {items.map(({ label, onKey, position }, index) => {
+                                {items.map(({ label, code }, index) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
                                     const y = (items.length - 1 - index) * (gapY * controlYMultiplier);
 
@@ -112,15 +107,13 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                                             <Control
                                                 width={width}
                                                 height={height}
-                                                onKey={onKey}
+                                                code={code}
                                                 label={
                                                     <Label
-                                                        position={(position as LabelPositionOptions) || 'center'}
-                                                        size="large"
-                                                        weight="regular"
-                                                        width={WIDTH + rightLabelWidthOffset} // I don't know why adding this offset center's text for right controls
+                                                        size={FONT_SIZE}
+                                                        weight={WEiGHT}
+                                                        width={WIDTH}
                                                         height={HEIGHT}
-                                                        letterCount={typeof label === 'string' ? label.length : 1}
                                                     >
                                                         {label}
                                                     </Label>

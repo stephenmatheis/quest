@@ -6,14 +6,14 @@ import { HudRightReadout } from './HudRightReadout';
 
 export function HudOverlay() {
     return (
-        <Hud renderPriority={1}>
-            {/* <group position={[0, -2, 0]}> */}
+        // <Hud renderPriority={1}>
+        <group position={[0, -2, 0]}>
             <PerspectiveCamera makeDefault position={[0, 2, 11.8]} fov={25} />
             <HudControls />
             <HudLeftReadout />
             <HudCenterReadout />
             <HudRightReadout />
-            {/* </group> */}
-        </Hud>
+        </group>
+        // </Hud>
     );
 }
