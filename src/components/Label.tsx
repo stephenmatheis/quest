@@ -28,10 +28,14 @@ type LabelProps = {
 export function Label({ children, weight, size, width, height }: LabelProps) {
     return (
         <Center position={[width / 2, height / 2, 0]}>
-            <Text3D height={0.01} size={sizes[size]} font={`/fonts/Mono_${weights[weight]}.json`}>
-                {children}
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
+            {typeof children === 'string' ? (
+                <Text3D height={0.01} size={sizes[size]} font={`/fonts/Mono_${weights[weight]}.json`}>
+                    {children}
+                    <meshBasicMaterial color="#000000" />
+                </Text3D>
+            ) : (
+                children
+            )}
         </Center>
     );
 }

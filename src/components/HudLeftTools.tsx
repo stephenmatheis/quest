@@ -1,15 +1,20 @@
 import { Edges } from '@react-three/drei';
+import { animated, useSpring } from '@react-spring/three';
 import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { createBeveledShape } from '@/utils/shapes';
 import { ExtrudedSvg } from './ExtrudedSvg';
+import { useHud } from '@/providers/HudProvider';
 
 const ASPECT_RATIO = 6 / 6;
 const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 'small';
 const WEiGHT = 'regular';
+const MASS = 1;
+const TENSION = 400;
+const FRICTION = 40;
 
 type ControlsProps = {
     width?: number;
@@ -17,6 +22,11 @@ type ControlsProps = {
 };
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
+    const { showKeyboard, toggleKeyboard } = useHud();
+    const { rotation } = useSpring<{ rotation: [number, number, number] }>({
+        rotation: showKeyboard ? [0, 0, Math.PI * -1] : [0, 0, 0],
+        config: { mass: MASS, tension: TENSION, friction: FRICTION },
+    });
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
     const rotY = 0;
@@ -32,20 +42,23 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         items: [
                             {
                                 label: (
-                                    <>
-                                        <ExtrudedSvg src="/svg/arrow-up.svg" />
-                                    </>
+                                    <animated.group rotation={rotation as any} position={[0, 0, 0]}>
+                                        <group position={[-0.1, 0.1, 0]}>
+                                            {/* tiny Z lift so it renders on top of button */}
+                                            <ExtrudedSvg
+                                                src="/svg/arrow-up.svg"
+                                                // your arrow
+                                                position={[0, 0, 0]} // force origin to center
+                                            />
+                                        </group>
+                                    </animated.group>
                                 ),
                                 action() {
-                                    console.log('hi');
+                                    toggleKeyboard();
                                 },
                             },
                             {
-                                label: (
-                                    <>
-                                        <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />
-                                    </>
-                                ),
+                                label: '?',
                                 action() {
                                     console.log('bye');
                                 },

@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import { Edges } from '@react-three/drei';
 import { Group } from 'three';
-import { Label } from '@/components/Label';
+import { useHud } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
+import { ControlPlaceholder } from '@/components/ControlPlaceholder';
+import { Label } from '@/components/Label';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
-import { ControlPlaceholder } from './ControlPlaceholder';
+import { animated, useSpring } from '@react-spring/three';
 
 // const ASPECT_RATIO = 6 / 9;
 // const WIDTH = 0.75;
@@ -14,6 +16,9 @@ const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 'small';
 const WEiGHT = 'regular';
+const MASS = 2;
+const TENSION = 360;
+const FRICTION = 30;
 
 type ControlsProps = {
     width?: number;
@@ -21,12 +26,22 @@ type ControlsProps = {
 };
 
 export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
+    const { showKeyboard } = useHud();
     const leftControlsRef = useRef<Group>(null);
     const rightControlsRef = useRef<Group>(null);
     const leftShape = createLeftShape(width, height, 0.075);
     const rightShape = createRightShape(width, height, 0.075);
     const controlYMultiplier = 2;
     const controls = leftControls[0].items.length;
+
+    const springs = useSpring({
+        y: showKeyboard ? -0.5 : -3.5,
+        config: {
+            mass: MASS,
+            tension: TENSION,
+            friction: FRICTION,
+        },
+    });
 
     // concave
     // const gapY = width / 10;
@@ -62,12 +77,10 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
-    const posY = -0.5;
-
     const posX = controls * width + gapX * (controls - 1);
 
     return (
-        <group position={[0, posY, 0]}>
+        <animated.group position-y={springs.y}>
             {/* Left  */}
             <group ref={leftControlsRef} position={[-offsetX, 0, 0]} rotation={[-rotX, rotY, rotZ]}>
                 {leftControls
@@ -175,6 +188,6 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
                         );
                     })}
             </group>
-        </group>
+        </animated.group>
     );
 }

@@ -1,9 +1,10 @@
 import { Hud, PerspectiveCamera } from '@react-three/drei';
 import { HudLeftReadout } from './HudLeftReadout';
 import { HudControls } from '@/components/HudControls';
-import { HudCenterReadout } from '@/components/HUDCenterReadout';
+import { HudCenterReadout } from '@/components/HudCenterReadout';
 import { HudRightReadout } from '@/components/HudRightReadout';
 import { HudLeftTools } from '@/components/HudLeftTools';
+import { HudProvider } from '@/providers/HudProvider';
 
 export function HudOverlay() {
     return (
@@ -11,8 +12,10 @@ export function HudOverlay() {
         <group position={[0, -2, 0]}>
             <PerspectiveCamera makeDefault position={[0, 2, 11.8]} fov={25} />
 
-            <HudLeftTools />
-            <HudControls />
+            <HudProvider>
+                <HudLeftTools />
+                <HudControls />
+            </HudProvider>
             <HudLeftReadout />
             <HudCenterReadout />
             <HudRightReadout />
