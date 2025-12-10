@@ -24,36 +24,46 @@ export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const rightControlsRef = useRef<Group>(null);
     const leftShape = createLeftShape(width, height, 0.075);
     const rightShape = createRightShape(width, height, 0.075);
-    const gapY = width / 10;
-    const gapX = width / 10;
     const controlYMultiplier = 2;
     const controls = leftControls[0].items.length;
-    const posX = controls * width + gapX * (controls - 1);
-    const offsetX = 0.2;
 
     // concave
+    // const gapY = width / 10;
+    // const gapX = width / 10;
+    // const offsetX = 0.2;
     // const posY = -HEIGHT;
     // const rotX = 0.25;
     // const rotY = 0.25;
     // const rotZ = 0.125;
 
     // convex
+    // const gapY = width / 10;
+    // const gapX = width / 10;
+    // const offsetX = 0.2;
     // const posY = -HEIGHT;
     // const rotX = .5;
     // const rotY = -0.25;
     // const rotZ = 0.05;
 
     // straight on
+    // const gapY = width / 10;
+    // const gapX = width / 10;
+    // const offsetX = 0.2;
     // const rotX = 0.7;
     // const rotY = -0.15;
     // const rotZ = 0.025;
     // const posY = -HEIGHT * (1 - rotX);
 
     // none
+    const gapY = width / 10;
+    const gapX = width / 10;
+    const offsetX = 0.025;
     const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
-    const posY = -.5;
+    const posY = -0.5;
+
+    const posX = controls * width + gapX * (controls - 1);
 
     return (
         <group position={[0, posY, 0]}>
