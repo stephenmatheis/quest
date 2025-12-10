@@ -25,7 +25,7 @@ type ControlsProps = {
     height?: number;
 };
 
-export function HudControls({ width = WIDTH, height = HEIGHT }: ControlsProps) {
+export function HudFullKeyboard({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const { showKeyboard } = useHud();
     const leftControlsRef = useRef<Group>(null);
     const rightControlsRef = useRef<Group>(null);

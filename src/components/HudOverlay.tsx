@@ -1,6 +1,6 @@
 import { Hud, PerspectiveCamera } from '@react-three/drei';
 import { HudLeftReadout } from './HudLeftReadout';
-import { HudControls } from '@/components/HudControls';
+import { HudFullKeyboard } from '@/components/HudFullKeyboard';
 import { HudCenterReadout } from '@/components/HudCenterReadout';
 import { HudRightReadout } from '@/components/HudRightReadout';
 import { HudLeftTools } from '@/components/HudLeftTools';
@@ -14,7 +14,7 @@ export function HudOverlay() {
 
             <HudProvider>
                 <HudLeftTools />
-                <HudControls />
+                <HudFullKeyboard />
             </HudProvider>
             <HudLeftReadout />
             <HudCenterReadout />
