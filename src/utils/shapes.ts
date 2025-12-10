@@ -40,3 +40,18 @@ export function createRect(width: number, height: number) {
 
     return shape;
 }
+
+export function createBeveledShape(width: number, height: number, bevel = 0.125) {
+    const shape = new Shape();
+
+    shape.moveTo(bevel, 0);
+    shape.lineTo(0, bevel);
+    shape.lineTo(0, height - bevel);
+    shape.lineTo(bevel, height);
+    shape.lineTo(width - bevel, height);
+    shape.lineTo(width, height - bevel);
+    shape.lineTo(width, bevel);
+    shape.lineTo(width - bevel, 0);
+
+    return shape;
+}
