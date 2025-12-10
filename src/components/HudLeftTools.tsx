@@ -4,7 +4,7 @@ import { Label } from '@/components/Label';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { createBeveledShape } from '@/utils/shapes';
 
-const ASPECT_RATIO = 6 / 7;
+const ASPECT_RATIO = 6/6;
 const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 'small';
