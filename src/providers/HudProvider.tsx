@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 
 type HudContext = {
     showKeyboard: boolean;
@@ -25,10 +25,6 @@ export function HudProvider({ children }: { children: ReactNode }) {
     function toggleKeyboard() {
         setShowKeyboard((prev) => !prev);
     }
-
-    useEffect(() => {
-        console.log(showKeyboard);
-    }, [showKeyboard]);
 
     return (
         <HudContext.Provider
