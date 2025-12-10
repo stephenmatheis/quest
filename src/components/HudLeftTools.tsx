@@ -22,11 +22,12 @@ type ControlsProps = {
 };
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const { showKeyboard, toggleKeyboard } = useHud();
+    const { showKeyboard, toggleKeyboard, lockHud, toggleHudLock } = useHud();
     const { rotation } = useSpring<{ rotation: [number, number, number] }>({
         rotation: showKeyboard ? [0, 0, Math.PI * -1] : [0, 0, 0],
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
+
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
     const rotY = 0;
@@ -53,9 +54,9 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 },
                             },
                             {
-                                label: '?',
+                                label: lockHud ? 'hl' : 'hf',
                                 action() {
-                                    console.log('bye');
+                                    toggleHudLock();
                                 },
                             },
                         ],
