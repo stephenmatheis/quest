@@ -75,7 +75,7 @@ export function Tool({
                 </mesh>
             </group>
             <animated.group position={[0, 0, 0.1]} position-y={springs.labelHoverY} position-z={springs.labelHoverZ}>
-                <Center position={[width / 2 + 0.025, height / 2, 0]}>
+                <Center position={[width / 2 + 0.025, height / 2 - 0.0125, 0]}>
                     <animated.mesh position-y={springs.labelClickY} position-z={springs.labelClickZ}>
                         {label}
                     </animated.mesh>
