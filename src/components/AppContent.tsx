@@ -1,4 +1,3 @@
-import { Canvas } from '@react-three/fiber';
 // import { useWorld } from '@/providers/WorldProvider';
 // import { AnimatedBook } from '@/components/AnimatedBook';
 // import { UI } from '@/components/UI';
@@ -10,15 +9,7 @@ export function AppContent() {
 
     return (
         <>
-            <Canvas
-                shadows
-                camera={{
-                    fov: 25,
-                }}
-            >
-                <World />
-            </Canvas>
-
+            <World />
             {/* <Canvas
                 style={{ position: 'absolute', top: 0, left: 0, pointerEvents: isQuestLogOpen ? 'all' : 'none' }}
                 camera={{ position: [0, 0, 5], fov: 25 }}
