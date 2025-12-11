@@ -14,6 +14,7 @@ type CameraContext = {
     end: () => void;
     overhead: () => void;
     inside: () => void;
+    reset: () => void;
 };
 
 const CameraContext = createContext<CameraContext | undefined>(undefined);
@@ -89,6 +90,15 @@ export function CameraProvider({ children }: { children: ReactNode }) {
         controls.setLookAt(0, -6, 32, 0, 12, 4, true);
     }
 
+    function reset() {
+        const controls = cameraControlsRef.current;
+
+        if (!controls) return;
+
+        // controls.setLookAt(0, 2, 20, 0, 2, 0, false);
+        controls.setLookAt(0, 2, 31.8, 0, 2, 0, false);
+    }
+
     return (
         <CameraContext.Provider
             value={{
@@ -101,6 +111,7 @@ export function CameraProvider({ children }: { children: ReactNode }) {
                 end,
                 overhead,
                 inside,
+                reset,
             }}
         >
             {children}
