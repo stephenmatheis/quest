@@ -25,8 +25,8 @@ export function World() {
                 }}
             >
                 <Cam />
-                <Ring size={2.75} />
-                <Ribs width={0.75} x={3} />
+                {/* <Ring size={2.75} /> */}
+                {/* <Ribs width={0.75} x={3} /> */}
                 <FloorGuide />
                 <HudOverlay onReady={() => setReady(true)} />
             </Canvas>

@@ -4,13 +4,13 @@ import { createContext, useContext, useState, type ReactNode } from 'react';
 
 type HudContext = {
     showKeyboard: boolean;
-    toggleKeyboard: () => void;
     lockHud: boolean;
-    toggleHudLock: () => void;
     perspectiveKeyboard: boolean;
-    togglePerspectiveKeyboard: () => void;
     ergoKeyboard: boolean;
-    toggleErgoKeyboard: () => void;
+    toggleKeyboard: (state?: boolean) => void;
+    toggleHudLock: (state?: boolean) => void;
+    togglePerspectiveKeyboard: (state?: boolean) => void;
+    toggleErgoKeyboard: (state?: boolean) => void;
 };
 
 const HudContext = createContext<HudContext | undefined>(undefined);
@@ -31,19 +31,42 @@ export function HudProvider({ children }: { children: ReactNode }) {
     const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(false);
     const [ergoKeyboard, setErgoKeyboard] = useState<boolean>(true);
 
-    function toggleKeyboard() {
+    function toggleKeyboard(state?: boolean) {
+        if (state === true || state === false) {
+            setShowKeyboard(state);
+
+            return;
+        }
+
         setShowKeyboard((prev) => !prev);
     }
 
-    function toggleHudLock() {
+    function toggleHudLock(state?: boolean) {
+        if (state === true || state === false) {
+            setLockHud(state);
+
+            return;
+        }
+
         setLockHud((prev) => !prev);
     }
 
-    function togglePerspectiveKeyboard() {
+    function togglePerspectiveKeyboard(state?: boolean) {
+        if (state === true || state === false) {
+            setPerspectiveKeyboard(state);
+
+            return;
+        }
+
         setPerspectiveKeyboard((prev) => !prev);
     }
 
-    function toggleErgoKeyboard() {
+    function toggleErgoKeyboard(state?: boolean) {
+        if (state === true || state === false) {
+            setErgoKeyboard(state);
+
+            return;
+        }
         setErgoKeyboard((prev) => !prev);
     }
 

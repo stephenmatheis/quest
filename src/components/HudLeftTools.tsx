@@ -51,33 +51,51 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         group: 0,
                         items: [
                             {
-                                label: (
-                                    <animated.group rotation={rotation as any} position={[0, 0, 0]}>
-                                        <group position={[-0.1, 0.1, 0]}>
-                                            <ExtrudedSvg src="/svg/arrow-up.svg" />
-                                        </group>
-                                    </animated.group>
-                                ),
+                                label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
                                 action() {
-                                    toggleKeyboard();
+                                    toggleKeyboard(true);
                                 },
                             },
                             {
-                                label: lockHud ? 'locked' : 'free',
+                                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
                                 action() {
-                                    toggleHudLock();
+                                    toggleKeyboard(false);
                                 },
                             },
                             {
-                                label: perspectiveKeyboard ? 'tilt' : 'flat',
+                                label: 'lock',
                                 action() {
-                                    togglePerspectiveKeyboard();
+                                    toggleHudLock(true);
                                 },
                             },
                             {
-                                label: ergoKeyboard ? 'ergo' : 'ortho',
+                                label: 'free',
                                 action() {
-                                    toggleErgoKeyboard();
+                                    toggleHudLock(false);
+                                },
+                            },
+                            {
+                                label: 'flat',
+                                action() {
+                                    togglePerspectiveKeyboard(false);
+                                },
+                            },
+                            {
+                                label: 'tilt',
+                                action() {
+                                    togglePerspectiveKeyboard(true);
+                                },
+                            },
+                            {
+                                label: 'ortho',
+                                action() {
+                                    toggleErgoKeyboard(false);
+                                },
+                            },
+                            {
+                                label: 'ergo',
+                                action() {
+                                    toggleErgoKeyboard(true);
                                 },
                             },
                         ],
