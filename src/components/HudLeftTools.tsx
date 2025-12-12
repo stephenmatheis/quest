@@ -1,5 +1,4 @@
 import { Edges } from '@react-three/drei';
-import { animated, useSpring } from '@react-spring/three';
 import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
@@ -12,9 +11,6 @@ const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 0.07;
 const WEiGHT = 'regular';
-const MASS = 1;
-const TENSION = 400;
-const FRICTION = 40;
 
 type ControlsProps = {
     width?: number;
@@ -22,20 +18,7 @@ type ControlsProps = {
 };
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const {
-        showKeyboard,
-        toggleKeyboard,
-        lockHud,
-        toggleHudLock,
-        perspectiveKeyboard,
-        togglePerspectiveKeyboard,
-        ergoKeyboard,
-        toggleErgoKeyboard,
-    } = useHud();
-    const { rotation } = useSpring<{ rotation: [number, number, number] }>({
-        rotation: showKeyboard ? [0, 0, Math.PI * -1] : [0, 0, 0],
-        config: { mass: MASS, tension: TENSION, friction: FRICTION },
-    });
+    const { toggleKeyboard, toggleHudLock, togglePerspectiveKeyboard, toggleErgoKeyboard } = useHud();
 
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
