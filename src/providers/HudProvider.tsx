@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 
 export type Keyboard = 'linear' | 'ortho' | 'ergo';
 
@@ -12,7 +12,7 @@ type HudContext = {
     toggleKeyboard: (state?: boolean) => void;
     toggleHudLock: (state?: boolean) => void;
     togglePerspectiveKeyboard: (state?: boolean) => void;
-    setKeyboard: Dispatch<SetStateAction<Keyboard>>;
+    setKeyboard: (keyboard: Keyboard) => void;
 };
 
 const HudContext = createContext<HudContext | undefined>(undefined);
@@ -31,7 +31,9 @@ export function HudProvider({ children }: { children: ReactNode }) {
     const [showKeyboard, setShowKeyboard] = useState<boolean>(true);
     const [lockHud, setLockHud] = useState(true);
     const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(false);
-    const [keyboard, setKeyboard] = useState<Keyboard>('linear');
+    const [keyboard, setKeyboard] = useState<Keyboard>(
+        (localStorage.getItem('quest-keyboard') as Keyboard) || 'linear'
+    );
 
     function toggleKeyboard(state?: boolean) {
         if (state === true || state === false) {
@@ -73,7 +75,10 @@ export function HudProvider({ children }: { children: ReactNode }) {
                 toggleKeyboard,
                 toggleHudLock,
                 togglePerspectiveKeyboard,
-                setKeyboard,
+                setKeyboard: (keyboard: Keyboard) => {
+                    localStorage.setItem('quest-keyboard', keyboard);
+                    setKeyboard(keyboard);
+                },
             }}
         >
             {children}

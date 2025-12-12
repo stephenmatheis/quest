@@ -23,6 +23,7 @@ type LabelProps = {
     size: 'small' | 'medium' | 'large' | number;
     width: number;
     height: number;
+    color?: string;
     position?: [number, number, number];
     rotation?: [number, number, number];
 };
@@ -33,6 +34,7 @@ export function Label({
     size,
     width,
     height,
+    color = '#000000',
     position = [width / 2, height / 2, 0],
     rotation = [0, 0, 0],
 }: LabelProps) {
@@ -45,7 +47,7 @@ export function Label({
                     font={`/fonts/Mono_${weights[weight]}.json`}
                 >
                     {children}
-                    <meshBasicMaterial color="#000000" />
+                    <meshBasicMaterial color={color} />
                 </Text3D>
             ) : (
                 children

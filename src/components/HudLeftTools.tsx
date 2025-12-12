@@ -4,7 +4,7 @@ import { Label } from '@/components/Label';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { createBeveledShape } from '@/utils/shapes';
 import { ExtrudedSvg } from './ExtrudedSvg';
-import { useHud } from '@/providers/HudProvider';
+import { useHud, type Keyboard } from '@/providers/HudProvider';
 
 const ASPECT_RATIO = 6 / 6;
 const WIDTH = 0.4;
@@ -18,7 +18,16 @@ type ControlsProps = {
 };
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const { toggleKeyboard, toggleHudLock, togglePerspectiveKeyboard, setKeyboard } = useHud();
+    const {
+        toggleKeyboard,
+        toggleHudLock,
+        togglePerspectiveKeyboard,
+        setKeyboard,
+        keyboard,
+        showKeyboard,
+        lockHud,
+        perspectiveKeyboard,
+    } = useHud();
 
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
@@ -34,55 +43,66 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         group: 0,
                         items: [
                             {
-                                label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
+                                label: (
+                                    <ExtrudedSvg src="/svg/arrow-up.svg" color={showKeyboard ? '#ffffff' : '#000000'} />
+                                ),
+                                selected: showKeyboard,
                                 action() {
                                     toggleKeyboard(true);
                                 },
                             },
                             {
                                 label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
+                                selected: !showKeyboard,
                                 action() {
                                     toggleKeyboard(false);
                                 },
                             },
                             {
                                 label: 'lock',
+                                selected: lockHud,
                                 action() {
                                     toggleHudLock(true);
                                 },
                             },
                             {
                                 label: 'free',
+                                selected: !lockHud,
                                 action() {
                                     toggleHudLock(false);
                                 },
                             },
                             {
                                 label: 'flat',
+                                selected: !perspectiveKeyboard,
                                 action() {
                                     togglePerspectiveKeyboard(false);
                                 },
                             },
                             {
                                 label: 'tilt',
+                                selected: perspectiveKeyboard,
                                 action() {
                                     togglePerspectiveKeyboard(true);
                                 },
                             },
                             {
-                                label: 'linear',
+                                label: 'linear' as Keyboard,
+                                selected: keyboard === 'linear',
                                 action() {
                                     setKeyboard('linear');
                                 },
                             },
                             {
-                                label: 'ortho',
+                                label: 'ortho' as Keyboard,
+                                selected: keyboard === 'ortho',
                                 action() {
                                     setKeyboard('ortho');
                                 },
                             },
                             {
-                                label: 'ergo',
+                                label: 'ergo' as Keyboard,
+                                selected: keyboard === 'ergo',
                                 action() {
                                     setKeyboard('ergo');
                                 },
@@ -94,7 +114,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                     .map(({ items }, index) => {
                         return (
                             <group key={index} position={[0, 0, 0]}>
-                                {items.map(({ label, action }, index) => {
+                                {items.map(({ label, selected, action }, index) => {
                                     const x = 0;
                                     const y = index * -(height + gapY);
 
@@ -123,6 +143,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                                             weight={WEiGHT}
                                                             width={WIDTH + 0.05}
                                                             height={HEIGHT}
+                                                            color={selected ? '#ffffff' : '#000000'}
                                                         >
                                                             {label}
                                                         </Label>
@@ -130,7 +151,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                                 }
                                             >
                                                 <shapeGeometry args={[shape]} />
-                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                                                <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} />
+                                                {selected && <meshBasicMaterial color="#000000" />}
                                                 <Edges linewidth={2} threshold={15} color="#000000" />
                                             </Tool>
                                         </group>
