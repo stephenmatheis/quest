@@ -10,7 +10,7 @@ import { useHud } from '@/providers/HudProvider';
 const ASPECT_RATIO = 6 / 6;
 const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
-const FONT_SIZE = .07;
+const FONT_SIZE = 0.07;
 const WEiGHT = 'regular';
 const MASS = 1;
 const TENSION = 400;
@@ -22,8 +22,16 @@ type ControlsProps = {
 };
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const { showKeyboard, toggleKeyboard, lockHud, toggleHudLock, perspectiveKeyboard, togglePerspectiveKeyboard } =
-        useHud();
+    const {
+        showKeyboard,
+        toggleKeyboard,
+        lockHud,
+        toggleHudLock,
+        perspectiveKeyboard,
+        togglePerspectiveKeyboard,
+        ergoKeyboard,
+        toggleErgoKeyboard,
+    } = useHud();
     const { rotation } = useSpring<{ rotation: [number, number, number] }>({
         rotation: showKeyboard ? [0, 0, Math.PI * -1] : [0, 0, 0],
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
@@ -64,6 +72,12 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 label: perspectiveKeyboard ? 'tilt' : 'flat',
                                 action() {
                                     togglePerspectiveKeyboard();
+                                },
+                            },
+                            {
+                                label: ergoKeyboard ? 'ergo' : 'ortho',
+                                action() {
+                                    toggleErgoKeyboard();
                                 },
                             },
                         ],
