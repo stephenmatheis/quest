@@ -18,7 +18,7 @@ type ControlsProps = {
 };
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const { toggleKeyboard, toggleHudLock, togglePerspectiveKeyboard, toggleErgoKeyboard } = useHud();
+    const { toggleKeyboard, toggleHudLock, togglePerspectiveKeyboard, setKeyboard } = useHud();
 
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
@@ -70,15 +70,21 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 },
                             },
                             {
+                                label: 'linear',
+                                action() {
+                                    setKeyboard('linear');
+                                },
+                            },
+                            {
                                 label: 'ortho',
                                 action() {
-                                    toggleErgoKeyboard(false);
+                                    setKeyboard('ortho');
                                 },
                             },
                             {
                                 label: 'ergo',
                                 action() {
-                                    toggleErgoKeyboard(true);
+                                    setKeyboard('ergo');
                                 },
                             },
                         ],

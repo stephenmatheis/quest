@@ -1,5 +1,5 @@
 import { Edges } from '@react-three/drei';
-import { useHud } from '@/providers/HudProvider';
+import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { Label } from '@/components/Label';
@@ -17,12 +17,36 @@ type HudFullKeyboardProps = {
     fontWeight?: 'regular' | 'light' | 'bold';
 };
 
+function getPosY(keyboard: Keyboard) {
+    switch (keyboard) {
+        case 'linear':
+        default:
+            return -0.4;
+        case 'ortho':
+            return -0.4;
+        case 'ergo':
+            return 0.15;
+    }
+}
+
+function getMultiplier(keyboard: Keyboard) {
+    switch (keyboard) {
+        case 'linear':
+        default:
+            return 0;
+        case 'ortho':
+            return 2;
+        case 'ergo':
+            return -2;
+    }
+}
+
 export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight = 'regular' }: HudFullKeyboardProps) {
-    const { showKeyboard, perspectiveKeyboard, ergoKeyboard } = useHud();
+    const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
     const controls = leftControls[0].items.length;
     const springs = useSpring({
         showY: showKeyboard ? 0 : -3.5,
-        posY: ergoKeyboard ? 0.15 : -0.4,
+        posY: getPosY(keyboard),
         posZ: 0.5,
         rotXLeft: perspectiveKeyboard ? Math.PI / -2.75 : 0,
         rotYLeft: 0,
@@ -32,7 +56,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
         rotZRight: 0,
         splitWidthLeft: -0.1,
         splitWidthRight: 0.1,
-        ergoMultiplier: ergoKeyboard ? -2 : 2,
+        ergoMultiplier: getMultiplier(keyboard),
         config: {
             mass: MASS,
             tension: TENSION,

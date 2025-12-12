@@ -1,16 +1,18 @@
 'use client';
 
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+
+export type Keyboard = 'linear' | 'ortho' | 'ergo';
 
 type HudContext = {
     showKeyboard: boolean;
     lockHud: boolean;
     perspectiveKeyboard: boolean;
-    ergoKeyboard: boolean;
+    keyboard: Keyboard;
     toggleKeyboard: (state?: boolean) => void;
     toggleHudLock: (state?: boolean) => void;
     togglePerspectiveKeyboard: (state?: boolean) => void;
-    toggleErgoKeyboard: (state?: boolean) => void;
+    setKeyboard: Dispatch<SetStateAction<Keyboard>>;
 };
 
 const HudContext = createContext<HudContext | undefined>(undefined);
@@ -29,7 +31,7 @@ export function HudProvider({ children }: { children: ReactNode }) {
     const [showKeyboard, setShowKeyboard] = useState<boolean>(true);
     const [lockHud, setLockHud] = useState(true);
     const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(false);
-    const [ergoKeyboard, setErgoKeyboard] = useState<boolean>(true);
+    const [keyboard, setKeyboard] = useState<Keyboard>('linear');
 
     function toggleKeyboard(state?: boolean) {
         if (state === true || state === false) {
@@ -61,26 +63,17 @@ export function HudProvider({ children }: { children: ReactNode }) {
         setPerspectiveKeyboard((prev) => !prev);
     }
 
-    function toggleErgoKeyboard(state?: boolean) {
-        if (state === true || state === false) {
-            setErgoKeyboard(state);
-
-            return;
-        }
-        setErgoKeyboard((prev) => !prev);
-    }
-
     return (
         <HudContext.Provider
             value={{
                 showKeyboard,
-                toggleKeyboard,
                 lockHud,
-                toggleHudLock,
                 perspectiveKeyboard,
+                keyboard,
+                toggleKeyboard,
+                toggleHudLock,
                 togglePerspectiveKeyboard,
-                ergoKeyboard,
-                toggleErgoKeyboard,
+                setKeyboard,
             }}
         >
             {children}
