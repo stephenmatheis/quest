@@ -13,7 +13,10 @@ export function Cam() {
         if (!controls) return;
 
         // default (straight on)
-        controls.setLookAt(0, 2, 20, 0, 2, 0, false);
+        // controls.setLookAt(0, 2, 20, 0, 2, 0, false);
+
+        // overhead (for rotated keyboard)
+        controls.setLookAt(0, 6, 40, 0, 0, 0, false);
     }, []);
 
     return (

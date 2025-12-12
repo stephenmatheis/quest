@@ -7,6 +7,8 @@ type HudContext = {
     toggleKeyboard: () => void;
     lockHud: boolean;
     toggleHudLock: () => void;
+    perspectiveKeyboard: boolean;
+    togglePerspectiveKeyboard: () => void;
 };
 
 const HudContext = createContext<HudContext | undefined>(undefined);
@@ -24,6 +26,7 @@ export function useHud() {
 export function HudProvider({ children }: { children: ReactNode }) {
     const [showKeyboard, setShowKeyboard] = useState<boolean>(true);
     const [lockHud, setLockHud] = useState(true);
+    const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(false);
 
     function toggleKeyboard() {
         setShowKeyboard((prev) => !prev);
@@ -33,6 +36,10 @@ export function HudProvider({ children }: { children: ReactNode }) {
         setLockHud((prev) => !prev);
     }
 
+    function togglePerspectiveKeyboard() {
+        setPerspectiveKeyboard((prev) => !prev);
+    }
+
     return (
         <HudContext.Provider
             value={{
@@ -40,6 +47,8 @@ export function HudProvider({ children }: { children: ReactNode }) {
                 toggleKeyboard,
                 lockHud,
                 toggleHudLock,
+                perspectiveKeyboard,
+                togglePerspectiveKeyboard,
             }}
         >
             {children}
