@@ -18,21 +18,21 @@ export function Control({
     label: ReactNode;
     code?: string;
 }) {
-    const [isOver, setIsOver] = useState<boolean>(false);
+    const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
     const springs = useSpring({
-        cy: isOver ? -0.1 : 0,
-        cz: isOver ? -0.1 : 0,
-        ly: isOver ? -0.1 : 0,
-        lz: isOver ? 0 : 0.1,
+        cy: isPointerDown ? -0.1 : 0,
+        cz: isPointerDown ? -0.1 : 0,
+        ly: isPointerDown ? -0.1 : 0,
+        lz: isPointerDown ? 0 : 0.1,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
-    function handleOver() {
-        setIsOver(true);
+    function handleDown() {
+        setIsPointerDown(true);
     }
 
-    function handleOut() {
-        setIsOver(false);
+    function handleUp() {
+        setIsPointerDown(false);
     }
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export function Control({
             console.log(event.code);
 
             if (event.code === code) {
-                setIsOver(true);
+                setIsPointerDown(true);
             }
         }
 
@@ -52,7 +52,7 @@ export function Control({
             // event.preventDefault();
 
             if (event.code === code) {
-                setIsOver(false);
+                setIsPointerDown(false);
             }
         }
 
@@ -71,7 +71,13 @@ export function Control({
                 <animated.mesh raycast={() => {}} position-y={springs.cy} position-z={springs.cz}>
                     {children}
                 </animated.mesh>
-                <mesh position={[width / 2, height / 2, 0]} onPointerOver={handleOver} onPointerOut={handleOut}>
+                <mesh
+                    position={[width / 2, height / 2, 0]}
+                    onPointerDown={handleDown}
+                    onPointerUp={handleUp}
+                    // onPointerOver={handleDown}
+                    // onPointerOut={handleUp}
+                >
                     <boxGeometry args={[width, height, 0.1]} />
                     <meshBasicMaterial visible={false} />
                 </mesh>
