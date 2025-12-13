@@ -28,41 +28,69 @@ export function useHud() {
 }
 
 export function HudProvider({ children }: { children: ReactNode }) {
-    const [showKeyboard, setShowKeyboard] = useState<boolean>(true);
-    const [lockHud, setLockHud] = useState(true);
-    const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(false);
-    const [keyboard, setKeyboard] = useState<Keyboard>(
+    const [showKeyboard, setShowKeyboard] = useState<boolean>(
+        localStorage.getItem('quest-showKeyboard') === 'true' ? true : false || false
+    );
+    const [lockHud, setLockHud] = useState(localStorage.getItem('quest-lockHud') === 'true' ? true : false || false);
+    const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(
+        localStorage.getItem('quest-perspectiveKeyboard') === 'true' ? true : false || false
+    );
+    const [keyboard, setSelectedKeyboard] = useState<Keyboard>(
         (localStorage.getItem('quest-keyboard') as Keyboard) || 'linear'
     );
 
     function toggleKeyboard(state?: boolean) {
         if (state === true || state === false) {
+            localStorage.setItem('quest-showKeyboard', state.toString());
+
             setShowKeyboard(state);
 
             return;
         }
 
-        setShowKeyboard((prev) => !prev);
+        setShowKeyboard((prev) => {
+            localStorage.setItem('quest-showKeyboard', (!prev).toString());
+
+            return !prev;
+        });
     }
 
     function toggleHudLock(state?: boolean) {
         if (state === true || state === false) {
+            localStorage.setItem('quest-lockHud', state.toString());
+
             setLockHud(state);
 
             return;
         }
 
-        setLockHud((prev) => !prev);
+        setLockHud((prev) => {
+            localStorage.setItem('quest-lockHud', (!prev).toString());
+
+            return !prev;
+        });
     }
 
     function togglePerspectiveKeyboard(state?: boolean) {
         if (state === true || state === false) {
+            localStorage.setItem('quest-perspectiveKeyboard', state.toString());
+
             setPerspectiveKeyboard(state);
 
             return;
         }
 
-        setPerspectiveKeyboard((prev) => !prev);
+        setPerspectiveKeyboard((prev) => {
+            localStorage.setItem('quest-perspectiveKeyboard', (!prev).toString());
+
+            return !prev;
+        });
+    }
+
+    function setKeyboard(keyboard: Keyboard) {
+        localStorage.setItem('quest-keyboard', keyboard);
+
+        setSelectedKeyboard(keyboard);
     }
 
     return (
@@ -75,10 +103,7 @@ export function HudProvider({ children }: { children: ReactNode }) {
                 toggleKeyboard,
                 toggleHudLock,
                 togglePerspectiveKeyboard,
-                setKeyboard: (keyboard: Keyboard) => {
-                    localStorage.setItem('quest-keyboard', keyboard);
-                    setKeyboard(keyboard);
-                },
+                setKeyboard,
             }}
         >
             {children}
