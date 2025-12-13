@@ -5,6 +5,7 @@ import { Ribs } from '@/components/Ribs';
 import { Ring } from '@/components/Ring';
 import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
+import { HoverHighlight } from './HoverHighlight';
 
 export function World() {
     const [ready, setReady] = useState<boolean>(false);
@@ -24,11 +25,12 @@ export function World() {
                     fov: 25,
                 }}
             >
-                <Cam />
-                <Ring size={2.75} />
-                <Ribs width={0.75} x={3} />
-                <FloorGuide />
+                {/* <Cam /> */}
+                {/* <Ring size={2.75} /> */}
+                {/* <Ribs width={0.75} x={3} /> */}
+                {/* <FloorGuide /> */}
                 <HudOverlay onReady={() => setReady(true)} />
+                <HoverHighlight />
             </Canvas>
         </div>
     );
