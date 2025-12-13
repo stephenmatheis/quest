@@ -1,4 +1,4 @@
-import { Edges } from '@react-three/drei';
+import { Edges, Line } from '@react-three/drei';
 import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
@@ -6,11 +6,11 @@ import { createBeveledShape } from '@/utils/shapes';
 import { ExtrudedSvg } from './ExtrudedSvg';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 
-const ASPECT_RATIO = 6 / 6;
-const WIDTH = 0.4;
+const ASPECT_RATIO = 6 / 7;
+const WIDTH = 0.35;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 0.07;
-const WEiGHT = 'regular';
+const WEiGHT = 'light';
 
 type ControlsProps = {
     width?: number;
@@ -31,7 +31,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
 
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
-    const rotY = 0;
+    const rotY = Math.PI / 4;
     const rotZ = 0;
     const gapY = width / 10;
 
@@ -43,9 +43,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         group: 0,
                         items: [
                             {
-                                label: (
-                                    <ExtrudedSvg src="/svg/arrow-up.svg" color={showKeyboard ? '#ffffff' : '#000000'} />
-                                ),
+                                label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
                                 selected: showKeyboard,
                                 action() {
                                     toggleKeyboard(true);
@@ -73,7 +71,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 },
                             },
                             {
-                                label: 'flat',
+                                label: 'face',
                                 selected: !perspectiveKeyboard,
                                 action() {
                                     togglePerspectiveKeyboard(false);
@@ -87,7 +85,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 },
                             },
                             {
-                                label: 'linear' as Keyboard,
+                                label: 'flat' as Keyboard,
                                 selected: keyboard === 'linear',
                                 action() {
                                     setKeyboard('linear');
@@ -141,9 +139,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                                         <Label
                                                             size={FONT_SIZE}
                                                             weight={WEiGHT}
-                                                            width={WIDTH + 0.05}
-                                                            height={HEIGHT}
-                                                            color={selected ? '#ffffff' : '#000000'}
+                                                            width={width + 0.05}
+                                                            height={height}
                                                         >
                                                             {label}
                                                         </Label>
@@ -152,9 +149,18 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                             >
                                                 <shapeGeometry args={[shape]} />
                                                 <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} />
-                                                {selected && <meshBasicMaterial color="#000000" />}
                                                 <Edges linewidth={2} threshold={15} color="#000000" />
                                             </Tool>
+                                            {selected && (
+                                                <Line
+                                                    points={[
+                                                        [width - 0.025, 0.075, 0],
+                                                        [width - 0.025, height - 0.075, 0],
+                                                    ]}
+                                                    color="#000000"
+                                                    linewidth={2.25}
+                                                />
+                                            )}
                                         </group>
                                     );
                                 })}

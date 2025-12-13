@@ -23,12 +23,12 @@ export function Tool({
     const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
 
     const springs = useSpring({
-        controlClickY: isPointerDown ? -0.1 : 0,
+        controlClickY: isPointerDown ? 0 : 0,
         controlClickZ: isPointerDown ? -0.1 : 0,
-        labelClickY: isPointerDown ? -0.1 : 0,
+        labelClickY: isPointerDown ? 0 : 0,
         labelClickZ: isPointerDown ? 0 : 0.1,
-        controlHoverZ: isOver ? 0.05 : 0,
-        labelHoverZ: isOver ? 0.15 : 0.1,
+        controlHoverZ: isOver ? 0 : 0,
+        labelHoverZ: isOver ? 0 : 0,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
@@ -72,7 +72,7 @@ export function Tool({
                     <animated.meshBasicMaterial visible={false} />
                 </mesh>
             </group>
-            <animated.group position={[0, 0, 0.1]} position-z={springs.labelHoverZ}>
+            <animated.group position={[0, 0, 0]} position-z={springs.labelHoverZ}>
                 <Center position={[width / 2 + 0.025, height / 2 - 0.0125, 0]}>
                     <animated.mesh position-y={springs.labelClickY} position-z={springs.labelClickZ}>
                         {label}

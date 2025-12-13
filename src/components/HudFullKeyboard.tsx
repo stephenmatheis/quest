@@ -47,7 +47,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
     const springs = useSpring({
         showY: showKeyboard ? 0 : -3.5,
         posY: getPosY(keyboard),
-        posZ: 0.5,
+        posZ: 0,
         rotXLeft: perspectiveKeyboard ? Math.PI / -2.75 : 0,
         rotYLeft: 0,
         rotZLeft: 0,
