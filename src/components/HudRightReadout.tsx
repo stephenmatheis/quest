@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { Text3D } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import { useThree } from '@react-three/fiber';
@@ -64,14 +63,14 @@ export function HudRightReadout() {
 
             raycaster.setFromCamera(pointer, camera);
 
-            // const intersects = raycaster.intersectObjects(scene.children, true);
+            const intersects = raycaster.intersectObjects(scene.children, true);
 
-            // if (intersects.length > 0) {
-            //     setHitPos(intersects[0].point.clone());
-            //     console.log(intersects);
-            // } else {
-            //     setHitPos(new Vector3(0, 0, 0)); // Or null/"No hit"
-            // }
+            if (intersects.length > 0) {
+                setHitPos(intersects[0].point.clone());
+                console.log(intersects);
+            } else {
+                setHitPos(new Vector3(0, 0, 0)); // Or null/"No hit"
+            }
         }
 
         window.addEventListener('pointermove', onPointerMove);
