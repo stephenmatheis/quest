@@ -72,7 +72,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
     const rightShape = createRightShape(width, height, 0.075);
 
     return (
-        <animated.group position-y={springs.showY}>
+        <animated.group position-y={springs.showY} layers={1}>
             <animated.group position-y={springs.posY} position-z={springs.posZ}>
                 {/* Left  */}
                 <animated.group
@@ -135,11 +135,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                     }
                                                 >
                                                     <shapeGeometry args={[leftShape]} />
-                                                    <meshBasicMaterial
-                                                        transparent
-                                                        opacity={0}
-                                                        depthWrite={false}
-                                                    />{' '}
+                                                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
                                                     <Edges linewidth={2} threshold={15} color="#000000" />
                                                 </Control>
                                             </animated.group>
@@ -219,7 +215,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                         transparent
                                                         opacity={0}
                                                         depthWrite={false}
-                                                    />{' '}
+                                                    />
                                                     <Edges linewidth={2} threshold={15} color="#000000" />
                                                 </Control>
                                             </animated.group>

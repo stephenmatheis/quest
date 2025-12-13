@@ -76,7 +76,7 @@ export function Control({
                     <meshBasicMaterial visible={false} />
                 </mesh>
             </group>
-            <animated.group position={[0, 0, 0.1]} position-y={springs.ly} position-z={springs.lz}>
+            <animated.group position={[0, 0, 0.1]} position-y={springs.ly} position-z={springs.lz} raycast={() => {}}>
                 {label}
             </animated.group>
         </>

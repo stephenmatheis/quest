@@ -25,12 +25,12 @@ export function World() {
                     fov: 25,
                 }}
             >
-                {/* <Cam /> */}
-                {/* <Ring size={2.75} /> */}
-                {/* <Ribs width={0.75} x={3} /> */}
-                {/* <FloorGuide /> */}
-                <HudOverlay onReady={() => setReady(true)} />
+                <Cam />
                 <HoverHighlight />
+                <Ring size={2.75} />
+                <Ribs width={0.75} x={3} />
+                <FloorGuide />
+                <HudOverlay onReady={() => setReady(true)} />
             </Canvas>
         </div>
     );
