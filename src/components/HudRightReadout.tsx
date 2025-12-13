@@ -1,30 +1,27 @@
+import * as THREE from 'three';
 import { Text3D } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import { useThree } from '@react-three/fiber';
-import { Vector2 } from 'three';
+import { Vector2, Vector3 } from 'three';
 
 type Viewport = {
     width: number;
     height: number;
 };
 
-const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+function pad(n: number) {
+    return n.toString().padStart(2, '0');
+}
 
 function formatDateTime(date: Date) {
     const yyyy = date.getFullYear();
-    const M = date.getMonth() + 1;
-    const MM = M < 10 ? `0${M}` : M;
-    const d = date.getDate();
-    const dd = d < 10 ? `0${d}` : d;
-    const day = days[date.getDay()];
-    const h = date.getHours();
-    const hh = h < 10 ? `0${h}` : h;
-    const m = date.getMinutes();
-    const mm = m < 10 ? `0${m}` : h;
-    const s = date.getSeconds();
-    const ss = s < 10 ? `0${s}` : s;
+    const MM = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const hh = pad(date.getHours());
+    const mm = pad(date.getMinutes());
+    const ss = pad(date.getSeconds());
 
-    return `d ${yyyy}.${MM}.${dd} t ${hh}.${mm}.${ss}`;
+    return `${date.getDay()}.${dd}.${MM}.${yyyy} ${hh}.${mm}.${ss}`;
 }
 
 export function HudRightReadout() {
@@ -35,8 +32,9 @@ export function HudRightReadout() {
     });
     const [pointerPos, setPointerPos] = useState<Vector2>(new Vector2());
     const [date, setDate] = useState<string>(formatDateTime(new Date()));
+    const [hitPos, setHitPos] = useState(new Vector3());
 
-    const { pointer, camera, raycaster } = useThree();
+    const { pointer, camera, raycaster, scene } = useThree();
 
     useEffect(() => {
         function onResize() {
@@ -63,6 +61,17 @@ export function HudRightReadout() {
     useEffect(() => {
         function onPointerMove() {
             setPointerPos(new Vector2(pointer.x, pointer.y));
+
+            raycaster.setFromCamera(pointer, camera);
+
+            // const intersects = raycaster.intersectObjects(scene.children, true);
+
+            // if (intersects.length > 0) {
+            //     setHitPos(intersects[0].point.clone());
+            //     console.log(intersects);
+            // } else {
+            //     setHitPos(new Vector3(0, 0, 0)); // Or null/"No hit"
+            // }
         }
 
         window.addEventListener('pointermove', onPointerMove);
@@ -73,7 +82,7 @@ export function HudRightReadout() {
     }, [pointer]);
 
     return (
-        <group position={[2.3, 4.475, 0]}>
+        <group position={[2.1, 4.475, 0]}>
             {/* Line 1 */}
             <Text3D position={[0, -0.002, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
                 {date}
@@ -88,15 +97,15 @@ export function HudRightReadout() {
 
             {/* Line 3 */}
             <Text3D position={[0, -0.397, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                x {pointerPos.x.toFixed(3)} y {pointerPos.y.toFixed(3)}
+                2D x {pointerPos.x.toFixed(3)} y {pointerPos.y.toFixed(3)}
                 <meshBasicMaterial color="#000000" />
             </Text3D>
 
             {/* Line 4 */}
-            {/* <Text3D position={[0, -0.592, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
-                sgnl 2035 ///
+            <Text3D position={[0, -0.592, 0]} height={0.001} size={fontSize} font={`/fonts/Mono_Regular.json`}>
+                3D x {hitPos.x.toFixed(3)} y {hitPos.y.toFixed(3)} z {hitPos.z.toFixed(3)}
                 <meshBasicMaterial color="#000000" />
-            </Text3D> */}
+            </Text3D>
         </group>
     );
 }
