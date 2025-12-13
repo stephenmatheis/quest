@@ -154,11 +154,11 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                             {selected && (
                                                 <Line
                                                     points={[
-                                                        [width - 0.025, 0.075, 0],
-                                                        [width - 0.025, height - 0.075, 0],
+                                                        [width + 0.025, 0.05, 0],
+                                                        [width + 0.025, height - 0.05, 0],
                                                     ]}
                                                     color="#000000"
-                                                    linewidth={2.25}
+                                                    linewidth={2}
                                                 />
                                             )}
                                         </group>
