@@ -55,10 +55,10 @@ export function HudRightReadout() {
     }, []);
 
     return (
-        <group position={[2.1, 4.475, 0]}>
+        <group position={[2, 4.475, 0]}>
             {/* Line 1 */}
             <Text3D position={[0, -0.002, 0]} height={0.001} size={FONT_SIZE} font={`/fonts/Mono_Regular.json`}>
-                {date}
+                dt {date}
                 <meshBasicMaterial color="#000000" />
             </Text3D>
 
