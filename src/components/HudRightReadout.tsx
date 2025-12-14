@@ -14,6 +14,10 @@ function pad(n: number) {
     return n.toString().padStart(2, '0');
 }
 
+function formatAbs(number: number) {
+    return number < 0 ? number.toFixed(3) : ` ${number.toFixed(3)}`;
+}
+
 function formatDate(date: Date) {
     const yyyy = date.getFullYear();
     const MM = pad(date.getMonth() + 1);
@@ -65,32 +69,72 @@ export function HudRightReadout() {
         };
     }, []);
 
+    const lines = [`date     ${date}`, `time     ${time}`, `view     ${viewport.width} x ${viewport.height}`];
+    const pointerLabel = 'pointer';
+    const pointerPosLines = [`${formatAbs(pointerPos.x)} x`, `${formatAbs(pointerPos.y)} y`];
+    const objectLabel = 'object';
+    const hitPosLines = [`${formatAbs(hitPos.x)} x`, `${formatAbs(hitPos.y)} y`, `${formatAbs(hitPos.z)} z`];
+
     return (
         <group position={[2.45, 4.45, 0]}>
-            {[
-                `date ${date}`,
-                `time ${time}`,
-                `view ${viewport.width} x ${viewport.height}`,
-                `point ${pointerPos.x.toFixed(3)} y ${pointerPos.y.toFixed(3)}`,
-                ``,
-                `object`,
-                `x ${hitPos.x.toFixed(3)} `,
-                `y ${hitPos.y.toFixed(3)}`,
-                `z ${hitPos.z.toFixed(3)}`,
-            ].map((line, index) => {
-                return (
-                    <Text3D
-                        key={index}
-                        position={[0, index * -0.2, 0]}
-                        height={0.001}
-                        size={FONT_SIZE}
-                        font={FONT}
-                    >
-                        {line}
-                        <meshBasicMaterial color="#000000" />
-                    </Text3D>
-                );
-            })}
+            <group>
+                {lines.map((line, index) => {
+                    return (
+                        <Text3D key={index} position={[0, index * -0.2, 0]} height={0.001} size={FONT_SIZE} font={FONT}>
+                            {line}
+                            <meshBasicMaterial color="#000000" />
+                        </Text3D>
+                    );
+                })}
+            </group>
+
+            {/* pointer pos */}
+            <group position={[0, lines.length * -0.2, 0]}>
+                <Text3D height={0.001} size={FONT_SIZE} font={FONT}>
+                    {pointerLabel}
+                    <meshBasicMaterial color="#000000" />
+                </Text3D>
+                <group position={[0, 0, 0]}>
+                    {pointerPosLines.map((line, index) => {
+                        return (
+                            <Text3D
+                                key={index}
+                                position={[0, index * -0.2, 0]}
+                                height={0.001}
+                                size={FONT_SIZE}
+                                font={FONT}
+                            >
+                                {Array.from({ length: pointerLabel.length }).map((_) => ' ')} {line}
+                                <meshBasicMaterial color="#000000" />
+                            </Text3D>
+                        );
+                    })}
+                </group>
+            </group>
+
+            {/* hit pos */}
+            <group position={[0, (lines.length + pointerPosLines.length) * -0.2, 0]}>
+                <Text3D height={0.001} size={FONT_SIZE} font={FONT}>
+                    {objectLabel}
+                    <meshBasicMaterial color="#000000" />
+                </Text3D>
+                <group position={[0, 0, 0]}>
+                    {hitPosLines.map((line, index) => {
+                        return (
+                            <Text3D
+                                key={index}
+                                position={[0, index * -0.2, 0]}
+                                height={0.001}
+                                size={FONT_SIZE}
+                                font={FONT}
+                            >
+                                {Array.from({ length: pointerLabel.length }).map((_) => ' ')} {line}
+                                <meshBasicMaterial color="#000000" />
+                            </Text3D>
+                        );
+                    })}
+                </group>
+            </group>
         </group>
     );
 }
