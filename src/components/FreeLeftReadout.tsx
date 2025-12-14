@@ -1,9 +1,10 @@
 import { Edges, Text3D } from '@react-three/drei';
+import { FONT } from '@/lib/constants';
 
 export function FreeLeftReadout() {
     return (
         <group position={[-6.5, 6, -1]}>
-            <Text3D position={[0, 0, 0]} height={0.001} size={0.5} font={`/fonts/Mono_Bold.json`}>
+            <Text3D position={[0, 0, 0]} height={0.001} size={0.5} font={FONT}>
                 GRID 00
                 <meshBasicMaterial transparent opacity={0} depthWrite={false} />
                 <Edges linewidth={2} threshold={15} color="#000000" />

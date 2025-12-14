@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import { Center, Text3D } from '@react-three/drei';
+import { FONT } from '@/lib/constants';
 
 const LARGE_FONT_SIZE = 0.115;
 const MEDIUM_FONT_SIZE = 0.1;
@@ -12,9 +13,9 @@ const sizes = {
 };
 
 const weights = {
-    light: 'Light',
+    light: 'Regular',
     regular: 'Regular',
-    bold: 'Bold',
+    bold: 'Regular',
 };
 
 type LabelProps = {
@@ -41,11 +42,7 @@ export function Label({
     return (
         <Center position={position} rotation={rotation}>
             {typeof children === 'string' ? (
-                <Text3D
-                    height={0.01}
-                    size={typeof size === 'number' ? size : sizes[size]}
-                    font={`/fonts/Mono_${weights[weight]}.json`}
-                >
+                <Text3D height={0.01} size={typeof size === 'number' ? size : sizes[size]} font={FONT}>
                     {children}
                     <meshBasicMaterial color={color} />
                 </Text3D>

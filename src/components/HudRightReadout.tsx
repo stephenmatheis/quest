@@ -1,6 +1,7 @@
 import { useWorld } from '@/providers/WorldProvider';
 import { Text3D } from '@react-three/drei';
 import { useEffect, useState } from 'react';
+import { FONT } from '@/lib/constants';
 
 const FONT_SIZE = 0.08;
 
@@ -13,15 +14,21 @@ function pad(n: number) {
     return n.toString().padStart(2, '0');
 }
 
-function formatDateTime(date: Date) {
+function formatDate(date: Date) {
     const yyyy = date.getFullYear();
     const MM = pad(date.getMonth() + 1);
     const dd = pad(date.getDate());
+    const d = date.getDay();
+
+    return `${d}.${dd}.${MM}.${yyyy}`;
+}
+
+function formatTime(date: Date) {
     const hh = pad(date.getHours());
     const mm = pad(date.getMinutes());
     const ss = pad(date.getSeconds());
 
-    return `${date.getDay()}.${dd}.${MM}.${yyyy} ${hh}.${mm}.${ss}`;
+    return `${hh}.${mm}.${ss}`;
 }
 
 export function HudRightReadout() {
@@ -30,7 +37,8 @@ export function HudRightReadout() {
         width: 0,
         height: 0,
     });
-    const [date, setDate] = useState<string>(formatDateTime(new Date()));
+    const [date, setDate] = useState<string>(formatDate(new Date()));
+    const [time, setTime] = useState<string>(formatTime(new Date()));
 
     useEffect(() => {
         function onResize() {
@@ -45,7 +53,10 @@ export function HudRightReadout() {
         window.addEventListener('resize', onResize);
 
         const id = setInterval(() => {
-            setDate(formatDateTime(new Date()));
+            const now = new Date();
+
+            setDate(formatDate(now));
+            setTime(formatTime(now));
         }, 1000);
 
         return () => {
@@ -55,30 +66,31 @@ export function HudRightReadout() {
     }, []);
 
     return (
-        <group position={[2, 4.475, 0]}>
-            {/* Line 1 */}
-            <Text3D position={[0, -0.002, 0]} height={0.001} size={FONT_SIZE} font={`/fonts/Mono_Regular.json`}>
-                dt {date}
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-
-            {/* Line 2 */}
-            <Text3D position={[0, -0.2, 0]} height={0.001} size={FONT_SIZE} font={`/fonts/Mono_Regular.json`}>
-                vw {viewport.width} vh {viewport.height}
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-
-            {/* Line 3 */}
-            <Text3D position={[0, -0.397, 0]} height={0.001} size={FONT_SIZE} font={`/fonts/Mono_Regular.json`}>
-                x {pointerPos.x.toFixed(3)} y {pointerPos.y.toFixed(3)}
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
-
-            {/* Line 4 */}
-            <Text3D position={[0, -0.592, 0]} height={0.001} size={FONT_SIZE} font={`/fonts/Mono_Regular.json`}>
-                hit x {hitPos.x.toFixed(3)} y {hitPos.y.toFixed(3)} z {hitPos.z.toFixed(3)}
-                <meshBasicMaterial color="#000000" />
-            </Text3D>
+        <group position={[2.45, 4.45, 0]}>
+            {[
+                `date ${date}`,
+                `time ${time}`,
+                `view ${viewport.width} x ${viewport.height}`,
+                `point ${pointerPos.x.toFixed(3)} y ${pointerPos.y.toFixed(3)}`,
+                ``,
+                `object`,
+                `x ${hitPos.x.toFixed(3)} `,
+                `y ${hitPos.y.toFixed(3)}`,
+                `z ${hitPos.z.toFixed(3)}`,
+            ].map((line, index) => {
+                return (
+                    <Text3D
+                        key={index}
+                        position={[0, index * -0.2, 0]}
+                        height={0.001}
+                        size={FONT_SIZE}
+                        font={FONT}
+                    >
+                        {line}
+                        <meshBasicMaterial color="#000000" />
+                    </Text3D>
+                );
+            })}
         </group>
     );
 }
