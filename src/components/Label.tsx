@@ -20,10 +20,10 @@ const weights = {
 
 type LabelProps = {
     children: ReactNode;
-    weight: 'light' | 'regular' | 'bold';
     size: 'small' | 'medium' | 'large' | number;
     width: number;
     height: number;
+    weight?: 'light' | 'regular' | 'bold';
     color?: string;
     position?: [number, number, number];
     rotation?: [number, number, number];
@@ -31,10 +31,10 @@ type LabelProps = {
 
 export function Label({
     children,
-    weight,
     size,
     width,
     height,
+    weight = 'regular',
     color = '#000000',
     position = [width / 2, height / 2, 0],
     rotation = [0, 0, 0],
@@ -42,7 +42,11 @@ export function Label({
     return (
         <Center position={position} rotation={rotation}>
             {typeof children === 'string' ? (
-                <Text3D height={0.01} size={typeof size === 'number' ? size : sizes[size]} font={FONT}>
+                <Text3D
+                    height={0.01}
+                    size={typeof size === 'number' ? size : sizes[size]}
+                    font={weights[weight] && FONT}
+                >
                     {children}
                     <meshBasicMaterial color={color} />
                 </Text3D>
