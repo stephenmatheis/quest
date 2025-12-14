@@ -6,9 +6,6 @@ import { HudRightReadout } from '@/components/HudRightReadout';
 import { HudLeftTools } from '@/components/HudLeftTools';
 import { HudProvider, useHud } from '@/providers/HudProvider';
 import { useEffect, useRef, type ReactNode } from 'react';
-// import { useThree } from '@react-three/fiber';
-
-// const MAX_VIEWPORT_WIDTH = 25.759047956216584;
 
 function HudWrapper({ children }: { children: ReactNode }) {
     const { lockHud } = useHud();
@@ -17,18 +14,12 @@ function HudWrapper({ children }: { children: ReactNode }) {
 }
 
 export function HudOverlay({ onReady }: { onReady: () => void }) {
-    // const viewport = useThree((state) => state.viewport);
     const scale = useRef<number>(1);
 
     useEffect(() => {
-        // const { width, height } = viewport;
-
-        // console.log(width, height);
-
         const id = requestAnimationFrame(() => onReady?.());
 
         return () => cancelAnimationFrame(id);
-        // }, [viewport]);
     }, []);
 
     return (
