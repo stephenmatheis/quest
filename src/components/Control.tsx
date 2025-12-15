@@ -32,12 +32,13 @@ export function Control({
 
     function handleDown(event: ThreeEvent<PointerEvent>) {
         console.log(event);
-        
+
         setIsPointerDown(true);
         toggleEnableCamera(false);
 
         function handleKeyRelease() {
             setIsPointerDown(false);
+            toggleEnableCamera(true);
 
             window.removeEventListener('pointerup', handleKeyRelease);
             window.removeEventListener('pointercancel', handleKeyRelease);
