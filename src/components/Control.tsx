@@ -1,4 +1,6 @@
+import { useCameraControls } from '@/providers/CameraProvider';
 import { animated, useSpring } from '@react-spring/three';
+import type { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useState, type ReactNode } from 'react';
 
 const MASS = 2;
@@ -18,6 +20,7 @@ export function Control({
     label: ReactNode;
     code?: string;
 }) {
+    const { toggleEnableCamera } = useCameraControls();
     const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
     const springs = useSpring({
         cy: isPointerDown ? -0.1 : 0,
@@ -27,19 +30,25 @@ export function Control({
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
-    function handleDown() {
+    function handleDown(event: ThreeEvent<PointerEvent>) {
+        console.log(event);
+        
         setIsPointerDown(true);
-    }
+        toggleEnableCamera(false);
 
-    function handleUp() {
-        setIsPointerDown(false);
+        function handleKeyRelease() {
+            setIsPointerDown(false);
+
+            window.removeEventListener('pointerup', handleKeyRelease);
+            window.removeEventListener('pointercancel', handleKeyRelease);
+        }
+
+        window.addEventListener('pointerup', handleKeyRelease);
+        window.addEventListener('pointercancel', handleKeyRelease);
     }
 
     useEffect(() => {
         function onKeydown(event: KeyboardEvent) {
-            // event.stopPropagation();
-            // event.preventDefault();
-
             console.log(event.code);
 
             if (event.code === code) {
@@ -48,9 +57,6 @@ export function Control({
         }
 
         function onKeyup(event: KeyboardEvent) {
-            // event.stopPropagation();
-            // event.preventDefault();
-
             if (event.code === code) {
                 setIsPointerDown(false);
             }
@@ -71,13 +77,7 @@ export function Control({
                 <animated.mesh raycast={() => {}} position-y={springs.cy} position-z={springs.cz}>
                     {children}
                 </animated.mesh>
-                <mesh
-                    position={[width / 2, height / 2, 0]}
-                    onPointerDown={handleDown}
-                    onPointerUp={handleUp}
-                    // onPointerOver={handleDown}
-                    // onPointerOut={handleUp}
-                >
+                <mesh position={[width / 2, height / 2, 0]} onPointerDown={handleDown}>
                     <boxGeometry args={[width, height, 0.1]} />
                     <meshBasicMaterial visible={false} />
                 </mesh>

@@ -10,7 +10,14 @@ import { useEffect, useRef, type ReactNode } from 'react';
 function HudWrapper({ children }: { children: ReactNode }) {
     const { lockHud } = useHud();
 
-    return lockHud ? <Hud renderPriority={1}>{children}</Hud> : <group position={[0, -2, 0]}>{children}</group>;
+    return lockHud ? (
+        <Hud renderPriority={1}>
+            <PerspectiveCamera makeDefault position={[0, 2, 11.8]} fov={25} />
+            {children}
+        </Hud>
+    ) : (
+        <group position={[0, -2, 0]}>{children}</group>
+    );
 }
 
 export function HudOverlay({ onReady }: { onReady: () => void }) {
@@ -25,7 +32,6 @@ export function HudOverlay({ onReady }: { onReady: () => void }) {
     return (
         <HudProvider>
             <HudWrapper>
-                <PerspectiveCamera makeDefault position={[0, 2, 11.8]} fov={25} />
                 <group scale={scale.current}>
                     <HudLeftTools />
                     <HudFullKeyboard />

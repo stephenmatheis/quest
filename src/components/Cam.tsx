@@ -5,7 +5,7 @@ import { useCameraControls } from '@/providers/CameraProvider';
 const { ACTION } = CameraControlsImpl;
 
 export function Cam() {
-    const { cameraControlsRef, isCameraLocked } = useCameraControls();
+    const { cameraControlsRef, isCameraLocked, enabled } = useCameraControls();
 
     useEffect(() => {
         const controls = cameraControlsRef.current;
@@ -34,6 +34,7 @@ export function Cam() {
                 two: ACTION.TOUCH_DOLLY_TRUCK,
                 three: ACTION.TOUCH_DOLLY_TRUCK,
             }}
+            enabled={enabled}
         />
     );
 }
