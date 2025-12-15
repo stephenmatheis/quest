@@ -32,7 +32,7 @@ function formatTime(date: Date) {
     const mm = pad(date.getMinutes());
     const ss = pad(date.getSeconds());
 
-    return `${hh}.${mm}.${ss}`;
+    return `${hh}:${mm}:${ss}`;
 }
 
 export function HudRightReadout() {
