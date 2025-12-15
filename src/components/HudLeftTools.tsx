@@ -10,7 +10,7 @@ const ASPECT_RATIO = 6 / 7;
 const WIDTH = 0.35;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 0.07;
-const WEiGHT = 'light';
+const WEiGHT = 'regular';
 
 type ControlsProps = {
     width?: number;
@@ -31,7 +31,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
 
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
-    const rotY = Math.PI / 4;
+    // const rotY = Math.PI / 4;
+    const rotY = 0;
     const rotZ = 0;
     const gapY = width / 10;
 
@@ -139,7 +140,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                                         <Label
                                                             size={FONT_SIZE}
                                                             weight={WEiGHT}
-                                                            width={width + 0.05}
+                                                            width={width}
                                                             height={height}
                                                         >
                                                             {label}
