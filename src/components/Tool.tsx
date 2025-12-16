@@ -1,6 +1,9 @@
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import type { ThreeEvent } from '@react-three/fiber';
 import { animated, useSpring } from '@react-spring/three';
-import { Center } from '@react-three/drei';
-import { useState, type ReactNode } from 'react';
+import { Helper } from '@react-three/drei';
+import { useCameraControls } from '@/providers/CameraProvider';
+import { Box3, BoxHelper, Group, Vector3 } from 'three';
 
 const MASS = 2;
 const TENSION = 360;
@@ -19,66 +22,65 @@ export function Tool({
     label: ReactNode;
     action: () => void;
 }) {
-    const [isOver, setIsOver] = useState<boolean>(false);
-    const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
+    const { toggleEnableCamera } = useCameraControls();
+    const [isPointerDown, setIsPointerDown] = useState(false);
+    const labelRef = useRef<Group>(null);
 
     const springs = useSpring({
-        controlClickY: isPointerDown ? 0 : 0,
-        controlClickZ: isPointerDown ? -0.1 : 0,
-        labelClickY: isPointerDown ? 0 : 0,
-        labelClickZ: isPointerDown ? 0 : 0.1,
-        controlHoverZ: isOver ? 0 : 0,
-        labelHoverZ: isOver ? 0 : 0,
+        cy: isPointerDown ? -0.1 : 0,
+        cz: isPointerDown ? -0.1 : 0,
+        ly: isPointerDown ? -0.1 : 0,
+        lz: isPointerDown ? 0 : 0,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
-    function handleOver() {
-        setIsOver(true);
-    }
+    function handleDown(event: ThreeEvent<PointerEvent>) {
+        event.stopPropagation();
 
-    function handleOut() {
-        setIsOver(false);
-    }
-
-    function handlePointerDown() {
         setIsPointerDown(true);
+        toggleEnableCamera(false);
+        action?.();
+
+        const handleUp = () => {
+            setIsPointerDown(false);
+            toggleEnableCamera(true);
+            window.removeEventListener('pointerup', handleUp);
+            window.removeEventListener('pointercancel', handleUp);
+        };
+
+        window.addEventListener('pointerup', handleUp);
+        window.addEventListener('pointercancel', handleUp);
     }
 
-    function handlePointerUp() {
-        setIsPointerDown(false);
-    }
+    useEffect(() => {
+        if (!labelRef.current) return;
+
+        const boundingBox = new Box3();
+        const size = new Vector3();
+
+        boundingBox.setFromObject(labelRef.current);
+        boundingBox.getSize(size);
+
+        // gapX = width / 10 divided by 2 is width / 20
+        labelRef.current.position.set(width / 2 - (size.x + width / 20) / 2, height / 2 - size.y / 2, 0);
+    }, []);
 
     return (
-        <>
-            <group position={[0, 0, 0]}>
-                <animated.mesh raycast={() => {}} position-z={springs.controlHoverZ}>
-                    <animated.mesh
-                        raycast={() => {}}
-                        position-y={springs.controlClickY}
-                        position-z={springs.controlClickZ}
-                    >
-                        {children}
-                    </animated.mesh>
-                </animated.mesh>
-                <mesh
-                    onClick={() => action?.()}
-                    position={[width / 2, height / 2, 0]}
-                    onPointerOver={handleOver}
-                    onPointerOut={handleOut}
-                    onPointerDown={handlePointerDown}
-                    onPointerUp={handlePointerUp}
-                >
-                    <boxGeometry args={[width, height, 0.1]} />
-                    <animated.meshBasicMaterial visible={false} />
-                </mesh>
-            </group>
-            <animated.group position={[0, 0, 0]} position-z={springs.labelHoverZ}>
-                <Center position={[width / 2 + 0.025, height / 2 - 0.0125, 0]}>
-                    <animated.mesh position-y={springs.labelClickY} position-z={springs.labelClickZ}>
-                        {label}
-                    </animated.mesh>
-                </Center>
+        <group>
+            <animated.group position-y={springs.cy} position-z={springs.cz}>
+                {children}
             </animated.group>
-        </>
+            <group ref={labelRef} position={[0, 0, 0]}>
+                <animated.group position-y={springs.ly} position-z={springs.lz}>
+                    {label}
+                </animated.group>
+
+                <Helper type={BoxHelper} args={['red']} />
+            </group>
+            <mesh onPointerDown={handleDown} position-z={0.05}>
+                <boxGeometry args={[width, height, 0.2]} />
+                <meshBasicMaterial visible={false} />
+            </mesh>
+        </group>
     );
 }

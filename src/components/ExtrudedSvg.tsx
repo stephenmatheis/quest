@@ -1,4 +1,3 @@
-// ExtrudedSvg.tsx  ← temporary test version
 import { SVGLoader } from 'three-stdlib';
 import { useLoader } from '@react-three/fiber';
 
@@ -23,7 +22,6 @@ export function ExtrudedSvg({
 
     return (
         <group scale={[scale, -scale, scale]} rotation={rotation}>
-            {/* Y flip + scale down */}
             {shapes.map((shape: any, i: number) => (
                 <mesh key={i}>
                     <extrudeGeometry args={[shape, { depth, bevelEnabled: false }]} />

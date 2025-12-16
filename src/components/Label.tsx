@@ -1,5 +1,6 @@
-import { type ReactNode } from 'react';
-import { Center, Text3D } from '@react-three/drei';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { BoxHelper, type Group } from 'three';
+import { Center, Helper, Text3D } from '@react-three/drei';
 import { FONT } from '@/lib/constants';
 
 const LARGE_FONT_SIZE = 0.115;
@@ -20,9 +21,7 @@ const weights = {
 
 type LabelProps = {
     children: ReactNode;
-    size: 'small' | 'medium' | 'large' | number;
-    width: number;
-    height: number;
+    size?: 'small' | 'medium' | 'large' | number;
     weight?: 'light' | 'regular' | 'bold';
     color?: string;
     position?: [number, number, number];
@@ -31,28 +30,30 @@ type LabelProps = {
 
 export function Label({
     children,
-    size,
-    width,
-    height,
+    size = 'medium',
     weight = 'regular',
     color = '#000000',
-    position = [width / 2, height / 2, 0],
+    position = [0, 0, 0],
     rotation = [0, 0, 0],
 }: LabelProps) {
     return (
-        <Center position={position} rotation={rotation}>
+        <>
             {typeof children === 'string' ? (
                 <Text3D
+                    position={position}
+                    rotation={rotation}
                     height={0.01}
                     size={typeof size === 'number' ? size : sizes[size]}
                     font={weights[weight] && FONT}
                 >
                     {children}
                     <meshBasicMaterial color={color} />
+
+                    {/* <Helper type={BoxHelper} args={['red']} /> */}
                 </Text3D>
             ) : (
-                children
+                <Center top right>{children}</Center>
             )}
-        </Center>
+        </>
     );
 }
