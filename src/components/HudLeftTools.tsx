@@ -6,6 +6,7 @@ import { createBeveledShape } from '@/utils/shapes';
 import { ExtrudedSvg } from './ExtrudedSvg';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { useMemo } from 'react';
+import { useCameraControls } from '@/providers/CameraProvider';
 
 const ASPECT_RATIO = 6 / 7;
 const WIDTH = 0.35;
@@ -29,6 +30,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
         lockHud,
         perspectiveKeyboard,
     } = useHud();
+    const { toggleEnableCamera } = useCameraControls();
 
     const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
@@ -61,6 +63,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             selected: lockHud,
                             action() {
                                 toggleHudLock(true);
+
+                                toggleEnableCamera(true);
                             },
                         },
                         {
@@ -68,6 +72,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             selected: !lockHud,
                             action() {
                                 toggleHudLock(false);
+
+                                toggleEnableCamera(true);
                             },
                         },
                         {

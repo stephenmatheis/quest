@@ -45,7 +45,8 @@ function getMultiplier(keyboard: Keyboard) {
 export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight = 'regular' }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
     const springs = useSpring({
-        showY: showKeyboard ? 0 : -3.5,
+        // showY: showKeyboard ? 0 : -3.5,
+        showY: showKeyboard ? 1 : -3.5,
         posY: getPosY(keyboard),
         posZ: 0,
         rotXLeft: perspectiveKeyboard ? Math.PI / -2.75 : 0,
@@ -73,6 +74,33 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
     const rightShape = useMemo(() => createRightShape(width, height, 0.075), []);
     const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
     const sortedLeft = useMemo(() => leftControls.sort((a, b) => b.group - a.group), []);
+
+    return (
+        <animated.group position-y={springs.showY}>
+            <animated.group position-y={springs.posY} position-z={springs.posZ}>
+                <animated.group
+                    position-x={-1.25}
+                    rotation-x={springs.rotXLeft}
+                    rotation-y={springs.rotYLeft}
+                    rotation-z={springs.rotZLeft}
+                >
+                    <boxGeometry args={[2, 2, 0.25]} />
+                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                    <Edges linewidth={2} threshold={15} color="#ff0000" />
+                </animated.group>
+                <animated.group
+                    position-x={1.25}
+                    rotation-x={springs.rotXRight}
+                    rotation-y={springs.rotYRight}
+                    rotation-z={springs.rotZRight}
+                >
+                    <boxGeometry args={[2, 2, 0.25]} />
+                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                    <Edges linewidth={2} threshold={15} color="#ff0000" />
+                </animated.group>
+            </animated.group>
+        </animated.group>
+    );
 
     return (
         <animated.group position-y={springs.showY}>
