@@ -123,8 +123,8 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                             weight={fontWeight}
                                                             rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
                                                             position={[
-                                                                width / 2,
-                                                                height / 2 - (perspectiveKeyboard ? 0.15 : 0),
+                                                                perspectiveKeyboard ? 0.0125 : 0,
+                                                                perspectiveKeyboard ? -0.15 : 0,
                                                                 0,
                                                             ]}
                                                         >
@@ -195,8 +195,8 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                             weight={fontWeight}
                                                             rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
                                                             position={[
-                                                                width / 2,
-                                                                height / 2 - (perspectiveKeyboard ? 0.15 : 0),
+                                                                perspectiveKeyboard ? 0.0125 : 0,
+                                                                perspectiveKeyboard ? -0.15 : 0,
                                                                 0,
                                                             ]}
                                                         >
