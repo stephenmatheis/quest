@@ -106,7 +106,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     );
 
     const shape = createBeveledShape(width, height, 0.0375);
-    const rotX = 0.5;
+    const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
     const gapX = width / 10;
