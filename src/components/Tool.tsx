@@ -6,7 +6,7 @@ import { Box3, Group, Vector3 } from 'three';
 const MASS = 2;
 const TENSION = 360;
 const FRICTION = 30;
-const PADDING = 0.0175;
+const PADDING = 0;
 
 export function Tool({
     children,
