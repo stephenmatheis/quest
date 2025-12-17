@@ -1,7 +1,8 @@
 import { useCameraControls } from '@/providers/CameraProvider';
 import { animated, useSpring } from '@react-spring/three';
 import type { ThreeEvent } from '@react-three/fiber';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Box3, Vector3, type Group } from 'three';
 
 const MASS = 2;
 const TENSION = 360;
@@ -21,31 +22,32 @@ export function Control({
     code?: string;
 }) {
     const { toggleEnableCamera } = useCameraControls();
-    const [isPointerDown, setIsPointerDown] = useState<boolean>(false);
+    const labelRef = useRef<Group>(null);
+    const [isActive, setIsActive] = useState<boolean>(false);
     const springs = useSpring({
-        cy: isPointerDown ? -0.1 : 0,
-        cz: isPointerDown ? -0.1 : 0,
-        ly: isPointerDown ? -0.1 : 0,
-        lz: isPointerDown ? 0 : 0.1,
+        cy: isActive ? -0.1 : 0,
+        cz: isActive ? -0.1 : 0,
+        ly: isActive ? -0.1 : 0,
+        lz: isActive ? 0 : 0.1,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
     function handleDown(event: ThreeEvent<PointerEvent>) {
         console.log(event);
 
-        setIsPointerDown(true);
+        setIsActive(true);
         toggleEnableCamera(false);
 
+        window.addEventListener('pointerup', handleKeyRelease);
+        window.addEventListener('pointercancel', handleKeyRelease);
+
         function handleKeyRelease() {
-            setIsPointerDown(false);
+            setIsActive(false);
             toggleEnableCamera(true);
 
             window.removeEventListener('pointerup', handleKeyRelease);
             window.removeEventListener('pointercancel', handleKeyRelease);
         }
-
-        window.addEventListener('pointerup', handleKeyRelease);
-        window.addEventListener('pointercancel', handleKeyRelease);
     }
 
     useEffect(() => {
@@ -53,18 +55,29 @@ export function Control({
             console.log(event.code);
 
             if (event.code === code) {
-                setIsPointerDown(true);
+                setIsActive(true);
             }
         }
 
         function onKeyup(event: KeyboardEvent) {
             if (event.code === code) {
-                setIsPointerDown(false);
+                setIsActive(false);
             }
         }
 
         window.addEventListener('keydown', onKeydown);
         window.addEventListener('keyup', onKeyup);
+
+        if (labelRef.current) {
+            const boundingBox = new Box3();
+            const size = new Vector3();
+
+            boundingBox.setFromObject(labelRef.current);
+            boundingBox.getSize(size);
+
+            // gapX = width / 10 divided by 2 is width / 20 or about .0175
+            labelRef.current.position.set(width / 2 - (size.x + 0.0175) / 2, height / 2 - size.y / 2, 0);
+        }
 
         return () => {
             window.removeEventListener('keydown', onKeydown);
@@ -73,19 +86,27 @@ export function Control({
     }, []);
 
     return (
-        <>
-            <group position={[0, 0, 0]}>
-                <animated.mesh raycast={() => {}} position-y={springs.cy} position-z={springs.cz}>
-                    {children}
-                </animated.mesh>
-                <mesh position={[width / 2, height / 2, 0]} onPointerDown={handleDown}>
-                    <boxGeometry args={[width, height, 0.1]} />
-                    <meshBasicMaterial visible={false} />
-                </mesh>
+        <group>
+            <animated.mesh position-y={springs.cy} position-z={springs.cz} raycast={() => {}}>
+                {children}
+            </animated.mesh>
+
+            <mesh position={[width / 2, height / 2, 0]} onPointerDown={handleDown}>
+                <boxGeometry args={[width, height, 0.1]} />
+                <meshBasicMaterial visible={false} />
+                {/* <meshBasicMaterial color="red" /> */}
+            </mesh>
+
+            <group ref={labelRef} position={[0, 0, 0]} raycast={() => {}}>
+                <animated.group
+                    position={[0, 0, 0.1]}
+                    position-y={springs.ly}
+                    position-z={springs.lz}
+                    raycast={() => {}}
+                >
+                    {label}
+                </animated.group>
             </group>
-            <animated.group position={[0, 0, 0.1]} position-y={springs.ly} position-z={springs.lz} raycast={() => {}}>
-                {label}
-            </animated.group>
-        </>
+        </group>
     );
 }

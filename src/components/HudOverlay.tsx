@@ -33,7 +33,7 @@ export function HudOverlay({ onReady }: { onReady: () => void }) {
     return (
         <HudProvider>
             <HudWrapper>
-                <group scale={scale.current}>
+                <group scale={scale.current} layers={1}>
                     <HudLeftTools />
                     <HudCenterTools />
                     <HudFullKeyboard />

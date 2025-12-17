@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
 export type Keyboard = 'linear' | 'ortho' | 'ergo';
 
@@ -41,57 +41,59 @@ export function HudProvider({ children }: { children: ReactNode }) {
 
     function toggleKeyboard(state?: boolean) {
         if (state === true || state === false) {
-            localStorage.setItem('quest-showKeyboard', state.toString());
-
             setShowKeyboard(state);
 
             return;
         }
 
         setShowKeyboard((prev) => {
-            localStorage.setItem('quest-showKeyboard', (!prev).toString());
-
             return !prev;
         });
     }
 
     function toggleHudLock(state?: boolean) {
         if (state === true || state === false) {
-            localStorage.setItem('quest-lockHud', state.toString());
-
             setLockHud(state);
 
             return;
         }
 
         setLockHud((prev) => {
-            localStorage.setItem('quest-lockHud', (!prev).toString());
-
             return !prev;
         });
     }
 
     function togglePerspectiveKeyboard(state?: boolean) {
         if (state === true || state === false) {
-            localStorage.setItem('quest-perspectiveKeyboard', state.toString());
-
             setPerspectiveKeyboard(state);
 
             return;
         }
 
         setPerspectiveKeyboard((prev) => {
-            localStorage.setItem('quest-perspectiveKeyboard', (!prev).toString());
-
             return !prev;
         });
     }
 
     function setKeyboard(keyboard: Keyboard) {
-        localStorage.setItem('quest-keyboard', keyboard);
-
         setSelectedKeyboard(keyboard);
     }
+
+    useEffect(() => {
+        localStorage.setItem('quest-showKeyboard', showKeyboard.toString());
+    }, [showKeyboard]);
+
+    useEffect(() => {
+        localStorage.setItem('quest-showKeyboard', showKeyboard.toString());
+    }, [lockHud]);
+
+    useEffect(() => {
+        localStorage.setItem('quest-showKeyboard', showKeyboard.toString());
+    }, [perspectiveKeyboard]);
+
+    useEffect(() => {
+        localStorage.setItem('quest-showKeyboard', keyboard);
+    }, [keyboard]);
 
     return (
         <HudContext.Provider

@@ -1,6 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react';
-import { BoxHelper, type Group } from 'three';
-import { Center, Helper, Text3D } from '@react-three/drei';
+import { type ReactNode } from 'react';
+import { Center, Text3D } from '@react-three/drei';
 import { FONT } from '@/lib/constants';
 
 const LARGE_FONT_SIZE = 0.115;
@@ -48,11 +47,11 @@ export function Label({
                 >
                     {children}
                     <meshBasicMaterial color={color} />
-
-                    {/* <Helper type={BoxHelper} args={['red']} /> */}
                 </Text3D>
             ) : (
-                <Center top right>{children}</Center>
+                <Center top right>
+                    {children}
+                </Center>
             )}
         </>
     );

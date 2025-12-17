@@ -1,11 +1,12 @@
+import { useMemo } from 'react';
 import { Edges } from '@react-three/drei';
+import { animated, useSpring } from '@react-spring/three';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
 import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { Label } from '@/components/Label';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
-import { animated, useSpring } from '@react-spring/three';
 
 const MASS = 2;
 const TENSION = 240;
@@ -43,7 +44,6 @@ function getMultiplier(keyboard: Keyboard) {
 
 export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight = 'regular' }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
-    const controls = leftControls[0].items.length;
     const springs = useSpring({
         showY: showKeyboard ? 0 : -3.5,
         posY: getPosY(keyboard),
@@ -67,12 +67,15 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
     const height = (6 / 7) * keyWidth;
     const gapY = width / 10;
     const gapX = height / 10;
-    const posX = controls * width + gapX * (controls - 1);
-    const leftShape = createLeftShape(width, height, 0.075);
-    const rightShape = createRightShape(width, height, 0.075);
+    const numberOfControls = leftControls[0].items.length;
+    const posX = numberOfControls * width + gapX * (numberOfControls - 1);
+    const leftShape = useMemo(() => createLeftShape(width, height, 0.075), []);
+    const rightShape = useMemo(() => createRightShape(width, height, 0.075), []);
+    const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
+    const sortedLeft = useMemo(() => leftControls.sort((a, b) => b.group - a.group), []);
 
     return (
-        <animated.group position-y={springs.showY} layers={1}>
+        <animated.group position-y={springs.showY}>
             <animated.group position-y={springs.posY} position-z={springs.posZ}>
                 {/* Left  */}
                 <animated.group
@@ -81,69 +84,65 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                     rotation-y={springs.rotYLeft}
                     rotation-z={springs.rotZLeft}
                 >
-                    {leftControls
-                        .sort((a, b) => b.group - a.group)
-                        .map(({ items }, index) => {
-                            return (
-                                <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                                    {items.map(({ label, code }, index) => {
-                                        const x = index > 0 ? index * width + gapX * index : 0;
+                    {sortedLeft.map(({ items }, index) => {
+                        return (
+                            <group key={index} position={[-posX, (height + gapY) * index, 0]}>
+                                {items.map(({ label, code }, index) => {
+                                    const x = index > 0 ? index * width + gapX * index : 0;
 
-                                        if (code === '') {
-                                            return (
-                                                <animated.group
-                                                    key={index}
-                                                    position-x={x}
-                                                    position-y={springs.ergoMultiplier.to((m) => index * (gapY * m))}
-                                                >
-                                                    <ControlPlaceholder width={width} height={height}>
-                                                        <shapeGeometry args={[leftShape]} />
-                                                        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-                                                        {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
-                                                    </ControlPlaceholder>
-                                                </animated.group>
-                                            );
-                                        }
-
+                                    if (code === '') {
                                         return (
                                             <animated.group
                                                 key={index}
                                                 position-x={x}
                                                 position-y={springs.ergoMultiplier.to((m) => index * (gapY * m))}
                                             >
-                                                <Control
-                                                    width={width}
-                                                    height={height}
-                                                    code={code}
-                                                    label={
-                                                        label && (
-                                                            <Label
-                                                                size={fontSize}
-                                                                weight={fontWeight}
-                                                                width={width}
-                                                                height={height}
-                                                                rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
-                                                                position={[
-                                                                    width / 2,
-                                                                    height / 2 - (perspectiveKeyboard ? 0.15 : 0),
-                                                                    0,
-                                                                ]}
-                                                            >
-                                                                {label}
-                                                            </Label>
-                                                        )
-                                                    }
-                                                >
+                                                <ControlPlaceholder width={width} height={height}>
                                                     <shapeGeometry args={[leftShape]} />
                                                     <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-                                                    <Edges linewidth={2} threshold={15} color="#000000" />
-                                                </Control>
+                                                    {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
+                                                </ControlPlaceholder>
                                             </animated.group>
                                         );
-                                    })}
-                                </group>
-                            );
-                        })}
+                                    }
+
+                                    return (
+                                        <animated.group
+                                            key={index}
+                                            position-x={x}
+                                            position-y={springs.ergoMultiplier.to((m) => index * (gapY * m))}
+                                        >
+                                            <Control
+                                                width={width}
+                                                height={height}
+                                                code={code}
+                                                label={
+                                                    label && (
+                                                        <Label
+                                                            size={fontSize}
+                                                            weight={fontWeight}
+                                                            rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
+                                                            position={[
+                                                                width / 2,
+                                                                height / 2 - (perspectiveKeyboard ? 0.15 : 0),
+                                                                0,
+                                                            ]}
+                                                        >
+                                                            {label}
+                                                        </Label>
+                                                    )
+                                                }
+                                            >
+                                                <shapeGeometry args={[leftShape]} />
+                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                            </Control>
+                                        </animated.group>
+                                    );
+                                })}
+                            </group>
+                        );
+                    })}
                 </animated.group>
 
                 {/* Right  */}
@@ -153,32 +152,13 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                     rotation-y={springs.rotYRight}
                     rotation-z={springs.rotZRight}
                 >
-                    {rightControls
-                        .sort((a, b) => b.group - a.group)
-                        .map(({ items }, index) => {
-                            return (
-                                <group key={index} position={[0, (height + gapY) * index, 0]}>
-                                    {items.map(({ label, code }, index) => {
-                                        const x = index > 0 ? index * width + gapX * index : 0;
+                    {sortedRight.map(({ items }, index) => {
+                        return (
+                            <group key={index} position={[0, (height + gapY) * index, 0]}>
+                                {items.map(({ label, code }, index) => {
+                                    const x = index > 0 ? index * width + gapX * index : 0;
 
-                                        if (code === '') {
-                                            return (
-                                                <animated.group
-                                                    key={index}
-                                                    position-x={x}
-                                                    position-y={springs.ergoMultiplier.to(
-                                                        (m) => (items.length - 1 - index) * (gapY * m)
-                                                    )}
-                                                >
-                                                    <ControlPlaceholder width={width} height={height}>
-                                                        <shapeGeometry args={[leftShape]} />
-                                                        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-                                                        {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
-                                                    </ControlPlaceholder>
-                                                </animated.group>
-                                            );
-                                        }
-
+                                    if (code === '') {
                                         return (
                                             <animated.group
                                                 key={index}
@@ -187,43 +167,54 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                     (m) => (items.length - 1 - index) * (gapY * m)
                                                 )}
                                             >
-                                                <Control
-                                                    width={width}
-                                                    height={height}
-                                                    code={code}
-                                                    label={
-                                                        label && (
-                                                            <Label
-                                                                size={fontSize}
-                                                                weight={fontWeight}
-                                                                width={width}
-                                                                height={height}
-                                                                rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
-                                                                position={[
-                                                                    width / 2,
-                                                                    height / 2 - (perspectiveKeyboard ? 0.15 : 0),
-                                                                    0,
-                                                                ]}
-                                                            >
-                                                                {label}
-                                                            </Label>
-                                                        )
-                                                    }
-                                                >
-                                                    <shapeGeometry args={[rightShape]} />
-                                                    <meshBasicMaterial
-                                                        transparent
-                                                        opacity={0}
-                                                        depthWrite={false}
-                                                    />
-                                                    <Edges linewidth={2} threshold={15} color="#000000" />
-                                                </Control>
+                                                <ControlPlaceholder width={width} height={height}>
+                                                    <shapeGeometry args={[leftShape]} />
+                                                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                                                    {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
+                                                </ControlPlaceholder>
                                             </animated.group>
                                         );
-                                    })}
-                                </group>
-                            );
-                        })}
+                                    }
+
+                                    return (
+                                        <animated.group
+                                            key={index}
+                                            position-x={x}
+                                            position-y={springs.ergoMultiplier.to(
+                                                (m) => (items.length - 1 - index) * (gapY * m)
+                                            )}
+                                        >
+                                            <Control
+                                                width={width}
+                                                height={height}
+                                                code={code}
+                                                label={
+                                                    label && (
+                                                        <Label
+                                                            size={fontSize}
+                                                            weight={fontWeight}
+                                                            rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
+                                                            position={[
+                                                                width / 2,
+                                                                height / 2 - (perspectiveKeyboard ? 0.15 : 0),
+                                                                0,
+                                                            ]}
+                                                        >
+                                                            {label}
+                                                        </Label>
+                                                    )
+                                                }
+                                            >
+                                                <shapeGeometry args={[rightShape]} />
+                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                            </Control>
+                                        </animated.group>
+                                    );
+                                })}
+                            </group>
+                        );
+                    })}
                 </animated.group>
             </animated.group>
         </animated.group>
