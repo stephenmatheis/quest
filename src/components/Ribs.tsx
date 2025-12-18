@@ -16,7 +16,8 @@ export function Ribs({ width, x }: RibsProps) {
             <group position={[-x - 2.75, 3.75, -2]}>
                 <mesh position={[0, 0, 0]}>
                     <shapeGeometry args={[leftTopRect]} />
-                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                    <meshBasicMaterial color="#ffffff" alphaTest={2} />
+                    {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
                     <Edges linewidth={2} threshold={15} color="#000000" />
                 </mesh>
             </group>
@@ -29,7 +30,8 @@ export function Ribs({ width, x }: RibsProps) {
                     return (
                         <mesh key={i} position={[0, y, 0]}>
                             <shapeGeometry args={[leftRect]} />
-                            <meshBasicMaterial transparent opacity={0} depthWrite={false} />{' '}
+                            <meshBasicMaterial color="#ffffff" alphaTest={2} />
+                            {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
                             <Edges linewidth={2} threshold={15} color="#000000" />
                         </mesh>
                     );

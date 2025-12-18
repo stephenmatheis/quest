@@ -10,9 +10,9 @@ export function HoverHighlight() {
     const { camera, raycaster, scene, pointer } = useThree();
     const previousHovered = useRef<Object3D | null>(null);
     const savedMaterial = useRef<{
-        depthWrite: boolean;
-        transparent: boolean;
-        opacity: number;
+        // depthWrite: boolean;
+        // transparent: boolean;
+        // opacity: number;
         color: Color;
     } | null>(null);
     const isCameraUpdating = useRef<boolean>(false);
@@ -84,15 +84,15 @@ export function HoverHighlight() {
 
                 if (material?.color) {
                     savedMaterial.current = {
-                        depthWrite: material.depthWrite,
-                        transparent: material.transparent,
-                        opacity: material.opacity,
+                        // depthWrite: material.depthWrite,
+                        // transparent: material.transparent,
+                        // opacity: material.opacity,
                         color: material.color.clone(),
                     };
 
-                    material.depthWrite = true;
-                    material.transparent = false;
-                    material.opacity = 1;
+                    // material.depthWrite = true;
+                    // material.transparent = false;
+                    // material.opacity = 1;
                     material.color.set('#ff0000');
 
                     previousHovered.current = mesh;

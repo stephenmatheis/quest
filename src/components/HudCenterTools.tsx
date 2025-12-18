@@ -128,7 +128,8 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                         <group key={index} position={[x, y, 0]}>
                                             <ControlPlaceholder width={width} height={height}>
                                                 <shapeGeometry args={[shape]} />
-                                                <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                                                <meshBasicMaterial color="#ffffff" alphaTest={2} />
+                                                {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
                                                 {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
                                             </ControlPlaceholder>
                                         </group>
@@ -150,7 +151,8 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                             }
                                         >
                                             <shapeGeometry args={[shape]} />
-                                            <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} />
+                                            <meshBasicMaterial color="#ffffff" alphaTest={2} />
+                                            {/* <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} /> */}
                                             <Edges linewidth={2} threshold={15} color="#000000" />
                                         </Tool>
                                         {selected && (

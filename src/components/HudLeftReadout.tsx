@@ -6,13 +6,12 @@ export function HudLeftReadout() {
         <group position={[-3.65, 4.35, 0]}>
             <Text3D position={[0, 0, 0]} height={0.001} size={0.2} font={FONT}>
                 dock 2035
-                <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+                <meshBasicMaterial color="#ffffff" alphaTest={2} />
                 <Edges linewidth={2} threshold={15} color="#000000" />
             </Text3D>
             <group position={[0, -0.2, 0]}>
                 <Text3D position={[0, 0, 0]} height={0.001} size={0.1} font={FONT}>
                     [ insert ]
-                    <meshBasicMaterial transparent opacity={0} depthWrite={false} />
                     <meshBasicMaterial color="#000000" />
                 </Text3D>
             </group>

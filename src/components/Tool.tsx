@@ -21,21 +21,21 @@ export function Tool({
     label: ReactNode;
     action: () => void;
 }) {
+    const labelRef = useRef<Group>(null);
     const { toggleEnableCamera } = useCameraControls();
     const [isPointerDown, setIsPointerDown] = useState(false);
-    const labelRef = useRef<Group>(null);
     const { down } = useSpring({
-        config: { mass: MASS, tension: TENSION, friction: FRICTION },
         down: isPointerDown ? -0.1 : 0,
+        config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
     function handleDown() {
         setIsPointerDown(true);
-        action?.();
     }
 
     function handleUp() {
         setIsPointerDown(false);
+        action?.();
     }
 
     function handleEnter() {
