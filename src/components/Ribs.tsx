@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { Edges, Line } from '@react-three/drei';
 import { createRect } from '@/utils/shapes';
 
@@ -9,6 +10,8 @@ type RibsProps = {
 export function Ribs({ width, x }: RibsProps) {
     const leftRect = createRect(width, 0.3);
     const leftTopRect = createRect(width + 0.2, 0.2);
+    const geometry = new THREE.ShapeGeometry([leftRect]);
+    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     return (
         <group>
@@ -17,7 +20,6 @@ export function Ribs({ width, x }: RibsProps) {
                 <mesh position={[0, 0, 0]}>
                     <shapeGeometry args={[leftTopRect]} />
                     <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                    {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
                     <Edges linewidth={2} threshold={15} color="#000000" />
                 </mesh>
             </group>
@@ -28,10 +30,7 @@ export function Ribs({ width, x }: RibsProps) {
                     const y = i * -0.5;
 
                     return (
-                        <mesh key={i} position={[0, y, 0]}>
-                            <shapeGeometry args={[leftRect]} />
-                            <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                            {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
+                        <mesh key={i} position={[0, y, 0]} geometry={geometry} material={material}>
                             <Edges linewidth={2} threshold={15} color="#000000" />
                         </mesh>
                     );
