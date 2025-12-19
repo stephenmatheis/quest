@@ -3,10 +3,13 @@ import { CameraControls, CameraControlsImpl, useHelper } from '@react-three/drei
 import { useCameraControls } from '@/providers/CameraProvider';
 import { DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, type DirectionalLight } from 'three';
 import { Book } from './Book';
+import { Canvas } from '@react-three/fiber';
+import { useWorld } from '@/providers/WorldProvider';
 
 const { ACTION } = CameraControlsImpl;
 
 export function AnimatedBook() {
+    const { isQuestLogOpen } = useWorld();
     const { cameraControlsRef, isCameraLocked, showHelpers } = useCameraControls();
     const dirLightRef = useRef<DirectionalLight>(null);
     const hemiLightRef = useRef<HemisphereLight>(null);
@@ -25,8 +28,10 @@ export function AnimatedBook() {
     );
 
     return (
-        <>
-            {/* Camera */}
+        <Canvas
+            style={{ position: 'absolute', top: 0, left: 0, pointerEvents: isQuestLogOpen ? 'all' : 'none' }}
+            camera={{ position: [0, 0, 5], fov: 25 }}
+        >
             <CameraControls
                 ref={cameraControlsRef}
                 mouseButtons={{
@@ -41,13 +46,11 @@ export function AnimatedBook() {
                     three: ACTION.TOUCH_DOLLY_TRUCK,
                 }}
             />
-
-            {/* Lights */}
             <ambientLight intensity={2.75} />
             <directionalLight ref={dirLightRef} position={[5, 2, 3]} intensity={1} castShadow={true} />
 
             {/* Scene */}
             <Book />
-        </>
+        </Canvas>
     );
 }

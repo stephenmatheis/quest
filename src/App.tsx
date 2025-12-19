@@ -1,12 +1,12 @@
 import { WorldProvider } from '@/providers/WorldProvider';
 import { CameraProvider } from '@/providers/CameraProvider';
-import { AppContent } from '@/components/AppContent';
+import { World } from './components/World';
 
 export default function App() {
     return (
         <WorldProvider>
             <CameraProvider>
-                <AppContent />
+                <World />
             </CameraProvider>
         </WorldProvider>
     );
