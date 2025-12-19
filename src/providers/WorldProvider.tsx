@@ -3,6 +3,8 @@
 import { createContext, useContext, useState, type ReactNode, type Dispatch, type SetStateAction } from 'react';
 import { Vector2, Vector3 } from 'three';
 
+type Mode = 'insert' | 'visual';
+
 type WorldContext = {
     isCharacterMenuOpen: boolean;
     isGameMenuOpen: boolean;
@@ -10,6 +12,7 @@ type WorldContext = {
     windowOrder: string[];
     pointerPos: Vector2;
     hitPos: Vector3;
+    mode: Mode;
     setIsCharacterMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsGameMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsQuestLogOpen: Dispatch<SetStateAction<boolean>>;
@@ -17,6 +20,7 @@ type WorldContext = {
     bringToFront: (name: string) => void;
     setPointerPos: Dispatch<SetStateAction<Vector2>>;
     setHitPos: Dispatch<SetStateAction<Vector3>>;
+    setMode: Dispatch<SetStateAction<Mode>>;
 };
 
 const WorldContext = createContext<WorldContext | undefined>(undefined);
@@ -38,6 +42,7 @@ export function WorldProvider({ children }: { children: ReactNode }) {
     const [windowOrder, setWindowOrder] = useState<string[]>([]);
     const [pointerPos, setPointerPos] = useState<Vector2>(new Vector2());
     const [hitPos, setHitPos] = useState<Vector3>(new Vector3());
+    const [mode, setMode] = useState<Mode>('visual');
 
     function bringToFront(name: string) {
         setWindowOrder((prev) => [...prev.filter((n) => n !== name), name]);
@@ -52,6 +57,7 @@ export function WorldProvider({ children }: { children: ReactNode }) {
                 windowOrder,
                 pointerPos,
                 hitPos,
+                mode,
                 setIsCharacterMenuOpen,
                 setIsGameMenuOpen,
                 setIsQuestLogOpen,
@@ -59,6 +65,7 @@ export function WorldProvider({ children }: { children: ReactNode }) {
                 bringToFront,
                 setPointerPos,
                 setHitPos,
+                setMode,
             }}
         >
             {children}

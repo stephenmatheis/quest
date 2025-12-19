@@ -1,14 +1,14 @@
+import { useMemo } from 'react';
 import * as THREE from 'three';
 import { Edges } from '@react-three/drei';
 import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { ExtrudedSvg } from './ExtrudedSvg';
-import { useHud, type Keyboard } from '@/providers/HudProvider';
-import { useMemo } from 'react';
+import { ExtrudedSvg } from '@/components/ExtrudedSvg';
+import { useWorld } from '@/providers/WorldProvider';
 
-const ASPECT_RATIO = 6 / 7;
-const WIDTH = 0.35;
+const ASPECT_RATIO = 1 / 2;
+const WIDTH = 0.5;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 const FONT_SIZE = 0.07;
 const WEIGHT = 'regular';
@@ -19,16 +19,7 @@ type ControlsProps = {
 };
 
 export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const {
-        toggleKeyboard,
-        toggleHudLock,
-        togglePerspectiveKeyboard,
-        setKeyboard,
-        keyboard,
-        showKeyboard,
-        lockHud,
-        perspectiveKeyboard,
-    } = useHud();
+    const { mode, setMode } = useWorld();
 
     const controls = useMemo(
         () =>
@@ -37,72 +28,38 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                     group: 0,
                     items: [
                         {
-                            label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
-                            selected: showKeyboard,
+                            label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />,
+                            selected: false,
                             action() {
-                                toggleKeyboard(true);
+                                console.log('left');
                             },
                         },
                         {
-                            label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
-                            selected: !showKeyboard,
+                            label: (
+                                <group rotation-z={Math.PI / -2}>
+                                    <ExtrudedSvg src="/svg/arrow-up.svg" />
+                                </group>
+                            ),
+                            selected: false,
                             action() {
-                                toggleKeyboard(false);
+                                console.log('right');
                             },
                         },
                         {
-                            label: 'lock',
-                            selected: lockHud,
+                            label: mode,
+                            selected: false,
                             action() {
-                                toggleHudLock(true);
-                            },
-                        },
-                        {
-                            label: 'free',
-                            selected: !lockHud,
-                            action() {
-                                toggleHudLock(false);
-                            },
-                        },
-                        {
-                            label: 'face',
-                            selected: !perspectiveKeyboard,
-                            action() {
-                                togglePerspectiveKeyboard(false);
-                            },
-                        },
-                        {
-                            label: 'tilt',
-                            selected: perspectiveKeyboard,
-                            action() {
-                                togglePerspectiveKeyboard(true);
-                            },
-                        },
-                        {
-                            label: 'flat' as Keyboard,
-                            selected: keyboard === 'linear',
-                            action() {
-                                setKeyboard('linear');
-                            },
-                        },
-                        {
-                            label: 'ortho' as Keyboard,
-                            selected: keyboard === 'ortho',
-                            action() {
-                                setKeyboard('ortho');
-                            },
-                        },
-                        {
-                            label: 'ergo' as Keyboard,
-                            selected: keyboard === 'ergo',
-                            action() {
-                                setKeyboard('ergo');
+                                setMode((prev) => {
+                                    if (prev === 'visual') return 'insert';
+
+                                    return 'visual';
+                                });
                             },
                         },
                     ],
                 },
             ].sort((a, b) => b.group - a.group),
-        [showKeyboard, lockHud, perspectiveKeyboard, keyboard]
+        [mode]
     );
 
     const rotX = 0;
