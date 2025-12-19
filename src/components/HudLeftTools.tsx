@@ -1,7 +1,7 @@
-import { Edges, Line } from '@react-three/drei';
+import * as THREE from 'three';
+import { Edges } from '@react-three/drei';
 import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
-import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { createBeveledShape } from '@/utils/shapes';
 import { ExtrudedSvg } from './ExtrudedSvg';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
@@ -31,12 +31,13 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
         perspectiveKeyboard,
     } = useHud();
     const { toggleEnableCamera } = useCameraControls();
-
-    const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
     const gapY = width / 10;
+    const shape = createBeveledShape(width, height, 0.0375);
+    const geometry = new THREE.ShapeGeometry([shape]);
+    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     const tools = useMemo(
         () =>
@@ -63,8 +64,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             selected: lockHud,
                             action() {
                                 toggleHudLock(true);
-
-                                toggleEnableCamera(true);
                             },
                         },
                         {
@@ -72,8 +71,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             selected: !lockHud,
                             action() {
                                 toggleHudLock(false);
-
-                                toggleEnableCamera(true);
                             },
                         },
                         {
@@ -117,8 +114,16 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
         [showKeyboard, lockHud, perspectiveKeyboard, keyboard]
     );
 
+    function handleEnter() {
+        toggleEnableCamera(false);
+    }
+
+    function handleLeave() {
+        toggleEnableCamera(true);
+    }
+
     return (
-        <group position={[-3.65, 3.5, 0]}>
+        <group position={[-3.65, 3.5, 0]} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (
@@ -127,24 +132,13 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 const x = 0;
                                 const y = index * -(height + gapY);
 
-                                if (!action) {
-                                    return (
-                                        <group key={index} position={[x, y, 0]}>
-                                            <ControlPlaceholder width={width} height={height}>
-                                                <shapeGeometry args={[shape]} />
-                                                <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                                {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
-                                                {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
-                                            </ControlPlaceholder>
-                                        </group>
-                                    );
-                                }
-
                                 return (
                                     <group key={index} position={[x, y, 0]}>
                                         <Tool
                                             width={width}
                                             height={height}
+                                            geometry={geometry}
+                                            material={material}
                                             action={action}
                                             label={
                                                 label && (
@@ -154,21 +148,14 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                                 )
                                             }
                                         >
-                                            <shapeGeometry args={[shape]} />
-                                            <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                            {/* <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} /> */}
-                                            <Edges linewidth={2} threshold={15} color="#000000" />
+                                            <mesh geometry={geometry} material={material}>
+                                                <Edges
+                                                    linewidth={2}
+                                                    threshold={15}
+                                                    color={selected ? '#ff0000' : '#000000'}
+                                                />
+                                            </mesh>
                                         </Tool>
-                                        {selected && (
-                                            <Line
-                                                points={[
-                                                    [width + 0.025, 0.05, 0],
-                                                    [width + 0.025, height - 0.05, 0],
-                                                ]}
-                                                color="#000000"
-                                                linewidth={2}
-                                            />
-                                        )}
                                     </group>
                                 );
                             })}

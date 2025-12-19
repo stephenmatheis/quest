@@ -14,12 +14,16 @@ export function Control({
     height,
     label,
     code,
+    material,
+    geometry,
 }: {
     children: ReactNode;
     width: number;
     height: number;
     label: ReactNode;
     code?: string;
+    material: any;
+    geometry: any;
 }) {
     const { toggleEnableCamera } = useCameraControls();
     const labelRef = useRef<Group>(null);
@@ -87,17 +91,18 @@ export function Control({
 
     return (
         <group>
-            <animated.mesh position-y={springs.cy} position-z={springs.cz} raycast={() => {}}>
+            <animated.group position-y={springs.cy} position-z={springs.cz}>
                 {children}
-            </animated.mesh>
+            </animated.group>
 
-            <mesh position={[width / 2, height / 2, 0]} onPointerDown={handleDown}>
-                <boxGeometry args={[width, height, 0.1]} />
-                <meshBasicMaterial visible={false} />
-                {/* <meshBasicMaterial color="red" /> */}
-            </mesh>
+            <mesh
+                geometry={geometry}
+                material={material}
+                position={[width / 2, height / 2, 0]}
+                onPointerDown={handleDown}
+            />
 
-            <group ref={labelRef} position={[0, 0, 0]} raycast={() => {}}>
+            <group ref={labelRef} position={[0, 0, 0]}>
                 <animated.group
                     position={[0, 0, 0.1]}
                     position-y={springs.ly}

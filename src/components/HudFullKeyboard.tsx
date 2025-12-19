@@ -1,9 +1,9 @@
+import * as THREE from 'three';
 import { useMemo } from 'react';
 import { Edges } from '@react-three/drei';
 import { animated, useSpring } from '@react-spring/three';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
-import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { Label } from '@/components/Label';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
@@ -77,6 +77,9 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
     const rightShape = useMemo(() => createRightShape(width, height, 0.075), []);
     const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
     const sortedLeft = useMemo(() => leftControls.sort((a, b) => b.group - a.group), []);
+    const leftGeometry = new THREE.ShapeGeometry([leftShape]);
+    const rightGeometry = new THREE.ShapeGeometry([rightShape]);
+    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     if (FLAG_TEST) {
         return (
@@ -90,7 +93,6 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                     >
                         <boxGeometry args={[2, 2, 0.25]} />
                         <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                        {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
                         <Edges linewidth={2} threshold={15} color="#ff0000" />
                     </animated.group>
                     <animated.group
@@ -101,7 +103,6 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                     >
                         <boxGeometry args={[2, 2, 0.25]} />
                         <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                        {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
                         <Edges linewidth={2} threshold={15} color="#ff0000" />
                     </animated.group>
                 </animated.group>
@@ -132,12 +133,13 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                 position-x={x}
                                                 position-y={springs.ergoMultiplier.to((m) => index * (gapY * m))}
                                             >
-                                                <ControlPlaceholder width={width} height={height}>
-                                                    <shapeGeometry args={[leftShape]} />
-                                                    <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                                    {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
-                                                    {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
-                                                </ControlPlaceholder>
+                                                <group position={[0, 0, 0]}>
+                                                    <mesh
+                                                        raycast={() => {}}
+                                                        geometry={leftGeometry}
+                                                        material={material}
+                                                    />
+                                                </group>
                                             </animated.group>
                                         );
                                     }
@@ -152,6 +154,8 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                 width={width}
                                                 height={height}
                                                 code={code}
+                                                geometry={leftGeometry}
+                                                material={material}
                                                 label={
                                                     label && (
                                                         <Label
@@ -169,10 +173,9 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                     )
                                                 }
                                             >
-                                                <shapeGeometry args={[leftShape]} />
-                                                {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
-                                                <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                                <mesh geometry={leftGeometry} material={material}>
+                                                    <Edges linewidth={2} threshold={15} color="#000000" />
+                                                </mesh>
                                             </Control>
                                         </animated.group>
                                     );
@@ -204,12 +207,13 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                     (m) => (items.length - 1 - index) * (gapY * m)
                                                 )}
                                             >
-                                                <ControlPlaceholder width={width} height={height}>
-                                                    <shapeGeometry args={[leftShape]} />
-                                                    <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                                    {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
-                                                    {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
-                                                </ControlPlaceholder>
+                                                <group position={[0, 0, 0]}>
+                                                    <mesh
+                                                        raycast={() => {}}
+                                                        geometry={rightGeometry}
+                                                        material={material}
+                                                    />
+                                                </group>
                                             </animated.group>
                                         );
                                     }
@@ -226,6 +230,8 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                 width={width}
                                                 height={height}
                                                 code={code}
+                                                geometry={rightGeometry}
+                                                material={material}
                                                 label={
                                                     label && (
                                                         <Label
@@ -243,10 +249,9 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                     )
                                                 }
                                             >
-                                                <shapeGeometry args={[rightShape]} />
-                                                <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                                {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
-                                                <Edges linewidth={2} threshold={15} color="#000000" />
+                                                <mesh geometry={rightGeometry} material={material}>
+                                                    <Edges linewidth={2} threshold={15} color="#000000" />
+                                                </mesh>
                                             </Control>
                                         </animated.group>
                                     );

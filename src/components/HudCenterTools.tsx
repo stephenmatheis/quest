@@ -1,7 +1,7 @@
-import { Edges, Line } from '@react-three/drei';
+import * as THREE from 'three';
+import { Edges } from '@react-three/drei';
 import { Tool } from '@/components/Tool';
 import { Label } from '@/components/Label';
-import { ControlPlaceholder } from '@/components/ControlPlaceholder';
 import { createBeveledShape } from '@/utils/shapes';
 import { ExtrudedSvg } from './ExtrudedSvg';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
@@ -105,13 +105,15 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
         [showKeyboard, lockHud, perspectiveKeyboard, keyboard]
     );
 
-    const shape = createBeveledShape(width, height, 0.0375);
     const rotX = 0;
     const rotY = 0;
     const rotZ = 0;
     const gapX = width / 10;
     const rowSize = controls[0].items.length;
     const posX = (rowSize * WIDTH + gapX * (rowSize - 1)) / 2;
+    const shape = createBeveledShape(width, height, 0.0375);
+    const geometry = new THREE.ShapeGeometry([shape]);
+    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     return (
         <group position={[-posX, 4, 0]}>
@@ -123,24 +125,13 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                 const x = index * (width + gapX);
                                 const y = 0;
 
-                                if (!action) {
-                                    return (
-                                        <group key={index} position={[x, y, 0]}>
-                                            <ControlPlaceholder width={width} height={height}>
-                                                <shapeGeometry args={[shape]} />
-                                                <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                                {/* <meshBasicMaterial transparent opacity={0} depthWrite={false} /> */}
-                                                {/* <Edges linewidth={2} threshold={15} color="#ff0000" /> */}
-                                            </ControlPlaceholder>
-                                        </group>
-                                    );
-                                }
-
                                 return (
                                     <group key={index} position={[x, y, 0]}>
                                         <Tool
                                             width={width}
                                             height={height}
+                                            geometry={geometry}
+                                            material={material}
                                             action={action}
                                             label={
                                                 label && (
@@ -150,21 +141,14 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                                 )
                                             }
                                         >
-                                            <shapeGeometry args={[shape]} />
-                                            <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                                            {/* <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} /> */}
-                                            <Edges linewidth={2} threshold={15} color="#000000" />
+                                            <mesh geometry={geometry} material={material}>
+                                                <Edges
+                                                    linewidth={2}
+                                                    threshold={15}
+                                                    color={selected ? '#ff0000' : '#000000'}
+                                                />
+                                            </mesh>
                                         </Tool>
-                                        {selected && (
-                                            <Line
-                                                points={[
-                                                    [0.05, -0.025, 0],
-                                                    [width - 0.05, -0.025, 0],
-                                                ]}
-                                                color="#000000"
-                                                linewidth={2}
-                                            />
-                                        )}
                                     </group>
                                 );
                             })}

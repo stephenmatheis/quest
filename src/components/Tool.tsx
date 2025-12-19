@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { animated, useSpring } from '@react-spring/three';
-import { useCameraControls } from '@/providers/CameraProvider';
 import { Box3, Group, Vector3 } from 'three';
 
 const MASS = 2;
@@ -13,37 +12,38 @@ export function Tool({
     width,
     height,
     label,
+    material,
+    geometry,
     action,
 }: {
     children: ReactNode;
     width: number;
     height: number;
     label: ReactNode;
+    material: any;
+    geometry: any;
     action: () => void;
 }) {
     const labelRef = useRef<Group>(null);
-    const { toggleEnableCamera } = useCameraControls();
     const [isPointerDown, setIsPointerDown] = useState(false);
-    const { down } = useSpring({
-        down: isPointerDown ? -0.1 : 0,
+    const { pos } = useSpring({
+        pos: isPointerDown ? -0.1 : 0,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
     function handleDown() {
         setIsPointerDown(true);
-    }
 
-    function handleUp() {
-        setIsPointerDown(false);
-        action?.();
-    }
+        window.addEventListener('pointerup', handleUp);
+        window.addEventListener('pointercancel', handleUp);
 
-    function handleEnter() {
-        toggleEnableCamera(false);
-    }
+        function handleUp() {
+            setIsPointerDown(false);
+            action?.();
 
-    function handleOut() {
-        toggleEnableCamera(true);
+            window.removeEventListener('pointerup', handleUp);
+            window.removeEventListener('pointercancel', handleUp);
+        }
     }
 
     useEffect(() => {
@@ -60,23 +60,14 @@ export function Tool({
 
     return (
         <group>
-            <animated.group position-y={down} position-z={down}>
+            <animated.group position-y={pos} position-z={pos} raycast={() => {}}>
                 {children}
             </animated.group>
 
-            <mesh
-                position={[width / 2, height / 2, 0]}
-                onPointerDown={handleDown}
-                onPointerUp={handleUp}
-                onPointerEnter={handleEnter}
-                onPointerOut={handleOut}
-            >
-                <boxGeometry args={[width, height, 0.1]} />
-                <meshBasicMaterial visible={false} />
-            </mesh>
+            <mesh geometry={geometry} material={material} onPointerDown={handleDown} />
 
-            <group ref={labelRef} position={[0, 0, 0]}>
-                <animated.group position={[0, 0, 0.1]} position-y={down} position-z={down}>
+            <group ref={labelRef} position={[0, 0, 0]} raycast={() => {}}>
+                <animated.group position={[0, 0, 0.1]} position-y={pos} position-z={pos}>
                     {label}
                 </animated.group>
             </group>
