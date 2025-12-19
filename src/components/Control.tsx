@@ -7,6 +7,7 @@ import { Box3, Vector3, type Group } from 'three';
 const MASS = 2;
 const TENSION = 360;
 const FRICTION = 30;
+const PADDING = 0.0175;
 
 export function Control({
     children,
@@ -79,8 +80,7 @@ export function Control({
             boundingBox.setFromObject(labelRef.current);
             boundingBox.getSize(size);
 
-            // gapX = width / 10 divided by 2 is width / 20 or about .0175
-            labelRef.current.position.set(width / 2 - (size.x + 0.0175) / 2, height / 2 - size.y / 2, 0);
+            labelRef.current.position.set(width / 2 - (size.x + PADDING) / 2, height / 2 - size.y / 2, 0);
         }
 
         return () => {
