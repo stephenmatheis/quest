@@ -1,8 +1,6 @@
-import { useCameraControls } from '@/providers/CameraProvider';
-import { animated, useSpring } from '@react-spring/three';
-import type { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Box3, Vector3, type Group } from 'three';
+import { animated, useSpring } from '@react-spring/three';
 
 const MASS = 2;
 const TENSION = 360;
@@ -26,7 +24,6 @@ export function Control({
     material: any;
     geometry: any;
 }) {
-    const { toggleEnableCamera } = useCameraControls();
     const labelRef = useRef<Group>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
     const springs = useSpring({
@@ -37,18 +34,14 @@ export function Control({
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
-    function handleDown(event: ThreeEvent<PointerEvent>) {
-        console.log(event);
-
+    function handleDown() {
         setIsActive(true);
-        toggleEnableCamera(false);
 
         window.addEventListener('pointerup', handleKeyRelease);
         window.addEventListener('pointercancel', handleKeyRelease);
 
         function handleKeyRelease() {
             setIsActive(false);
-            toggleEnableCamera(true);
 
             window.removeEventListener('pointerup', handleKeyRelease);
             window.removeEventListener('pointercancel', handleKeyRelease);
@@ -95,12 +88,7 @@ export function Control({
                 {children}
             </animated.group>
 
-            <mesh
-                geometry={geometry}
-                material={material}
-                position={[width / 2, height / 2, 0]}
-                onPointerDown={handleDown}
-            />
+            <mesh geometry={geometry} material={material} onPointerDown={handleDown} />
 
             <group ref={labelRef} position={[0, 0, 0]}>
                 <animated.group

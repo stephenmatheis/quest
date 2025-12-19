@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { animated, useSpring } from '@react-spring/three';
 import { Box3, Group, Vector3 } from 'three';
+import { animated, useSpring } from '@react-spring/three';
 
 const MASS = 2;
 const TENSION = 360;
@@ -25,20 +25,20 @@ export function Tool({
     action: () => void;
 }) {
     const labelRef = useRef<Group>(null);
-    const [isPointerDown, setIsPointerDown] = useState(false);
+    const [isActive, setIsActive] = useState(false);
     const { pos } = useSpring({
-        pos: isPointerDown ? -0.1 : 0,
+        pos: isActive ? -0.1 : 0,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
     function handleDown() {
-        setIsPointerDown(true);
+        setIsActive(true);
 
         window.addEventListener('pointerup', handleUp);
         window.addEventListener('pointercancel', handleUp);
 
         function handleUp() {
-            setIsPointerDown(false);
+            setIsActive(false);
             action?.();
 
             window.removeEventListener('pointerup', handleUp);
