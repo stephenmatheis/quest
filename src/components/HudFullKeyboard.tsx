@@ -72,8 +72,8 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const posX = numberOfControls * width + gapX * (numberOfControls - 1);
     const leftShape = useMemo(() => createLeftShape(width, height, 0.075), []);
     const rightShape = useMemo(() => createRightShape(width, height, 0.075), []);
-    const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
     const sortedLeft = useMemo(() => leftControls.sort((a, b) => b.group - a.group), []);
+    const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
     const leftGeometry = new THREE.ShapeGeometry([leftShape]);
     const rightGeometry = new THREE.ShapeGeometry([rightShape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
@@ -120,7 +120,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                     {sortedLeft.map(({ items }, index) => {
                         return (
                             <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                                {items.map(({ label, size, font, code }, index) => {
+                                {items.map(({ label, size, font, code, key }, index) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
 
                                     if (code === '') {
@@ -151,6 +151,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                 width={width}
                                                 height={height}
                                                 code={code}
+                                                keyboardKey={key}
                                                 geometry={leftGeometry}
                                                 material={material}
                                                 label={label}
@@ -179,7 +180,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                     {sortedRight.map(({ items }, index) => {
                         return (
                             <group key={index} position={[0, (height + gapY) * index, 0]}>
-                                {items.map(({ label, font, size, code }, index) => {
+                                {items.map(({ label, font, size, code, key }, index) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
 
                                     if (code === '') {
@@ -214,6 +215,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                 width={width}
                                                 height={height}
                                                 code={code}
+                                                keyboardKey={key}
                                                 geometry={rightGeometry}
                                                 material={material}
                                                 label={label}

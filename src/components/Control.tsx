@@ -16,6 +16,7 @@ export function Control({
     label,
     size,
     font,
+    keyboardKey,
     code,
     action,
     material,
@@ -27,6 +28,7 @@ export function Control({
     label: string;
     size?: LabelSize;
     font?: string;
+    keyboardKey?: string;
     code?: string;
     action?: () => void;
     material: any;
@@ -49,12 +51,32 @@ export function Control({
         window.addEventListener('pointerup', handleKeyRelease);
         window.addEventListener('pointercancel', handleKeyRelease);
 
+        if (keyboardKey && code) {
+            const event = new KeyboardEvent('keydown', {
+                key: keyboardKey,
+                code,
+                bubbles: true,
+            });
+
+            document.body.dispatchEvent(event);
+        }
+
         function handleKeyRelease() {
             setIsActive(false);
             action?.();
 
             window.removeEventListener('pointerup', handleKeyRelease);
             window.removeEventListener('pointercancel', handleKeyRelease);
+
+            if (keyboardKey && code) {
+                const event = new KeyboardEvent('keyup', {
+                    key: keyboardKey,
+                    code,
+                    bubbles: true,
+                });
+
+                document.body.dispatchEvent(event);
+            }
         }
     }
 
