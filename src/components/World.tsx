@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Cam } from '@/components/Cam';
 import { Ribs } from '@/components/Ribs';
@@ -9,6 +9,12 @@ import { HoverHighlight } from './HoverHighlight';
 
 export function World() {
     const [ready, setReady] = useState<boolean>(false);
+
+    useEffect(() => {
+        const { innerWidth, innerHeight } = window;
+
+        console.log(innerWidth, innerHeight);
+    }, []);
 
     return (
         <div

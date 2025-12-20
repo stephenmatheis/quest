@@ -25,7 +25,7 @@ type LabelProps = {
 
 export function Label({
     children,
-    size = 'medium',
+    size = 'small',
     font,
     color = '#000000',
     position = [0, 0, 0],

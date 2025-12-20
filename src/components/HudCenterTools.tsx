@@ -27,7 +27,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         {
                             label: '▲',
                             font: GLYPH_FONT,
-                            size: 'medium',
+                            size: 'small',
                             selected: false,
                             action() {
                                 console.log('left');
@@ -36,7 +36,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         {
                             label: '▼',
                             font: GLYPH_FONT,
-                            size: 'medium',
+                            size: 'small',
                             selected: false,
                             action() {
                                 console.log('right');
@@ -44,6 +44,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         },
                         {
                             label: mode,
+                            size: 'small',
                             selected: false,
                             action() {
                                 setMode((prev) => {

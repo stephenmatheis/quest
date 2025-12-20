@@ -5,7 +5,7 @@ const ARM_HEIGHT = 0.14;
 
 export function HudCenterReadout() {
     return (
-        <group position={[WIDTH / -2, 4.53, 0]}>
+        <group position={[WIDTH / -2, 4.575, 0]}>
             <Line
                 points={[
                     [-ARM_HEIGHT, -ARM_HEIGHT, 0],

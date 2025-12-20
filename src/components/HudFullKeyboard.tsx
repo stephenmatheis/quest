@@ -42,11 +42,10 @@ function getMultiplier(keyboard: Keyboard) {
     }
 }
 
-export function HudFullKeyboard({ keyWidth = 0.4 }: HudFullKeyboardProps) {
+export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
-    // const showY = showKeyboard ? (FLAG_TEST ? 1 : 0) : -3.5;
     const springs = useSpring({
-        showY: showKeyboard ? (FLAG_TEST ? 1 : 0) : -3.5,
+        showY: showKeyboard ? (FLAG_TEST ? 1 : -0.1125) : -3.5,
         posY: getPosY(keyboard),
         posZ: 0,
         rotXLeft: perspectiveKeyboard ? Math.PI / -2.75 : 0,

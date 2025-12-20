@@ -3,7 +3,7 @@ import { FONT } from '@/lib/constants';
 
 export function HudLeftReadout() {
     return (
-        <group position={[-3.65, 4.35, 0]}>
+        <group position={[-3.45, 4.35, 0]}>
             <Text3D position={[0, 0, 0]} height={0.001} size={0.2} font={FONT}>
                 dock 2035
                 <meshBasicMaterial color="#ffffff" alphaTest={2} />

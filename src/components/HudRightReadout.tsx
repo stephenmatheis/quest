@@ -76,7 +76,7 @@ export function HudRightReadout() {
     const hitPosLines = [`${formatAbs(hitPos.x)} x`, `${formatAbs(hitPos.y)} y`, `${formatAbs(hitPos.z)} z`];
 
     return (
-        <group position={[2.45, 4.45, 0]}>
+        <group position={[2.175, 4.45, 0]}>
             <group>
                 {lines.map((line, index) => {
                     return (

@@ -38,7 +38,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         {
                             label: '▲',
                             font: GLYPH_FONT,
-                            size: 'medium',
+                            size: 'small',
                             selected: showKeyboard,
                             action() {
                                 toggleKeyboard(true);
@@ -47,7 +47,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         {
                             label: '▼',
                             font: GLYPH_FONT,
-                            size: 'medium',
+                            size: 'small',
                             selected: !showKeyboard,
                             action() {
                                 toggleKeyboard(false);
@@ -55,6 +55,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'lock',
+                            size: 'small',
                             selected: lockHud,
                             action() {
                                 toggleHudLock(true);
@@ -62,6 +63,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'free',
+                            size: 'small',
                             selected: !lockHud,
                             action() {
                                 toggleHudLock(false);
@@ -70,6 +72,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'face',
+                            size: 'small',
                             selected: !perspectiveKeyboard,
                             action() {
                                 togglePerspectiveKeyboard(false);
@@ -77,6 +80,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'tilt',
+                            size: 'small',
                             selected: perspectiveKeyboard,
                             action() {
                                 togglePerspectiveKeyboard(true);
@@ -84,6 +88,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'flat' as Keyboard,
+                            size: 'small',
                             selected: keyboard === 'linear',
                             action() {
                                 setKeyboard('linear');
@@ -91,6 +96,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'ortho' as Keyboard,
+                            size: 'small',
                             selected: keyboard === 'ortho',
                             action() {
                                 setKeyboard('ortho');
@@ -98,6 +104,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'ergo' as Keyboard,
+                            size: 'small',
                             selected: keyboard === 'ergo',
                             action() {
                                 setKeyboard('ergo');
@@ -125,7 +132,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     }
 
     return (
-        <group position={[-3.65, 3.5, 0]} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
+        <group position={[-3.425, 3.5, 0]} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (
