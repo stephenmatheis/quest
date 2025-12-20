@@ -4,7 +4,6 @@ import { Edges } from '@react-three/drei';
 import { animated, useSpring } from '@react-spring/three';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
-import { Label } from '@/components/Label';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
 
@@ -16,8 +15,6 @@ const FRICTION = 30;
 
 type HudFullKeyboardProps = {
     keyWidth?: number;
-    fontSize?: 'small' | 'medium' | 'large';
-    fontWeight?: 'regular' | 'light' | 'bold';
 };
 
 function getPosY(keyboard: Keyboard) {
@@ -44,7 +41,7 @@ function getMultiplier(keyboard: Keyboard) {
     }
 }
 
-export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight = 'regular' }: HudFullKeyboardProps) {
+export function HudFullKeyboard({ keyWidth = 0.4 }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
     // const showY = showKeyboard ? (FLAG_TEST ? 1 : 0) : -3.5;
     const springs = useSpring({
@@ -156,22 +153,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                 code={code}
                                                 geometry={leftGeometry}
                                                 material={material}
-                                                label={
-                                                    label && (
-                                                        <Label
-                                                            size={fontSize}
-                                                            weight={fontWeight}
-                                                            rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
-                                                            position={[
-                                                                perspectiveKeyboard ? 0.0125 : 0,
-                                                                perspectiveKeyboard ? -0.15 : 0,
-                                                                0,
-                                                            ]}
-                                                        >
-                                                            {label}
-                                                        </Label>
-                                                    )
-                                                }
+                                                label={label}
                                             >
                                                 <mesh geometry={leftGeometry} material={material}>
                                                     <Edges linewidth={2} threshold={15} color="#000000" />
@@ -232,22 +214,7 @@ export function HudFullKeyboard({ keyWidth = 0.4, fontSize = 'small', fontWeight
                                                 code={code}
                                                 geometry={rightGeometry}
                                                 material={material}
-                                                label={
-                                                    label && (
-                                                        <Label
-                                                            size={fontSize}
-                                                            weight={fontWeight}
-                                                            rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
-                                                            position={[
-                                                                perspectiveKeyboard ? 0.0125 : 0,
-                                                                perspectiveKeyboard ? -0.15 : 0,
-                                                                0,
-                                                            ]}
-                                                        >
-                                                            {label}
-                                                        </Label>
-                                                    )
-                                                }
+                                                label={label}
                                             >
                                                 <mesh geometry={rightGeometry} material={material}>
                                                     <Edges linewidth={2} threshold={15} color="#000000" />

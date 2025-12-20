@@ -73,7 +73,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     return (
-        <group position={[-posX, 4, 0]}>
+        <group position={[-posX, 4.225, 0]}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {controls.map(({ items }, index) => {
                     return (

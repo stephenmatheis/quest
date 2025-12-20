@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Box3, Vector3, type Group } from 'three';
 import { animated, useSpring } from '@react-spring/three';
+import { useHud } from '@/providers/HudProvider';
+import { Label } from '@/components/Label';
 
 const MASS = 2;
 const TENSION = 360;
@@ -19,11 +21,12 @@ export function Control({
     children: ReactNode;
     width: number;
     height: number;
-    label: ReactNode;
+    label: string;
     code?: string;
     material: any;
     geometry: any;
 }) {
+    const { perspectiveKeyboard } = useHud();
     const labelRef = useRef<Group>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
     const springs = useSpring({
@@ -50,8 +53,6 @@ export function Control({
 
     useEffect(() => {
         function onKeydown(event: KeyboardEvent) {
-            console.log(event.code);
-
             if (event.code === code) {
                 setIsActive(true);
             }
@@ -97,7 +98,14 @@ export function Control({
                     position-z={springs.lz}
                     raycast={() => {}}
                 >
-                    {label}
+                    <Label
+                        size="small"
+                        weight="regular"
+                        rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
+                        position={[perspectiveKeyboard ? 0.0125 : 0, perspectiveKeyboard ? -0.15 : 0, 0]}
+                    >
+                        {label}
+                    </Label>
                 </animated.group>
             </group>
         </group>

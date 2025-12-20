@@ -7,6 +7,7 @@ import { HudLeftTools } from '@/components/HudLeftTools';
 import { HudProvider, useHud } from '@/providers/HudProvider';
 import { useEffect, useRef, type ReactNode } from 'react';
 import { HudCenterTools } from './HudCenterTools';
+import { EventVisualizer } from './EventVisualizer';
 
 function HudWrapper({ children }: { children: ReactNode }) {
     const { lockHud } = useHud();
@@ -40,6 +41,7 @@ export function HudOverlay({ onReady }: { onReady: () => void }) {
                     <HudLeftReadout />
                     <HudCenterReadout />
                     <HudRightReadout />
+                    <EventVisualizer />
                 </group>
             </HudWrapper>
         </HudProvider>

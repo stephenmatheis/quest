@@ -431,19 +431,23 @@ export const rightControls = [
                 code: 'AltRight',
             },
             {
-                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />,
+                // label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />,
+                label: 'left',
                 code: 'ArrowLeft',
             },
             {
-                label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
+                // label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
+                label: 'up',
                 code: 'ArrowUp',
             },
             {
-                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
+                // label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
+                label: 'down',
                 code: 'ArrowDown',
             },
             {
-                label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / -2]} />,
+                // label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / -2]} />,
+                label: 'right',
                 code: 'ArrowRight',
             },
         ],
