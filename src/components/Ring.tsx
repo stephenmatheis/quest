@@ -3,6 +3,8 @@ type RingProps = {
 };
 
 export function Ring({ size }: RingProps) {
+    return null;
+
     return (
         <group position={[0, size, -1]}>
             <mesh position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
