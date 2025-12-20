@@ -45,6 +45,8 @@ export function EventVisualizer() {
 
     useEffect(() => {
         function onKeydown(event: KeyboardEvent) {
+            if (event.repeat) return;
+
             if (modKeys.includes(event.key)) return;
 
             let mods = '';
@@ -62,7 +64,7 @@ export function EventVisualizer() {
         function onKeyup() {
             setTimeout(() => {
                 setEvents((prev) => prev.slice(0, -1));
-            }, 1000);
+            }, 100);
         }
 
         window.addEventListener('keydown', onKeydown);
