@@ -6,6 +6,7 @@ import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
+import type { LabelSize } from './Label';
 
 const FLAG_TEST = false;
 
@@ -120,7 +121,7 @@ export function HudFullKeyboard({ keyWidth = 0.4 }: HudFullKeyboardProps) {
                     {sortedLeft.map(({ items }, index) => {
                         return (
                             <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                                {items.map(({ label, code }, index) => {
+                                {items.map(({ label, size, font, code }, index) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
 
                                     if (code === '') {
@@ -154,6 +155,8 @@ export function HudFullKeyboard({ keyWidth = 0.4 }: HudFullKeyboardProps) {
                                                 geometry={leftGeometry}
                                                 material={material}
                                                 label={label}
+                                                font={font}
+                                                size={size as LabelSize}
                                             >
                                                 <mesh geometry={leftGeometry} material={material}>
                                                     <Edges linewidth={2} threshold={15} color="#000000" />
@@ -177,7 +180,7 @@ export function HudFullKeyboard({ keyWidth = 0.4 }: HudFullKeyboardProps) {
                     {sortedRight.map(({ items }, index) => {
                         return (
                             <group key={index} position={[0, (height + gapY) * index, 0]}>
-                                {items.map(({ label, code }, index) => {
+                                {items.map(({ label, font, size, code }, index) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
 
                                     if (code === '') {
@@ -215,6 +218,8 @@ export function HudFullKeyboard({ keyWidth = 0.4 }: HudFullKeyboardProps) {
                                                 geometry={rightGeometry}
                                                 material={material}
                                                 label={label}
+                                                font={font}
+                                                size={size as LabelSize}
                                             >
                                                 <mesh geometry={rightGeometry} material={material}>
                                                     <Edges linewidth={2} threshold={15} color="#000000" />

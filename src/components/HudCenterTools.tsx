@@ -1,17 +1,15 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
 import { Edges } from '@react-three/drei';
-import { Tool } from '@/components/Tool';
-import { Label } from '@/components/Label';
-import { createBeveledShape } from '@/utils/shapes';
-import { ExtrudedSvg } from '@/components/ExtrudedSvg';
 import { useWorld } from '@/providers/WorldProvider';
+import { Control } from '@/components/Control';
+import { type LabelSize } from '@/components/Label';
+import { createBeveledShape } from '@/utils/shapes';
+import { GLYPH_FONT } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
 const WIDTH = 0.5;
 const HEIGHT = ASPECT_RATIO * WIDTH;
-const FONT_SIZE = 0.07;
-const WEIGHT = 'regular';
 
 type ControlsProps = {
     width?: number;
@@ -20,7 +18,6 @@ type ControlsProps = {
 
 export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const { mode, setMode } = useWorld();
-
     const controls = useMemo(
         () =>
             [
@@ -28,18 +25,18 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                     group: 0,
                     items: [
                         {
-                            label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />,
+                            label: '▲',
+                            font: GLYPH_FONT,
+                            size: 'medium',
                             selected: false,
                             action() {
                                 console.log('left');
                             },
                         },
                         {
-                            label: (
-                                <group rotation-z={Math.PI / -2}>
-                                    <ExtrudedSvg src="/svg/arrow-up.svg" />
-                                </group>
-                            ),
+                            label: '▼',
+                            font: GLYPH_FONT,
+                            size: 'medium',
                             selected: false,
                             action() {
                                 console.log('right');
@@ -61,8 +58,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
             ].sort((a, b) => b.group - a.group),
         [mode]
     );
-
-    const rotX = 0;
+    const rotX = Math.PI / 12;
     const rotY = 0;
     const rotZ = 0;
     const gapX = width / 10;
@@ -78,25 +74,21 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                 {controls.map(({ items }, index) => {
                     return (
                         <group key={index} position={[0, 0, 0]}>
-                            {items.map(({ label, selected, action }, index) => {
+                            {items.map(({ label, font, size, selected, action }, index) => {
                                 const x = index * (width + gapX);
                                 const y = 0;
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
-                                        <Tool
+                                        <Control
+                                            action={action}
                                             width={width}
                                             height={height}
                                             geometry={geometry}
                                             material={material}
-                                            action={action}
-                                            label={
-                                                label && (
-                                                    <Label size={FONT_SIZE} weight={WEIGHT}>
-                                                        {label}
-                                                    </Label>
-                                                )
-                                            }
+                                            label={label}
+                                            font={font}
+                                            size={size as LabelSize}
                                         >
                                             <mesh geometry={geometry} material={material}>
                                                 <Edges
@@ -105,7 +97,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                                     color={selected ? '#ff0000' : '#000000'}
                                                 />
                                             </mesh>
-                                        </Tool>
+                                        </Control>
                                     </group>
                                 );
                             })}

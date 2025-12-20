@@ -1,4 +1,4 @@
-import { ExtrudedSvg } from '@/components/ExtrudedSvg';
+import { GLYPH_FONT } from '@/lib/constants';
 
 export const leftControls = [
     {
@@ -161,8 +161,10 @@ export const leftControls = [
                 code: '',
             },
             {
-                label: 'shift',
+                label: '⇧',
                 code: 'ShiftLeft',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
                 label: 'Z',
@@ -202,16 +204,22 @@ export const leftControls = [
                 code: '',
             },
             {
-                label: 'ctl',
+                label: '⌃',
                 code: 'ControlLeft',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                label: 'opt',
+                label: '⌥',
                 code: 'AltLeft',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                label: 'cmd',
+                label: '⌘',
                 code: 'MetaLeft',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
                 label: 'spc',
@@ -295,8 +303,10 @@ export const rightControls = [
                 code: 'Equal',
             },
             {
-                label: 'dlt',
+                label: '⟵',
                 code: 'Backspace',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
         ],
     },
@@ -365,8 +375,10 @@ export const rightControls = [
                 code: 'Quote',
             },
             {
-                label: 'enter',
+                label: '↵',
                 code: 'Enter',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
                 label: '',
@@ -398,8 +410,10 @@ export const rightControls = [
                 code: 'Slash',
             },
             {
-                label: 'shift',
+                label: '⇧',
                 code: 'ShiftRight',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
                 label: '',
@@ -423,32 +437,40 @@ export const rightControls = [
                 code: 'Space',
             },
             {
-                label: 'cmd',
+                label: '⌘',
                 code: 'MetaRight',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                label: 'opt',
+                label: '⌃',
                 code: 'AltRight',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                // label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / 2]} />,
-                label: 'left',
+                label: '◀',
                 code: 'ArrowLeft',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                // label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
-                label: 'up',
+                label: '▲',
                 code: 'ArrowUp',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                // label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
-                label: 'down',
+                label: '▼',
                 code: 'ArrowDown',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
             {
-                // label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI / -2]} />,
-                label: 'right',
+                label: '►',
                 code: 'ArrowRight',
+                font: GLYPH_FONT,
+                size: 'medium',
             },
         ],
     },

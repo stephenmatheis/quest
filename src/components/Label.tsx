@@ -2,6 +2,8 @@ import { type ReactNode } from 'react';
 import { Center, Text3D } from '@react-three/drei';
 import { FONT } from '@/lib/constants';
 
+export type LabelSize = 'small' | 'medium' | 'large' | number | undefined;
+
 const LARGE_FONT_SIZE = 0.115;
 const MEDIUM_FONT_SIZE = 0.1;
 const SMALL_FONT_SIZE = 0.085;
@@ -12,16 +14,10 @@ const sizes = {
     large: LARGE_FONT_SIZE,
 };
 
-const weights = {
-    light: 'Regular',
-    regular: 'Regular',
-    bold: 'Regular',
-};
-
 type LabelProps = {
     children: ReactNode;
-    size?: 'small' | 'medium' | 'large' | number;
-    weight?: 'light' | 'regular' | 'bold';
+    font?: string;
+    size?: LabelSize;
     color?: string;
     position?: [number, number, number];
     rotation?: [number, number, number];
@@ -30,7 +26,7 @@ type LabelProps = {
 export function Label({
     children,
     size = 'medium',
-    weight = 'regular',
+    font,
     color = '#000000',
     position = [0, 0, 0],
     rotation = [0, 0, 0],
@@ -43,7 +39,7 @@ export function Label({
                     rotation={rotation}
                     height={0.01}
                     size={typeof size === 'number' ? size : sizes[size]}
-                    font={weights[weight] && FONT}
+                    font={font || FONT}
                 >
                     {children}
                     <meshBasicMaterial color={color} />

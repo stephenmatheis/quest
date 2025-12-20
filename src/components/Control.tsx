@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Box3, Vector3, type Group } from 'three';
 import { animated, useSpring } from '@react-spring/three';
 import { useHud } from '@/providers/HudProvider';
-import { Label } from '@/components/Label';
+import { Label, type LabelSize } from '@/components/Label';
 
 const MASS = 2;
 const TENSION = 360;
@@ -14,7 +14,10 @@ export function Control({
     width,
     height,
     label,
+    size,
+    font,
     code,
+    action,
     material,
     geometry,
 }: {
@@ -22,7 +25,10 @@ export function Control({
     width: number;
     height: number;
     label: string;
+    size?: LabelSize;
+    font?: string;
     code?: string;
+    action?: () => void;
     material: any;
     geometry: any;
 }) {
@@ -45,6 +51,7 @@ export function Control({
 
         function handleKeyRelease() {
             setIsActive(false);
+            action?.();
 
             window.removeEventListener('pointerup', handleKeyRelease);
             window.removeEventListener('pointercancel', handleKeyRelease);
@@ -91,16 +98,11 @@ export function Control({
 
             <mesh geometry={geometry} material={material} onPointerDown={handleDown} />
 
-            <group ref={labelRef} position={[0, 0, 0]}>
-                <animated.group
-                    position={[0, 0, 0.1]}
-                    position-y={springs.ly}
-                    position-z={springs.lz}
-                    raycast={() => {}}
-                >
+            <group ref={labelRef} position={[0, 0, 0]} raycast={() => {}}>
+                <animated.group position={[0, 0, 0.1]} position-y={springs.ly} position-z={springs.lz}>
                     <Label
-                        size="small"
-                        weight="regular"
+                        font={font}
+                        size={size}
                         rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
                         position={[perspectiveKeyboard ? 0.0125 : 0, perspectiveKeyboard ? -0.15 : 0, 0]}
                     >

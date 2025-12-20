@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Box3, Group, Vector3 } from 'three';
 import { animated, useSpring } from '@react-spring/three';
+import type { LabelSize } from '@/components/Label';
 
 const MASS = 2;
 const TENSION = 360;
@@ -12,14 +13,20 @@ export function Tool({
     width,
     height,
     label,
+    size,
+    font,
     material,
     geometry,
+
     action,
 }: {
     children: ReactNode;
     width: number;
     height: number;
-    label: ReactNode;
+    label: string;
+    size?: LabelSize;
+    font?: string;
+    code?: string;
     material: any;
     geometry: any;
     action: () => void;

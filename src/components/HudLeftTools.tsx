@@ -1,18 +1,16 @@
+import { useMemo } from 'react';
 import * as THREE from 'three';
 import { Edges } from '@react-three/drei';
-import { Tool } from '@/components/Tool';
-import { Label } from '@/components/Label';
-import { createBeveledShape } from '@/utils/shapes';
-import { ExtrudedSvg } from './ExtrudedSvg';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
-import { useMemo } from 'react';
 import { useCameraControls } from '@/providers/CameraProvider';
+import { Control } from '@/components/Control';
+import { type LabelSize } from '@/components/Label';
+import { createBeveledShape } from '@/utils/shapes';
+import { GLYPH_FONT } from '@/lib/constants';
 
 const ASPECT_RATIO = 6 / 7;
 const WIDTH = 0.35;
 const HEIGHT = ASPECT_RATIO * WIDTH;
-const FONT_SIZE = 0.07;
-const WEiGHT = 'regular';
 
 type ControlsProps = {
     width?: number;
@@ -31,14 +29,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
         perspectiveKeyboard,
     } = useHud();
     const { toggleEnableCamera } = useCameraControls();
-    const rotX = 0;
-    const rotY = 0;
-    const rotZ = 0;
-    const gapY = width / 10;
-    const shape = createBeveledShape(width, height, 0.0375);
-    const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
-
     const tools = useMemo(
         () =>
             [
@@ -46,14 +36,18 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                     group: 0,
                     items: [
                         {
-                            label: <ExtrudedSvg src="/svg/arrow-up.svg" />,
+                            label: '▲',
+                            font: GLYPH_FONT,
+                            size: 'medium',
                             selected: showKeyboard,
                             action() {
                                 toggleKeyboard(true);
                             },
                         },
                         {
-                            label: <ExtrudedSvg src="/svg/arrow-up.svg" rotation={[0, 0, Math.PI]} />,
+                            label: '▼',
+                            font: GLYPH_FONT,
+                            size: 'medium',
                             selected: !showKeyboard,
                             action() {
                                 toggleKeyboard(false);
@@ -71,6 +65,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             selected: !lockHud,
                             action() {
                                 toggleHudLock(false);
+                                toggleEnableCamera(true);
                             },
                         },
                         {
@@ -113,6 +108,13 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
             ].sort((a, b) => b.group - a.group),
         [showKeyboard, lockHud, perspectiveKeyboard, keyboard]
     );
+    const rotX = 0;
+    const rotY = Math.PI / 12;
+    const rotZ = 0;
+    const gapY = width / 10;
+    const shape = createBeveledShape(width, height, 0.0375);
+    const geometry = new THREE.ShapeGeometry([shape]);
+    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     function handleEnter() {
         toggleEnableCamera(false);
@@ -128,25 +130,21 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                 {tools.map(({ items }, index) => {
                     return (
                         <group key={index} position={[0, 0, 0]}>
-                            {items.map(({ label, selected, action }, index) => {
+                            {items.map(({ label, font, size, selected, action }, index) => {
                                 const x = 0;
                                 const y = index * -(height + gapY);
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
-                                        <Tool
+                                        <Control
+                                            action={action}
                                             width={width}
                                             height={height}
                                             geometry={geometry}
                                             material={material}
-                                            action={action}
-                                            label={
-                                                label && (
-                                                    <Label size={FONT_SIZE} weight={WEiGHT}>
-                                                        {label}
-                                                    </Label>
-                                                )
-                                            }
+                                            label={label}
+                                            font={font}
+                                            size={size as LabelSize}
                                         >
                                             <mesh geometry={geometry} material={material}>
                                                 <Edges
@@ -155,7 +153,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                                     color={selected ? '#ff0000' : '#000000'}
                                                 />
                                             </mesh>
-                                        </Tool>
+                                        </Control>
                                     </group>
                                 );
                             })}
