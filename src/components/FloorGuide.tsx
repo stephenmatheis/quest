@@ -12,11 +12,12 @@ export function FloorGuide() {
                 cellSize={1}
                 cellThickness={1}
                 cellColor="#cccccc"
+                followCamera={false}
+                infiniteGrid={true}
                 sectionSize={4}
                 sectionThickness={1}
                 sectionColor="#909090"
-                followCamera={false}
-                infiniteGrid={true}
+                side={2}
             />
         </>
     );
