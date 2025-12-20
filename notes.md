@@ -15,3 +15,10 @@
 ## Concepts
 
 Non-combat roles only. Just traveling, gathering, crafting, fishing, building, and selling.
+
+## Glyphs
+
+-   Command ⌘
+-   Option ⌥
+-   Control ⌃
+-   Shift ⇧
