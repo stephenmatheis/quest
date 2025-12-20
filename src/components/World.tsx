@@ -9,18 +9,33 @@ import { HoverHighlight } from './HoverHighlight';
 
 export function World() {
     const [ready, setReady] = useState<boolean>(false);
+    const [maxHeight, setMaxHeight] = useState<number>(0);
 
     useEffect(() => {
-        const { innerWidth, innerHeight } = window;
+        
+        function onResize() {
+            const { innerWidth } = window;
 
-        console.log(innerWidth, innerHeight);
+            setMaxHeight(innerWidth * 0.75);
+        }
+
+        onResize();
+
+        window.addEventListener('resize', onResize);
+
+        return () => window.removeEventListener('resize', onResize);
     }, []);
 
     return (
         <div
             style={{
-                height: '100%',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
                 width: '100%',
+                height: '100%',
+                maxHeight,
                 opacity: ready ? 1 : 0,
                 transition: 'opacity 1000ms',
             }}
