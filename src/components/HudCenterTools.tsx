@@ -43,15 +43,19 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                             },
                         },
                         {
-                            label: mode,
+                            label: 'visual',
                             size: 'small',
-                            selected: false,
+                            selected: mode === 'visual',
                             action() {
-                                setMode((prev) => {
-                                    if (prev === 'visual') return 'insert';
-
-                                    return 'visual';
-                                });
+                                setMode('visual');
+                            },
+                        },
+                        {
+                            label: 'insert',
+                            size: 'small',
+                            selected: mode === 'insert',
+                            action() {
+                                setMode('insert');
                             },
                         },
                     ],
