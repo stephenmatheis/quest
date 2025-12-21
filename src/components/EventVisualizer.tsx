@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ShapeGeometry, MeshBasicMaterial } from 'three';
-import { Center, Edges, Text3D } from '@react-three/drei';
-import { createRect } from '@/utils/shapes';
+import { MeshBasicMaterial } from 'three';
+import { Center, Text3D } from '@react-three/drei';
 import { FONT } from '@/lib/constants';
 
 export type ControlEvent = {
+    id: string;
     text: string;
 };
 
-const width = 1;
-const height = 0.25;
 const modKeys = ['Meta', 'Shift', 'Alt', 'Control'];
 
 function getTextFromKeyCode(code: string, key: string) {
@@ -29,7 +27,7 @@ function getTextFromKeyCode(code: string, key: string) {
         case 'ControlRight':
             return 'ctl';
         case 'AltLeft':
-        case 'ALtRight':
+        case 'AltRight':
             return 'opt';
         default:
             return key.toUpperCase();
@@ -37,14 +35,15 @@ function getTextFromKeyCode(code: string, key: string) {
 }
 
 export function EventVisualizer() {
-    const rect = useMemo(() => createRect(width, height), []);
-    const geometry = useMemo(() => new ShapeGeometry([rect]), []);
-    const material = useMemo(() => new MeshBasicMaterial({ color: 'white' }), []);
     const textMaterial = useMemo(() => new MeshBasicMaterial({ color: 'black' }), []);
     const [events, setEvents] = useState<ControlEvent[]>([]);
 
     useEffect(() => {
+        let id = '';
+
         function onKeydown(event: KeyboardEvent) {
+            event.preventDefault();
+
             if (event.repeat) return;
 
             if (modKeys.includes(event.key)) return;
@@ -58,12 +57,16 @@ export function EventVisualizer() {
 
             const text = `${mods}${getTextFromKeyCode(event.code, event.key)}`.trim();
 
-            setEvents((prev) => [...prev, { text }]);
+            id = text + new Date().getTime();
+
+            setEvents((prev) => [...prev, { id, text }]);
         }
 
-        function onKeyup() {
+        function onKeyup(event: KeyboardEvent) {
+            event.preventDefault();
+
             setTimeout(() => {
-                setEvents((prev) => prev.slice(0, -1));
+                setEvents((prev) => prev.filter((e) => e.id !== id));
             }, 100);
         }
 
@@ -77,15 +80,17 @@ export function EventVisualizer() {
     }, []);
 
     return (
-        <group position={[0, 4, 0]}>
+        <group position={[2.95, 2.5, 0]}>
+            <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 0.001]} />
+                <meshBasicMaterial color="#ff0000" />
+            </mesh>
+
             {events.map(({ text }, index) => {
-                const y = index === 0 ? 0 : index * -height - 0.1 * index;
+                const y = index === 0 ? 0 : index * -0.2;
 
                 return (
-                    <group key={index} position={[0, y, 0]}>
-                        <mesh position={[-width / 2, -height / 2, 0]} geometry={geometry} material={material}>
-                            <Edges linewidth={2} threshold={15} color="#000000" />
-                        </mesh>
+                    <group key={index} position={[0, y + 0.25, 0]}>
                         <Center>
                             <Text3D
                                 position={[0, 0, 0]}
