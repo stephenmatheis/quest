@@ -81,11 +81,6 @@ export function EventVisualizer() {
 
     return (
         <group position={[2.95, 2.5, 0]}>
-            <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[1, 1, 0.001]} />
-                <meshBasicMaterial color="#ff0000" />
-            </mesh>
-
             {events.map(({ text }, index) => {
                 const y = index === 0 ? 0 : index * -0.2;
 
