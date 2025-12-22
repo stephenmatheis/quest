@@ -24,7 +24,7 @@
 html {
     overscroll-behavior: none;
 
-    cursor: url('images/cursor.svg') 0 0, auto;
+    cursor: url('images/cursor.png') 8 8, auto;
     background-color: var(--background-color);
 }
 
@@ -38,7 +38,7 @@ body {
 }
 
 button {
-    cursor: url('images/cursor.svg') 0 0, auto;
+    cursor: url('images/cursor.png') 8 8, auto;
     border: none;
     background-color: transparent;
     font-family: inherit;
