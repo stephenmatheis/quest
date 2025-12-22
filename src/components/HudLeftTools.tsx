@@ -8,8 +8,8 @@ import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
 import { GLYPH_FONT } from '@/lib/constants';
 
-const ASPECT_RATIO = 6 / 7;
-const WIDTH = 0.35;
+const ASPECT_RATIO = 2 / 3;
+const WIDTH = 0.325;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
 type ControlsProps = {
@@ -38,7 +38,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         {
                             label: '▲',
                             font: GLYPH_FONT,
-                            size: .075,
+                            size: 0.065,
                             selected: showKeyboard,
                             action() {
                                 toggleKeyboard(true);
@@ -47,7 +47,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         {
                             label: '▼',
                             font: GLYPH_FONT,
-                            size: .075,
+                            size: 0.065,
                             selected: !showKeyboard,
                             action() {
                                 toggleKeyboard(false);
@@ -55,7 +55,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'lock',
-                            size: .075,
+                            size: 0.065,
                             selected: lockHud,
                             action() {
                                 toggleHudLock(true);
@@ -63,7 +63,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'free',
-                            size: .075,
+                            size: 0.065,
                             selected: !lockHud,
                             action() {
                                 toggleHudLock(false);
@@ -72,7 +72,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'face',
-                            size: .075,
+                            size: 0.065,
                             selected: !perspectiveKeyboard,
                             action() {
                                 togglePerspectiveKeyboard(false);
@@ -80,7 +80,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'tilt',
-                            size: .075,
+                            size: 0.065,
                             selected: perspectiveKeyboard,
                             action() {
                                 togglePerspectiveKeyboard(true);
@@ -88,7 +88,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'flat' as Keyboard,
-                            size: .075,
+                            size: 0.065,
                             selected: keyboard === 'linear',
                             action() {
                                 setKeyboard('linear');
@@ -96,7 +96,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'ortho' as Keyboard,
-                            size: .075,
+                            size: 0.065,
                             selected: keyboard === 'ortho',
                             action() {
                                 setKeyboard('ortho');
@@ -104,7 +104,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                         },
                         {
                             label: 'ergo' as Keyboard,
-                            size: .075,
+                            size: 0.065,
                             selected: keyboard === 'ergo',
                             action() {
                                 setKeyboard('ergo');
@@ -119,7 +119,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const rotY = Math.PI / 12;
     const rotZ = 0;
     const gapY = width / 10;
-    const shape = createBeveledShape(width, height, 0.0375);
+    const shape = createBeveledShape(width, height, 0.01875);
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
@@ -132,7 +132,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     }
 
     return (
-        <group position={[-3.425, 3.5, 0]} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
+        <group position={[-3.425, 3.8, 0]} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (
