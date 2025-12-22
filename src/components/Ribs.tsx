@@ -49,7 +49,7 @@ export function Ribs({ width, x }: RibsProps) {
                                 [0, y, 0],
                                 [-0.5, y, 0],
                             ]}
-                            color="#000000"
+                            color={LINE_COLOR}
                             linewidth={2}
                         />
                     );
@@ -74,11 +74,12 @@ export function Ribs({ width, x }: RibsProps) {
                                 ]}
                                 color={LINE_COLOR}
                                 linewidth={2}
+                                toneMapped={false}
                             />
 
                             <mesh position={[-0.25, 3.5 + 0.2, z]}>
                                 <boxGeometry args={[0.5, 0.1, 0.1]} />
-                                <meshBasicMaterial color={LINE_COLOR} />
+                                <meshBasicMaterial color={LINE_COLOR} toneMapped={false} />
                             </mesh>
                         </group>
                     );

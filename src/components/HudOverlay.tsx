@@ -13,7 +13,7 @@ function HudWrapper({ children }: { children: ReactNode }) {
     const { lockHud } = useHud();
 
     return lockHud ? (
-        <Hud renderPriority={1}>
+        <Hud renderPriority={2}>
             <PerspectiveCamera makeDefault position={[0, 2, 11.8]} fov={25} />
             {children}
         </Hud>

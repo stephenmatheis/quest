@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Cam } from '@/components/Cam';
 import { Ribs } from '@/components/Ribs';
@@ -6,7 +6,7 @@ import { Ring } from '@/components/Ring';
 import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
 import { HoverHighlight } from './HoverHighlight';
-import { Bloom, EffectComposer, SSAO } from '@react-three/postprocessing';
+import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
 export function World() {
     const [ready, setReady] = useState<boolean>(false);
@@ -46,16 +46,17 @@ export function World() {
                     fov: 25,
                 }}
             >
+                <HudOverlay onReady={() => setReady(true)} />
                 <Cam />
                 <HoverHighlight />
                 <Ring size={2.75} />
                 <Ribs width={0.75} x={3} />
                 <FloorGuide />
-                <EffectComposer enableNormalPass>
-                    <Bloom />
-                    <SSAO />
-                </EffectComposer>
-                <HudOverlay onReady={() => setReady(true)} />
+                <Suspense fallback={null}>
+                    <EffectComposer>
+                        <Bloom luminanceThreshold={0} intensity={4.5} />
+                    </EffectComposer>
+                </Suspense>
             </Canvas>
         </div>
     );

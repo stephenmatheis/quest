@@ -1,4 +1,4 @@
-import { GRID_CELL_COLOR, GRID_SECTION_COLOR, RED } from '@/lib/constants';
+import { GRID_CELL_COLOR, GRID_SECTION_COLOR, LINE_COLOR } from '@/lib/constants';
 import { Grid } from '@react-three/drei';
 
 export function FloorGuide() {
@@ -6,7 +6,7 @@ export function FloorGuide() {
         <>
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.125]} />
-                <meshBasicMaterial color={RED} />
+                <meshBasicMaterial color={LINE_COLOR} />
             </mesh>
             <Grid
                 position={[0, 0, 0]}
