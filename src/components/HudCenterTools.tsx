@@ -25,7 +25,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                     group: 0,
                     items: [
                         {
-                            label: '▲',
+                            label: '◀',
                             font: GLYPH_FONT,
                             size: .075,
                             selected: false,
@@ -34,7 +34,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                             },
                         },
                         {
-                            label: '▼',
+                            label: '►',
                             font: GLYPH_FONT,
                             size: .075,
                             selected: false,
