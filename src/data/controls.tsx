@@ -100,14 +100,15 @@ export const leftControls = [
                 code: '',
             },
             {
-                label: '',
-                key: '',
-                code: '',
-            },
-            {
                 label: 'tab',
                 key: 'Tab',
                 code: 'Tab',
+                columnSpan: 2,
+            },
+            {
+                label: '',
+                key: '',
+                code: '',
             },
             {
                 label: 'Q',
@@ -144,15 +145,17 @@ export const leftControls = [
                 key: '',
                 code: '',
             },
+
+            {
+                label: 'caps lock',
+                key: 'CapsLock',
+                code: 'CapsLock',
+                columnSpan: 2,
+            },
             {
                 label: '',
                 key: '',
                 code: '',
-            },
-            {
-                label: 'lock',
-                key: 'CapsLock',
-                code: 'CapsLock',
             },
             {
                 label: 'A',
@@ -189,17 +192,19 @@ export const leftControls = [
                 key: '',
                 code: '',
             },
-            {
-                label: '',
-                key: '',
-                code: '',
-            },
+
             {
                 label: '⇧',
                 key: 'Shift',
                 code: 'ShiftLeft',
                 font: GLYPH_FONT,
                 size: 'small',
+                columnSpan: 2,
+            },
+            {
+                label: '',
+                key: '',
+                code: '',
             },
             {
                 label: 'Z',
@@ -271,11 +276,12 @@ export const leftControls = [
                 label: 'spc',
                 key: ' ',
                 code: 'Space',
+                columnSpan: 2,
             },
             {
-                label: 'spc',
-                key: ' ',
-                code: 'Space',
+                label: '',
+                key: '',
+                code: '',
             },
         ],
     },
@@ -458,6 +464,7 @@ export const rightControls = [
                 code: 'Enter',
                 font: GLYPH_FONT,
                 size: 'small',
+                columnSpan: 2,
             },
             {
                 label: '',
@@ -491,14 +498,17 @@ export const rightControls = [
             },
             {
                 label: '⇧',
+                key: 'Shift',
                 code: 'ShiftRight',
                 font: GLYPH_FONT,
                 size: 'small',
             },
             {
-                label: '',
-                key: '',
-                code: '',
+                label: '▲',
+                key: 'ArrowUp',
+                code: 'ArrowUp',
+                font: GLYPH_FONT,
+                size: 'small',
             },
             {
                 label: '',
@@ -514,11 +524,12 @@ export const rightControls = [
                 label: 'spc',
                 key: ' ',
                 code: 'Space',
+                columnSpan: 2,
             },
             {
                 label: 'spc',
-                key: ' ',
-                code: 'Space',
+                key: '',
+                code: '',
             },
             {
                 label: '⌘',
@@ -528,9 +539,16 @@ export const rightControls = [
                 size: 'small',
             },
             {
-                label: '⌃',
+                label: '⌥',
                 key: 'Alt',
                 code: 'AltRight',
+                font: GLYPH_FONT,
+                size: 'small',
+            },
+            {
+                label: '⌃',
+                key: 'Control',
+                code: 'ControlRight',
                 font: GLYPH_FONT,
                 size: 'small',
             },
@@ -541,13 +559,7 @@ export const rightControls = [
                 font: GLYPH_FONT,
                 size: 'small',
             },
-            {
-                label: '▲',
-                key: 'ArrowUp',
-                code: 'ArrowUp',
-                font: GLYPH_FONT,
-                size: 'small',
-            },
+
             {
                 label: '▼',
                 key: 'ArrowDown',

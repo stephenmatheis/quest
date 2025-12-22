@@ -14,6 +14,15 @@ const MASS = 2;
 const TENSION = 240;
 const FRICTION = 30;
 
+type Key = {
+    label: string;
+    font?: string;
+    size?: LabelSize | string | number;
+    code?: string;
+    key?: string;
+    columnSpan?: number;
+};
+
 type HudFullKeyboardProps = {
     keyWidth?: number;
 };
@@ -78,6 +87,12 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const rightGeometry = new THREE.ShapeGeometry([rightShape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
+    const leftShapeColumnSpan2 = useMemo(() => createLeftShape(width * 2 + gapX, height, 0.075), []);
+    const leftGeometryColumnSpan2 = new THREE.ShapeGeometry([leftShapeColumnSpan2]);
+
+    const rightShapeColumnSpan2 = useMemo(() => createRightShape(width * 2 + gapX, height, 0.075), []);
+    const rightGeometryColumnSpan2 = new THREE.ShapeGeometry([rightShapeColumnSpan2]);
+
     if (FLAG_TEST) {
         return (
             <animated.group position-y={springs.showY}>
@@ -120,7 +135,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                     {sortedLeft.map(({ items }, index) => {
                         return (
                             <group key={index} position={[-posX, (height + gapY) * index, 0]}>
-                                {items.map(({ label, size, font, code, key }, index) => {
+                                {items.map(({ label, size, font, code, key, columnSpan }: Key, index: number) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
 
                                     if (code === '') {
@@ -148,17 +163,20 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                             position-y={springs.ergoMultiplier.to((m) => index * (gapY * m))}
                                         >
                                             <Control
-                                                width={width}
+                                                width={columnSpan ? width * 2 + gapX : width}
                                                 height={height}
                                                 code={code}
                                                 keyboardKey={key}
-                                                geometry={leftGeometry}
+                                                geometry={columnSpan ? leftGeometryColumnSpan2 : leftGeometry}
                                                 material={material}
                                                 label={label}
                                                 font={font}
                                                 size={size as LabelSize}
                                             >
-                                                <mesh geometry={leftGeometry} material={material}>
+                                                <mesh
+                                                    geometry={columnSpan ? leftGeometryColumnSpan2 : leftGeometry}
+                                                    material={material}
+                                                >
                                                     <Edges linewidth={2} threshold={15} color="#000000" />
                                                 </mesh>
                                             </Control>
@@ -180,7 +198,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                     {sortedRight.map(({ items }, index) => {
                         return (
                             <group key={index} position={[0, (height + gapY) * index, 0]}>
-                                {items.map(({ label, font, size, code, key }, index) => {
+                                {items.map(({ label, font, size, code, key, columnSpan }: Key, index: number) => {
                                     const x = index > 0 ? index * width + gapX * index : 0;
 
                                     if (code === '') {
@@ -212,17 +230,20 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                             )}
                                         >
                                             <Control
-                                                width={width}
+                                                width={columnSpan ? width * 2 + gapX : width}
                                                 height={height}
                                                 code={code}
                                                 keyboardKey={key}
-                                                geometry={rightGeometry}
+                                                geometry={columnSpan ? rightGeometryColumnSpan2 : rightGeometry}
                                                 material={material}
                                                 label={label}
                                                 font={font}
                                                 size={size as LabelSize}
                                             >
-                                                <mesh geometry={rightGeometry} material={material}>
+                                                <mesh
+                                                    geometry={columnSpan ? rightGeometryColumnSpan2 : rightGeometry}
+                                                    material={material}
+                                                >
                                                     <Edges linewidth={2} threshold={15} color="#000000" />
                                                 </mesh>
                                             </Control>

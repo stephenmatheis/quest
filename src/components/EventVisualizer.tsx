@@ -24,6 +24,7 @@ export function EventVisualizer() {
         meta: '⌘',
     };
     const SPECIAL_GLYPHS: Record<string, string> = {
+        backspace: '⟵',
         enter: '↵',
         arrowup: '▲',
         arrowdown: '▼',
