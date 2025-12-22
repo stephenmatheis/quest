@@ -8,7 +8,7 @@ import { createBeveledShape } from '@/utils/shapes';
 import { GLYPH_FONT } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
-const WIDTH = 0.5;
+const WIDTH = 0.4;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
 type ControlsProps = {
@@ -27,7 +27,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         {
                             label: '◀',
                             font: GLYPH_FONT,
-                            size: .075,
+                            size: 0.065,
                             selected: false,
                             action() {
                                 console.log('left');
@@ -36,7 +36,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         {
                             label: '►',
                             font: GLYPH_FONT,
-                            size: .075,
+                            size: 0.065,
                             selected: false,
                             action() {
                                 console.log('right');
@@ -44,7 +44,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         },
                         {
                             label: 'visual',
-                            size: .075,
+                            size: 0.065,
                             selected: mode === 'visual',
                             action() {
                                 setMode('visual');
@@ -52,7 +52,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         },
                         {
                             label: 'insert',
-                            size: .075,
+                            size: 0.065,
                             selected: mode === 'insert',
                             action() {
                                 setMode('insert');
@@ -69,12 +69,12 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const gapX = width / 10;
     const rowSize = controls[0].items.length;
     const posX = (rowSize * WIDTH + gapX * (rowSize - 1)) / 2;
-    const shape = createBeveledShape(width, height, 0.0375);
+    const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
     return (
-        <group position={[-posX, 4.225, 0]}>
+        <group position={[-posX, 4.35, 0]}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {controls.map(({ items }, index) => {
                     return (

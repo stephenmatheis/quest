@@ -119,7 +119,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const rotY = Math.PI / 12;
     const rotZ = 0;
     const gapY = width / 10;
-    const shape = createBeveledShape(width, height, 0.01875);
+    const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
