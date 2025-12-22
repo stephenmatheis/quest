@@ -86,10 +86,9 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const leftGeometry = new THREE.ShapeGeometry([leftShape]);
     const rightGeometry = new THREE.ShapeGeometry([rightShape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
-
+    const materialRed = new THREE.MeshBasicMaterial({ color: 'red', alphaTest: 2 });
     const leftShapeColumnSpan2 = useMemo(() => createLeftShape(width * 2 + gapX, height, 0.075), []);
     const leftGeometryColumnSpan2 = new THREE.ShapeGeometry([leftShapeColumnSpan2]);
-
     const rightShapeColumnSpan2 = useMemo(() => createRightShape(width * 2 + gapX, height, 0.075), []);
     const rightGeometryColumnSpan2 = new THREE.ShapeGeometry([rightShapeColumnSpan2]);
 
@@ -149,7 +148,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     <mesh
                                                         raycast={() => {}}
                                                         geometry={leftGeometry}
-                                                        material={material}
+                                                        material={materialRed}
                                                     />
                                                 </group>
                                             </animated.group>
@@ -214,7 +213,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     <mesh
                                                         raycast={() => {}}
                                                         geometry={rightGeometry}
-                                                        material={material}
+                                                        material={materialRed}
                                                     />
                                                 </group>
                                             </animated.group>
