@@ -11,12 +11,12 @@ export function FloorGuide() {
                 position={[0, 0, 0]}
                 cellSize={1}
                 cellThickness={1}
-                cellColor="#cccccc"
+                cellColor="#eeeeee"
                 followCamera={false}
                 infiniteGrid={true}
                 sectionSize={4}
                 sectionThickness={1}
-                sectionColor="#909090"
+                sectionColor="#cccccc"
                 side={2}
             />
         </>

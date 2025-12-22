@@ -1,73 +1,96 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MeshBasicMaterial } from 'three';
 import { Center, Text3D } from '@react-three/drei';
-import { FONT } from '@/lib/constants';
+import { FONT, GLYPH_FONT } from '@/lib/constants';
 
-export type ControlEvent = {
-    id: string;
-    text: string;
+type DisplayItem = {
+    modifiers?: string[];
+    key?: string;
+    isGlyph?: boolean;
 };
 
-const modKeys = ['Meta', 'Shift', 'Alt', 'Control'];
-
-function getTextFromKeyCode(code: string, key: string) {
-    switch (code) {
-        case 'ArrowUp':
-        case 'ArrowDown':
-        case 'ArrowLeft':
-        case 'ArrowRight':
-            return code.replace('Arrow', '').toLocaleLowerCase();
-        case 'MetaLeft':
-        case 'MetaRight':
-            return 'cmd';
-        case 'ShiftLeft':
-        case 'ShiftRight':
-            return 'shift';
-        case 'ControlLeft':
-        case 'ControlRight':
-            return 'ctl';
-        case 'AltLeft':
-        case 'AltRight':
-            return 'opt';
-        default:
-            return key.toUpperCase();
-    }
+function formatKey(key: string) {
+    return key.length === 1 ? key.toUpperCase() : key.toLowerCase();
 }
 
 export function EventVisualizer() {
     const textMaterial = useMemo(() => new MeshBasicMaterial({ color: 'black' }), []);
-    const [events, setEvents] = useState<ControlEvent[]>([]);
+    const [heldKeys, setHeldKeys] = useState<Set<string>>(new Set());
+
+    const MODIFIER_GLYPHS: Record<string, string> = {
+        control: '⌃',
+        alt: '⌥',
+        shift: '⇧',
+        meta: '⌘',
+    };
+    const SPECIAL_GLYPHS: Record<string, string> = {
+        enter: '↵',
+        arrowup: '▲',
+        arrowdown: '▼',
+        arrowleft: '◀',
+        arrowright: '►',
+    };
+    const modifierOrder = Object.keys(MODIFIER_GLYPHS);
+    const heldModifiers = modifierOrder
+        .filter((modifier) => heldKeys.has(modifier))
+        .map((modifier) => MODIFIER_GLYPHS[modifier] || modifier);
+    const heldNonModifiers = Array.from(heldKeys).filter((key) => !modifierOrder.includes(key));
+
+    let displayItems: DisplayItem[] = [];
+
+    if (heldModifiers.length > 0) {
+        if (heldNonModifiers.length === 0) {
+            displayItems.push({
+                modifiers: heldModifiers,
+            });
+        } else {
+            heldNonModifiers.forEach((key) => {
+                displayItems.push({
+                    modifiers: heldModifiers,
+                    key: SPECIAL_GLYPHS[key] || key,
+                    isGlyph: !!SPECIAL_GLYPHS[key],
+                });
+            });
+        }
+    } else {
+        displayItems = heldNonModifiers.map((key) => ({
+            key: SPECIAL_GLYPHS[key] || key,
+            isGlyph: !!SPECIAL_GLYPHS[key],
+        }));
+    }
 
     useEffect(() => {
-        let id = '';
-
         function onKeydown(event: KeyboardEvent) {
-            event.preventDefault();
+            // event.preventDefault();
 
+            if (event.key === 'CapsLock') return;
             if (event.repeat) return;
 
-            if (modKeys.includes(event.key)) return;
+            const key = formatKey(event.key);
 
-            let mods = '';
+            setHeldKeys((prev) => {
+                const next = new Set(prev);
 
-            if (event.ctrlKey) mods += 'ctrl + ';
-            if (event.shiftKey) mods += ' shift + ';
-            if (event.altKey) mods += ' opt + ';
-            if (event.metaKey) mods += ' cmd + ';
+                next.add(key);
 
-            const text = `${mods}${getTextFromKeyCode(event.code, event.key)}`.trim();
-
-            id = text + new Date().getTime();
-
-            setEvents((prev) => [...prev, { id, text }]);
+                return next;
+            });
         }
 
         function onKeyup(event: KeyboardEvent) {
-            event.preventDefault();
+            // event.preventDefault();
 
-            setTimeout(() => {
-                setEvents((prev) => prev.filter((e) => e.id !== id));
-            }, 100);
+            if (event.key === 'CapsLock') return;
+
+            const key = formatKey(event.key);
+
+            setHeldKeys((prev) => {
+                const next = new Set(prev);
+
+                next.delete(key);
+
+                return next;
+            });
         }
 
         window.addEventListener('keydown', onKeydown);
@@ -80,24 +103,40 @@ export function EventVisualizer() {
     }, []);
 
     return (
-        <group position={[2.95, 2.5, 0]}>
-            {events.map(({ text }, index) => {
-                const y = index === 0 ? 0 : index * -0.2;
+        <group position={[2.5, 2.5, 0]}>
+            {displayItems.map(({ modifiers, key, isGlyph }, index) => {
+                const parts: { text: string; font: any }[] = [];
+
+                if (modifiers) {
+                    modifiers.forEach((glyph) => {
+                        parts.push({ text: glyph, font: GLYPH_FONT });
+                    });
+                }
+
+                if (key) {
+                    parts.push({
+                        text: key,
+                        font: isGlyph ? GLYPH_FONT : FONT,
+                    });
+                }
+
+                if (parts.length === 0) return null;
+
+                const gap = 0.175;
+                const totalWidth = (parts.length - 1) * gap;
+                const xOffset = -totalWidth / 2;
 
                 return (
-                    <group key={index} position={[0, y + 0.25, 0]}>
-                        <Center>
-                            <Text3D
-                                position={[0, 0, 0]}
-                                key={index}
-                                height={0.01}
-                                size={0.1}
-                                font={FONT}
-                                material={textMaterial}
-                            >
-                                {text}
-                            </Text3D>
-                        </Center>
+                    <group key={index} position={[0, -index * 0.22, 0]}>
+                        {parts.map((part, i) => (
+                            <group key={part.text + i} position={[xOffset + i * gap, 0, 0]}>
+                                <Center>
+                                    <Text3D font={part.font} height={0.01} size={0.1} material={textMaterial}>
+                                        {part.text}
+                                    </Text3D>
+                                </Center>
+                            </group>
+                        ))}
                     </group>
                 );
             })}

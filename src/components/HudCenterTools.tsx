@@ -27,7 +27,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         {
                             label: '▲',
                             font: GLYPH_FONT,
-                            size: 'small',
+                            size: .075,
                             selected: false,
                             action() {
                                 console.log('left');
@@ -36,7 +36,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         {
                             label: '▼',
                             font: GLYPH_FONT,
-                            size: 'small',
+                            size: .075,
                             selected: false,
                             action() {
                                 console.log('right');
@@ -44,7 +44,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         },
                         {
                             label: 'visual',
-                            size: 'small',
+                            size: .075,
                             selected: mode === 'visual',
                             action() {
                                 setMode('visual');
@@ -52,7 +52,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                         },
                         {
                             label: 'insert',
-                            size: 'small',
+                            size: .075,
                             selected: mode === 'insert',
                             action() {
                                 setMode('insert');
