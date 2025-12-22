@@ -1,4 +1,4 @@
-import { RED } from '@/lib/constants';
+import { GRID_CELL_COLOR, GRID_SECTION_COLOR, RED } from '@/lib/constants';
 import { Grid } from '@react-three/drei';
 
 export function FloorGuide() {
@@ -12,12 +12,12 @@ export function FloorGuide() {
                 position={[0, 0, 0]}
                 cellSize={1}
                 cellThickness={1}
-                cellColor="#eeeeee"
+                cellColor={GRID_CELL_COLOR}
                 followCamera={false}
                 infiniteGrid={true}
                 sectionSize={4}
                 sectionThickness={1}
-                sectionColor="#cccccc"
+                sectionColor={GRID_SECTION_COLOR}
                 side={2}
             />
         </>

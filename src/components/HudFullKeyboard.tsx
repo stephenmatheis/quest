@@ -7,7 +7,7 @@ import { Control } from '@/components/Control';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
 import type { LabelSize } from './Label';
-import { INTERIOR_COLOR, RED } from '@/lib/constants';
+import { INTERIOR_COLOR, LINE_COLOR, RED } from '@/lib/constants';
 
 const MASS = 2;
 const TENSION = 240;
@@ -146,7 +146,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     geometry={columnSpan ? leftGeometryColumnSpan2 : leftGeometry}
                                                     material={material}
                                                 >
-                                                    <Edges linewidth={2} threshold={15} color="#000000" />
+                                                    <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
                                                 </mesh>
                                             </Control>
                                         </animated.group>
@@ -213,7 +213,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     geometry={columnSpan ? rightGeometryColumnSpan2 : rightGeometry}
                                                     material={material}
                                                 >
-                                                    <Edges linewidth={2} threshold={15} color="#000000" />
+                                                    <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
                                                 </mesh>
                                             </Control>
                                         </animated.group>

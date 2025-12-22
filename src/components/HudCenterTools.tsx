@@ -5,7 +5,7 @@ import { useWorld } from '@/providers/WorldProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT, INTERIOR_COLOR } from '@/lib/constants';
+import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR, RED } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
 const WIDTH = 0.4;
@@ -99,7 +99,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                                 <Edges
                                                     linewidth={2}
                                                     threshold={15}
-                                                    color={selected ? '#ff0000' : '#000000'}
+                                                    color={selected ? RED : LINE_COLOR}
                                                 />
                                             </mesh>
                                         </Control>
