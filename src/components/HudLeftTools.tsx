@@ -123,16 +123,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
 
-    function handleEnter() {
-        toggleEnableCamera(false);
-    }
-
-    function handleLeave() {
-        toggleEnableCamera(true);
-    }
-
     return (
-        <group position={[-3.425, 3.8, 0]} onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
+        <group position={[-3.425, 3.8, 0]}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (

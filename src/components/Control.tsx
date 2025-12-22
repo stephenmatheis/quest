@@ -3,6 +3,7 @@ import { Box3, Vector3, type Group } from 'three';
 import { animated, useSpring } from '@react-spring/three';
 import { useHud } from '@/providers/HudProvider';
 import { Label, type LabelSize } from '@/components/Label';
+import { useCameraControls } from '@/providers/CameraProvider';
 
 const MASS = 2;
 const TENSION = 360;
@@ -34,6 +35,7 @@ export function Control({
     material: any;
     geometry: any;
 }) {
+    const { toggleEnableCamera } = useCameraControls();
     const { perspectiveKeyboard } = useHud();
     const labelRef = useRef<Group>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
@@ -44,6 +46,14 @@ export function Control({
         lz: isActive ? 0 : 0.1,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
+
+    function handleEnter() {
+        toggleEnableCamera(false);
+    }
+
+    function handleLeave() {
+        toggleEnableCamera(true);
+    }
 
     function handleDown() {
         setIsActive(true);
@@ -113,7 +123,7 @@ export function Control({
     }, []);
 
     return (
-        <group>
+        <group onPointerEnter={handleEnter} onPointerLeave={handleLeave}>
             <animated.group position-y={springs.cy} position-z={springs.cz}>
                 {children}
             </animated.group>
