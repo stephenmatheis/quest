@@ -6,7 +6,7 @@ import { useCameraControls } from '@/providers/CameraProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT } from '@/lib/constants';
+import { GLYPH_FONT, INTERIOR_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 2 / 3;
 const WIDTH = 0.325;
@@ -121,7 +121,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const gapY = width / 10;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
+    const material = new THREE.MeshBasicMaterial({ color: INTERIOR_COLOR, alphaTest: 2 });
 
     return (
         <group position={[-3.425, 3.8, 0]}>

@@ -1,3 +1,4 @@
+import { RED } from '@/lib/constants';
 import { Grid } from '@react-three/drei';
 
 export function FloorGuide() {
@@ -5,7 +6,7 @@ export function FloorGuide() {
         <>
             <mesh position={[0, 0, 0]}>
                 <sphereGeometry args={[0.125]} />
-                <meshBasicMaterial color="#ff0000" />
+                <meshBasicMaterial color={RED} />
             </mesh>
             <Grid
                 position={[0, 0, 0]}

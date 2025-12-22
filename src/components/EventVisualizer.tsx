@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MeshBasicMaterial } from 'three';
 import { Center, Text3D } from '@react-three/drei';
-import { FONT, GLYPH_FONT } from '@/lib/constants';
+import { FONT, GLYPH_FONT, LINE_COLOR } from '@/lib/constants';
 
 type DisplayItem = {
     modifiers?: string[];
@@ -14,7 +14,7 @@ function formatKey(key: string) {
 }
 
 export function EventVisualizer() {
-    const textMaterial = useMemo(() => new MeshBasicMaterial({ color: 'black' }), []);
+    const textMaterial = useMemo(() => new MeshBasicMaterial({ color: LINE_COLOR }), []);
     const [heldKeys, setHeldKeys] = useState<Set<string>>(new Set());
 
     const MODIFIER_GLYPHS: Record<string, string> = {

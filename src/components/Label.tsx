@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { Center, Text3D } from '@react-three/drei';
-import { FONT } from '@/lib/constants';
+import { FONT, LINE_COLOR } from '@/lib/constants';
 
 export type LabelSize = 'small' | 'medium' | 'large' | number | undefined;
 
@@ -27,7 +27,7 @@ export function Label({
     children,
     size = 'small',
     font,
-    color = '#000000',
+    color = LINE_COLOR,
     position = [0, 0, 0],
     rotation = [0, 0, 0],
 }: LabelProps) {

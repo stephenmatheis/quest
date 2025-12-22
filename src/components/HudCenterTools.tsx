@@ -5,7 +5,7 @@ import { useWorld } from '@/providers/WorldProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT } from '@/lib/constants';
+import { GLYPH_FONT, INTERIOR_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
 const WIDTH = 0.4;
@@ -71,7 +71,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const posX = (rowSize * WIDTH + gapX * (rowSize - 1)) / 2;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
+    const material = new THREE.MeshBasicMaterial({ color: INTERIOR_COLOR, alphaTest: 2 });
 
     return (
         <group position={[-posX, 4.35, 0]}>

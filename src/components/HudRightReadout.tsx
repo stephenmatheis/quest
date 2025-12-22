@@ -1,7 +1,7 @@
 import { useWorld } from '@/providers/WorldProvider';
 import { Text3D } from '@react-three/drei';
 import { useEffect, useState } from 'react';
-import { FONT } from '@/lib/constants';
+import { FONT, LINE_COLOR } from '@/lib/constants';
 
 const FONT_SIZE = 0.08;
 
@@ -82,7 +82,7 @@ export function HudRightReadout() {
                     return (
                         <Text3D key={index} position={[0, index * -0.2, 0]} height={0.001} size={FONT_SIZE} font={FONT}>
                             {line}
-                            <meshBasicMaterial color="#000000" />
+                            <meshBasicMaterial color={LINE_COLOR} />
                         </Text3D>
                     );
                 })}
@@ -92,7 +92,7 @@ export function HudRightReadout() {
             <group position={[0, lines.length * -0.2, 0]}>
                 <Text3D height={0.001} size={FONT_SIZE} font={FONT}>
                     {pointerLabel}
-                    <meshBasicMaterial color="#000000" />
+                    <meshBasicMaterial color={LINE_COLOR} />
                 </Text3D>
                 <group position={[0, 0, 0]}>
                     {pointerPosLines.map((line, index) => {
@@ -105,7 +105,7 @@ export function HudRightReadout() {
                                 font={FONT}
                             >
                                 {Array.from({ length: pointerLabel.length }).map((_) => ' ')} {line}
-                                <meshBasicMaterial color="#000000" />
+                                <meshBasicMaterial color={LINE_COLOR} />
                             </Text3D>
                         );
                     })}
@@ -116,7 +116,7 @@ export function HudRightReadout() {
             <group position={[0, (lines.length + pointerPosLines.length) * -0.2, 0]}>
                 <Text3D height={0.001} size={FONT_SIZE} font={FONT}>
                     {objectLabel}
-                    <meshBasicMaterial color="#000000" />
+                    <meshBasicMaterial color={LINE_COLOR} />
                 </Text3D>
                 <group position={[0, 0, 0]}>
                     {hitPosLines.map((line, index) => {
@@ -129,7 +129,7 @@ export function HudRightReadout() {
                                 font={FONT}
                             >
                                 {Array.from({ length: pointerLabel.length }).map((_) => ' ')} {line}
-                                <meshBasicMaterial color="#000000" />
+                                <meshBasicMaterial color={LINE_COLOR} />
                             </Text3D>
                         );
                     })}

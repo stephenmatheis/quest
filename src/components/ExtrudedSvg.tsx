@@ -1,5 +1,6 @@
 import { SVGLoader } from 'three-stdlib';
 import { useLoader } from '@react-three/fiber';
+import { LINE_COLOR } from '@/lib/constants';
 
 type ExtrudeSvgProps = {
     src: string;
@@ -14,7 +15,7 @@ export function ExtrudedSvg({
     scale = 0.0125,
     depth = 0.04,
     rotation = [0, 0, 0],
-    color = '#000000',
+    color = LINE_COLOR,
 }: ExtrudeSvgProps) {
     const svgResult = useLoader(SVGLoader, src);
     const paths = Array.isArray(svgResult) ? svgResult[0].paths : svgResult.paths;

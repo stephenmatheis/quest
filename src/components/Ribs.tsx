@@ -1,5 +1,6 @@
 import { Edges, Line } from '@react-three/drei';
 import { createRect } from '@/utils/shapes';
+import { INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 
 type RibsProps = {
     width: number;
@@ -16,8 +17,8 @@ export function Ribs({ width, x }: RibsProps) {
             <group position={[-x - 2.75, 3.75, -2]}>
                 <mesh position={[0, 0, 0]}>
                     <shapeGeometry args={[leftTopRect]} />
-                    <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                    <Edges linewidth={2} threshold={15} color="#000000" />
+                    <meshBasicMaterial color={INTERIOR_COLOR} alphaTest={2} />
+                    <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
                 </mesh>
             </group>
 
@@ -29,8 +30,8 @@ export function Ribs({ width, x }: RibsProps) {
                     return (
                         <mesh key={i} position={[0, y, 0]}>
                             <shapeGeometry args={[leftRect]} />
-                            <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                            <Edges linewidth={2} threshold={15} color="#000000" />
+                            <meshBasicMaterial color={INTERIOR_COLOR} alphaTest={2} />
+                            <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
                         </mesh>
                     );
                 })}
@@ -71,13 +72,13 @@ export function Ribs({ width, x }: RibsProps) {
                                     [-0.5, 3.5, z],
                                     [0, 3.5, z],
                                 ]}
-                                color="#000000"
+                                color={LINE_COLOR}
                                 linewidth={2}
                             />
 
                             <mesh position={[-0.25, 3.5 + 0.2, z]}>
                                 <boxGeometry args={[0.5, 0.1, 0.1]} />
-                                <meshBasicMaterial color="#000000" />
+                                <meshBasicMaterial color={LINE_COLOR} />
                             </mesh>
                         </group>
                     );
@@ -102,7 +103,7 @@ export function Ribs({ width, x }: RibsProps) {
                                 [x + 0.5, y + 3.5, z],
                                 [x + 0, y + 3.5, z],
                             ]}
-                            color="#000000"
+                            color={LINE_COLOR}
                             linewidth={2}
                         />
                     );

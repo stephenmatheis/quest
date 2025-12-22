@@ -6,13 +6,13 @@ import { Ring } from '@/components/Ring';
 import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
 import { HoverHighlight } from './HoverHighlight';
+import { Bloom, EffectComposer, SSAO } from '@react-three/postprocessing';
 
 export function World() {
     const [ready, setReady] = useState<boolean>(false);
     const [maxHeight, setMaxHeight] = useState<number>(0);
 
     useEffect(() => {
-        
         function onResize() {
             const { innerWidth } = window;
 
@@ -51,6 +51,10 @@ export function World() {
                 <Ring size={2.75} />
                 <Ribs width={0.75} x={3} />
                 <FloorGuide />
+                <EffectComposer enableNormalPass>
+                    <Bloom />
+                    <SSAO />
+                </EffectComposer>
                 <HudOverlay onReady={() => setReady(true)} />
             </Canvas>
         </div>

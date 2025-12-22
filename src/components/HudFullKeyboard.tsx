@@ -7,8 +7,7 @@ import { Control } from '@/components/Control';
 import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { leftControls, rightControls } from '@/data/controls';
 import type { LabelSize } from './Label';
-
-const FLAG_TEST = false;
+import { INTERIOR_COLOR, RED } from '@/lib/constants';
 
 const MASS = 2;
 const TENSION = 240;
@@ -54,7 +53,7 @@ function getMultiplier(keyboard: Keyboard) {
 export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
     const springs = useSpring({
-        showY: showKeyboard ? (FLAG_TEST ? 1 : -0.1125) : -3.5,
+        showY: showKeyboard ? -0.1125 : -3.5,
         posY: getPosY(keyboard),
         posZ: 0,
         rotXLeft: perspectiveKeyboard ? Math.PI / -2.75 : 0,
@@ -85,41 +84,12 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
     const leftGeometry = new THREE.ShapeGeometry([leftShape]);
     const rightGeometry = new THREE.ShapeGeometry([rightShape]);
-    const material = new THREE.MeshBasicMaterial({ color: 'white', alphaTest: 2 });
-    const materialRed = new THREE.MeshBasicMaterial({ color: 'red', alphaTest: 2 });
+    const material = new THREE.MeshBasicMaterial({ color: INTERIOR_COLOR, alphaTest: 2 });
+    const materialRed = new THREE.MeshBasicMaterial({ color: RED, alphaTest: 2 });
     const leftShapeColumnSpan2 = useMemo(() => createLeftShape(width * 2 + gapX, height, 0.075), []);
     const leftGeometryColumnSpan2 = new THREE.ShapeGeometry([leftShapeColumnSpan2]);
     const rightShapeColumnSpan2 = useMemo(() => createRightShape(width * 2 + gapX, height, 0.075), []);
     const rightGeometryColumnSpan2 = new THREE.ShapeGeometry([rightShapeColumnSpan2]);
-
-    if (FLAG_TEST) {
-        return (
-            <animated.group position-y={springs.showY}>
-                <animated.group position-y={springs.posY} position-z={springs.posZ}>
-                    <animated.group
-                        position-x={-1.25}
-                        rotation-x={springs.rotXLeft}
-                        rotation-y={springs.rotYLeft}
-                        rotation-z={springs.rotZLeft}
-                    >
-                        <boxGeometry args={[2, 2, 0.25]} />
-                        <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                        <Edges linewidth={2} threshold={15} color="#ff0000" />
-                    </animated.group>
-                    <animated.group
-                        position-x={1.25}
-                        rotation-x={springs.rotXRight}
-                        rotation-y={springs.rotYRight}
-                        rotation-z={springs.rotZRight}
-                    >
-                        <boxGeometry args={[2, 2, 0.25]} />
-                        <meshBasicMaterial color="#ffffff" alphaTest={2} />
-                        <Edges linewidth={2} threshold={15} color="#ff0000" />
-                    </animated.group>
-                </animated.group>
-            </animated.group>
-        );
-    }
 
     return (
         <animated.group position-y={springs.showY}>
