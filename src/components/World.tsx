@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Cam } from '@/components/Cam';
 import { Ribs } from '@/components/Ribs';
@@ -52,11 +52,9 @@ export function World() {
                 <Ring size={2.75} />
                 <Ribs width={0.75} x={3} />
                 <FloorGuide />
-                <Suspense fallback={null}>
-                    <EffectComposer>
-                        <Bloom luminanceThreshold={0} intensity={4.5} />
-                    </EffectComposer>
-                </Suspense>
+                <EffectComposer>
+                    <Bloom luminanceThreshold={0} intensity={5} />
+                </EffectComposer>
             </Canvas>
         </div>
     );

@@ -17,7 +17,7 @@ function HudWrapper({ children }: { children: ReactNode }) {
             {children}
         </Hud>
     ) : (
-        <group position={[0, .75, 0]}>{children}</group>
+        <group position={[0, 0.75, 0]}>{children}</group>
     );
 }
 

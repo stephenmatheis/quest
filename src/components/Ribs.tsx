@@ -74,12 +74,13 @@ export function Ribs({ width, x }: RibsProps) {
                                 ]}
                                 color={LINE_COLOR}
                                 linewidth={2}
-                                toneMapped={false}
+                                // toneMapped={false}
                             />
 
                             <mesh position={[-0.25, 3.5 + 0.2, z]}>
                                 <boxGeometry args={[0.5, 0.1, 0.1]} />
-                                <meshBasicMaterial color={LINE_COLOR} toneMapped={false} />
+                                {/* <meshBasicMaterial color={LINE_COLOR} toneMapped={false} /> */}
+                                <meshBasicMaterial color={LINE_COLOR} toneMapped={true} />
                             </mesh>
                         </group>
                     );

@@ -71,7 +71,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const posX = (rowSize * WIDTH + gapX * (rowSize - 1)) / 2;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({ color: INTERIOR_COLOR, alphaTest: 2 });
+    const material = new THREE.MeshBasicMaterial({ color: INTERIOR_COLOR, alphaTest: 2, toneMapped: false });
 
     return (
         <group position={[-posX, 4.35, 0]}>
@@ -97,9 +97,11 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                         >
                                             <mesh geometry={geometry} material={material}>
                                                 <Edges
-                                                    linewidth={2}
+                                                    linewidth={1}
                                                     threshold={15}
                                                     color={selected ? RED : LINE_COLOR}
+                                                    alphaTest={1}
+                                                    toneMapped={false}
                                                 />
                                             </mesh>
                                         </Control>

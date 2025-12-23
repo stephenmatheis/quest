@@ -146,7 +146,13 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     geometry={columnSpan ? leftGeometryColumnSpan2 : leftGeometry}
                                                     material={material}
                                                 >
-                                                    <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
+                                                    <Edges
+                                                        linewidth={1}
+                                                        threshold={15}
+                                                        color={LINE_COLOR}
+                                                        alphaTest={1}
+                                                        toneMapped={false}
+                                                    />
                                                 </mesh>
                                             </Control>
                                         </animated.group>
@@ -213,7 +219,13 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     geometry={columnSpan ? rightGeometryColumnSpan2 : rightGeometry}
                                                     material={material}
                                                 >
-                                                    <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
+                                                    <Edges
+                                                        linewidth={1}
+                                                        threshold={15}
+                                                        color={LINE_COLOR}
+                                                        alphaTest={1}
+                                                        toneMapped={false}
+                                                    />
                                                 </mesh>
                                             </Control>
                                         </animated.group>
