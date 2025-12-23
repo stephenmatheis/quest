@@ -4,6 +4,7 @@ import { useThree } from '@react-three/fiber';
 import { useCallback, useEffect, useRef } from 'react';
 import { Color, Vector2, Vector3, Object3D, Mesh, Material } from 'three';
 
+// TODO: check drei for hover tool
 export function HoverHighlight() {
     const { setPointerPos, setHitPos } = useWorld();
     const { cameraControlsRef } = useCameraControls();
@@ -27,6 +28,8 @@ export function HoverHighlight() {
         }
     }, []);
 
+    // FIXME: This is why FPS dips from 120 to 90ish.
+    // NOTE: FPS dips because of react context state change
     const updateHudReadings = useCallback(() => {
         setPointerPos(new Vector2(pointer.x, pointer.y));
 
@@ -53,7 +56,7 @@ export function HoverHighlight() {
         function onSleep() {
             isCameraUpdating.current = false;
 
-            updateHudReadings();
+            // updateHudReadings();
         }
 
         controls.addEventListener('update', onUpdate);
@@ -93,7 +96,7 @@ export function HoverHighlight() {
                 }
             }
 
-            updateHudReadings();
+            // updateHudReadings();
         }
 
         window.addEventListener('pointermove', onPointerMove);
