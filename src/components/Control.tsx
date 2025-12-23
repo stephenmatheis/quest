@@ -41,7 +41,7 @@ export function Control({
         cy: isActive ? -0.1 : 0,
         cz: isActive ? -0.1 : 0,
         ly: isActive ? -0.1 : 0,
-        lz: isActive ? 0 : 0.1,
+        lz: isActive ? 0 : 0.05,
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
@@ -121,7 +121,7 @@ export function Control({
             <mesh geometry={geometry} material={material} onPointerDown={handleDown} />
 
             <group ref={labelRef} position={[0, 0, 0]} raycast={() => {}}>
-                <animated.group position={[0, 0, 0.1]} position-y={springs.ly} position-z={springs.lz}>
+                <animated.group position-y={springs.ly} position-z={springs.lz}>
                     <Label
                         font={font}
                         size={size}
