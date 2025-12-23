@@ -1,12 +1,12 @@
-import { useWorld } from '@/providers/WorldProvider';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { useThree } from '@react-three/fiber';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Color, Vector2, Vector3, Object3D, Mesh, Material } from 'three';
+import { HudRightReadout } from './HudRightReadout';
 
-// TODO: check drei for hover tool
 export function HoverHighlight() {
-    const { setPointerPos, setHitPos } = useWorld();
+    const [pointerPos, setPointerPos] = useState<Vector2>(new Vector2());
+    const [hitPos, setHitPos] = useState<Vector3>(new Vector3());
     const { cameraControlsRef } = useCameraControls();
     const { camera, raycaster, scene, pointer } = useThree();
     const previousHovered = useRef<Object3D | null>(null);
@@ -28,8 +28,6 @@ export function HoverHighlight() {
         }
     }, []);
 
-    // FIXME: This is why FPS dips from 120 to 90ish.
-    // NOTE: FPS dips because of react context state change
     const updateHudReadings = useCallback(() => {
         setPointerPos(new Vector2(pointer.x, pointer.y));
 
@@ -56,7 +54,7 @@ export function HoverHighlight() {
         function onSleep() {
             isCameraUpdating.current = false;
 
-            // updateHudReadings();
+            updateHudReadings();
         }
 
         controls.addEventListener('update', onUpdate);
@@ -96,7 +94,7 @@ export function HoverHighlight() {
                 }
             }
 
-            // updateHudReadings();
+            updateHudReadings();
         }
 
         window.addEventListener('pointermove', onPointerMove);
@@ -108,5 +106,9 @@ export function HoverHighlight() {
         };
     }, [camera, raycaster, scene, pointer, restoreMaterial, updateHudReadings]);
 
-    return null;
+    return (
+        <group position={[0, 0.75, 0]}>
+            <HudRightReadout hitPos={hitPos} pointerPos={pointerPos} />
+        </group>
+    );
 }

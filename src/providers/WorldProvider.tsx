@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useState, type ReactNode, type Dispatch, type SetStateAction } from 'react';
-import { Vector2, Vector3 } from 'three';
 
 type Mode = 'insert' | 'visual';
 
@@ -10,16 +9,12 @@ type WorldContext = {
     isGameMenuOpen: boolean;
     isQuestLogOpen: boolean;
     windowOrder: string[];
-    pointerPos: Vector2;
-    hitPos: Vector3;
     mode: Mode;
     setIsCharacterMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsGameMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsQuestLogOpen: Dispatch<SetStateAction<boolean>>;
     setWindowOrder: Dispatch<SetStateAction<string[]>>;
     bringToFront: (name: string) => void;
-    setPointerPos: Dispatch<SetStateAction<Vector2>>;
-    setHitPos: Dispatch<SetStateAction<Vector3>>;
     setMode: Dispatch<SetStateAction<Mode>>;
 };
 
@@ -40,8 +35,6 @@ export function WorldProvider({ children }: { children: ReactNode }) {
     const [isGameMenuOpen, setIsGameMenuOpen] = useState<boolean>(false);
     const [isQuestLogOpen, setIsQuestLogOpen] = useState<boolean>(false);
     const [windowOrder, setWindowOrder] = useState<string[]>([]);
-    const [pointerPos, setPointerPos] = useState<Vector2>(new Vector2());
-    const [hitPos, setHitPos] = useState<Vector3>(new Vector3());
     const [mode, setMode] = useState<Mode>('visual');
 
     function bringToFront(name: string) {
@@ -55,16 +48,12 @@ export function WorldProvider({ children }: { children: ReactNode }) {
                 isGameMenuOpen,
                 isQuestLogOpen,
                 windowOrder,
-                pointerPos,
-                hitPos,
                 mode,
                 setIsCharacterMenuOpen,
                 setIsGameMenuOpen,
                 setIsQuestLogOpen,
                 setWindowOrder,
                 bringToFront,
-                setPointerPos,
-                setHitPos,
                 setMode,
             }}
         >
