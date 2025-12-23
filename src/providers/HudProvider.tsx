@@ -29,11 +29,11 @@ export function useHud() {
 
 export function HudProvider({ children }: { children: ReactNode }) {
     const [showKeyboard, setShowKeyboard] = useState<boolean>(
-        localStorage.getItem('quest-showKeyboard') === 'true' ? true : false || true
+        localStorage.getItem('quest-showKeyboard') === 'true' ? true : false
     );
-    const [lockHud, setLockHud] = useState(localStorage.getItem('quest-lockHud') === 'true' ? true : false || true);
+    const [lockHud, setLockHud] = useState(localStorage.getItem('quest-lockHud') === 'true' ? true : false);
     const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(
-        localStorage.getItem('quest-perspectiveKeyboard') === 'true' ? true : false || false
+        localStorage.getItem('quest-perspectiveKeyboard') === 'true' ? true : false
     );
     const [keyboard, setSelectedKeyboard] = useState<Keyboard>(
         (localStorage.getItem('quest-keyboard') as Keyboard) || 'linear'
