@@ -108,9 +108,5 @@ export function HoverHighlight() {
         };
     }, [camera, raycaster, scene, pointer, restoreMaterial, updateHudReadings]);
 
-    return (
-        <group position={[0, 0.75, 0]}>
-            <HudRightReadout hitPos={hitPos} pointerPos={pointerPos} />
-        </group>
-    );
+    return <HudRightReadout hitPos={hitPos} pointerPos={pointerPos} />;
 }

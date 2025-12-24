@@ -5,7 +5,6 @@ import { Ribs } from '@/components/Ribs';
 import { Ring } from '@/components/Ring';
 import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
-import { HoverHighlight } from './HoverHighlight';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 
 export function World() {
@@ -43,14 +42,16 @@ export function World() {
             <Canvas
                 shadows
                 camera={{
+                    // fov: 24.2,
                     fov: 25,
                 }}
             >
                 <HudOverlay onReady={() => setReady(true)} />
                 <Cam />
-                <HoverHighlight />
-                <Ring size={2.75} />
-                <Ribs width={0.75} x={3} />
+                <group position={[0, 1.5, -15]}>
+                    <Ring size={2.75} />
+                    <Ribs width={0.75} x={3} />
+                </group>
                 <FloorGuide />
                 <EffectComposer>
                     <Bloom luminanceThreshold={0} intensity={5} />

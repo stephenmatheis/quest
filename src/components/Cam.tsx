@@ -19,6 +19,7 @@ export function Cam() {
         // controls.setLookAt(0, 6, 40, 0, 0, 0, false);
 
         // HUD
+        // controls.setLookAt(0, 2.75, 22, 0, 2.75, 0, false);
         controls.setLookAt(0, 2.75, 12, 0, 2.75, 0, false);
     }, []);
 
