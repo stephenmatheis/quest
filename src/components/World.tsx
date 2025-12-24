@@ -65,9 +65,9 @@ export function World() {
                         luminanceThreshold={0}
                         luminanceSmoothing={0.03}
                         mipMapBlur={true}
-                        intensity={10}
-                        radius={0.9}
-                        // levels={8}
+                        intensity={4}
+                        radius={0.85}
+                        levels={8}
                     />
                 </EffectComposer>
             </Canvas>
