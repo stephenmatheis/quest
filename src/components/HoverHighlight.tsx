@@ -90,7 +90,7 @@ export function HoverHighlight() {
                         color: material.color.clone(),
                     };
 
-                    material.alphaTest = 0;
+                    material.alphaTest = 1;
                     material.color.set(RED);
 
                     previousHovered.current = mesh;

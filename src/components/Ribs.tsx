@@ -30,7 +30,7 @@ export function Ribs({ width, x }: RibsProps) {
                     return (
                         <mesh key={i} position={[0, y, 0]}>
                             <shapeGeometry args={[leftRect]} />
-                            <meshBasicMaterial color={INTERIOR_COLOR} alphaTest={2} toneMapped={false} />
+                            <meshBasicMaterial color={INTERIOR_COLOR} alphaTest={2} />
                             <Edges linewidth={2} threshold={15} color={LINE_COLOR} />
                         </mesh>
                     );
@@ -74,12 +74,13 @@ export function Ribs({ width, x }: RibsProps) {
                                 ]}
                                 color={LINE_COLOR}
                                 linewidth={2}
-                                // toneMapped={false}
                             />
+
+                            {/* // export const LINE_COLOR = 'rgb(1, 0.6470588235, 0,)'; */}
 
                             <mesh position={[-0.25, 3.5 + 0.2, z]}>
                                 <boxGeometry args={[0.5, 0.1, 0.1]} />
-                                <meshBasicMaterial color={LINE_COLOR} alphaTest={1} toneMapped={true} />
+                                <meshBasicMaterial color={LINE_COLOR} />
                             </mesh>
                         </group>
                     );

@@ -87,7 +87,6 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const material = new THREE.MeshBasicMaterial({
         color: INTERIOR_COLOR,
         alphaTest: 2,
-        toneMapped: false,
         userData: { ignore: true },
     });
     const materialRed = new THREE.MeshBasicMaterial({ color: RED, alphaTest: 2 });
@@ -152,13 +151,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     geometry={columnSpan ? leftGeometryColumnSpan2 : leftGeometry}
                                                     material={material}
                                                 >
-                                                    <Edges
-                                                        linewidth={1}
-                                                        threshold={15}
-                                                        color={LINE_COLOR}
-                                                        alphaTest={1}
-                                                        toneMapped={false}
-                                                    />
+                                                    <Edges linewidth={1} threshold={15} color={LINE_COLOR} />
                                                 </mesh>
                                             </Control>
                                         </animated.group>
@@ -226,13 +219,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                     geometry={columnSpan ? rightGeometryColumnSpan2 : rightGeometry}
                                                     material={material}
                                                 >
-                                                    <Edges
-                                                        linewidth={1}
-                                                        threshold={15}
-                                                        color={LINE_COLOR}
-                                                        alphaTest={1}
-                                                        toneMapped={false}
-                                                    />
+                                                    <Edges linewidth={1} threshold={15} color={LINE_COLOR} />
                                                 </mesh>
                                             </Control>
                                         </animated.group>

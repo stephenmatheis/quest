@@ -121,15 +121,11 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const gapY = width / 10;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
-
-    function SetMaterial(color = INTERIOR_COLOR, alphaTest = 2) {
-        return new THREE.MeshBasicMaterial({
-            color,
-            alphaTest,
-            toneMapped: false,
-            userData: { ignore: true },
-        });
-    }
+    const material = new THREE.MeshBasicMaterial({
+        color: INTERIOR_COLOR,
+        alphaTest: 2,
+        userData: { ignore: true },
+    });
 
     return (
         <group position={[-3.425, 3.8, 0]}>
@@ -150,20 +146,14 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                             width={width}
                                             height={height}
                                             geometry={geometry}
-                                            material={SetMaterial()}
+                                            material={material}
                                             label={label}
                                             font={font}
                                             size={size as LabelSize}
                                             labelColor={selected ? GREEN : LINE_COLOR}
                                         >
-                                            <mesh geometry={geometry} material={SetMaterial(INTERIOR_COLOR, 2)}>
-                                                <Edges
-                                                    linewidth={1}
-                                                    threshold={15}
-                                                    color={LINE_COLOR}
-                                                    toneMapped={false}
-                                                    alphaTest={1}
-                                                />
+                                            <mesh geometry={geometry} material={material}>
+                                                <Edges linewidth={1} threshold={15} color={LINE_COLOR} />
                                             </mesh>
                                         </Control>
                                     </group>

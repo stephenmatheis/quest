@@ -5,8 +5,6 @@ import { FONT, LINE_COLOR } from '@/lib/constants';
 export function HudLeftReadout() {
     const material = new MeshBasicMaterial({
         color: LINE_COLOR,
-        alphaTest: 1,
-        toneMapped: false,
         userData: { ignore: true },
     });
 

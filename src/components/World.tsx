@@ -42,7 +42,6 @@ export function World() {
             <Canvas
                 shadows
                 camera={{
-                    // fov: 24.2,
                     fov: 25,
                 }}
             >
@@ -54,7 +53,22 @@ export function World() {
                 </group>
                 <FloorGuide />
                 <EffectComposer>
-                    <Bloom luminanceThreshold={0} intensity={5} />
+                    {/* 
+                        luminanceThreshold = 1.0,
+                        luminanceSmoothing = 0.03,
+                        mipmapBlur = true,
+                        intensity = 1.0,
+                        radius = 0.85,
+                        levels = 8,
+                    */}
+                    <Bloom
+                        luminanceThreshold={0}
+                        luminanceSmoothing={0.03}
+                        mipMapBlur={true}
+                        intensity={10}
+                        radius={0.9}
+                        // levels={8}
+                    />
                 </EffectComposer>
             </Canvas>
         </div>
