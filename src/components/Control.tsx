@@ -21,8 +21,9 @@ export function Control({
     code,
     action,
     material,
-    isPerspective = false,
     geometry,
+    isPerspective = false,
+    labelColor: defaultLabelColor,
 }: {
     children: ReactNode;
     width: number;
@@ -36,6 +37,7 @@ export function Control({
     material: any;
     geometry: any;
     isPerspective?: boolean;
+    labelColor?: string;
 }) {
     const { perspectiveKeyboard } = useHud();
     const labelRef = useRef<Group>(null);
@@ -143,7 +145,7 @@ export function Control({
             <group ref={labelRef} position={[0, 0, 0]}>
                 <animated.group position-y={springs.ly} position-z={springs.lz}>
                     <Label
-                        color={labelColor}
+                        color={defaultLabelColor || labelColor}
                         font={font}
                         size={size}
                         rotation={springs.rotation}

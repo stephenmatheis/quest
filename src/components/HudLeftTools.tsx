@@ -6,7 +6,7 @@ import { useCameraControls } from '@/providers/CameraProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
+import { GLYPH_FONT, GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 2 / 3;
 const WIDTH = 0.325;
@@ -141,9 +141,10 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 const x = 0;
                                 const y = index * -(height + gapY);
 
+                                console.log(label, selected);
+
                                 return (
                                     <group key={index} position={[x, y, 0]}>
-                                        {/* TODO: Pass `selected ? COLOR : COLOR1` for Label */}
                                         <Control
                                             action={action}
                                             width={width}
@@ -153,11 +154,9 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                             label={label}
                                             font={font}
                                             size={size as LabelSize}
+                                            labelColor={selected ? GREEN : LINE_COLOR}
                                         >
-                                            <mesh
-                                                geometry={geometry}
-                                                material={SetMaterial(INTERIOR_COLOR, selected ? 1 : 2)}
-                                            >
+                                            <mesh geometry={geometry} material={SetMaterial(INTERIOR_COLOR, 2)}>
                                                 <Edges
                                                     linewidth={1}
                                                     threshold={15}
