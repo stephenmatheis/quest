@@ -3,6 +3,7 @@ import { useThree } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Color, Vector2, Vector3, Object3D, Mesh, Material, MeshBasicMaterial } from 'three';
 import { HudRightReadout } from './HudRightReadout';
+import { RED } from '@/lib/constants';
 
 export function HoverHighlight() {
     const [pointerPos, setPointerPos] = useState<Vector2>(new Vector2());
@@ -90,7 +91,7 @@ export function HoverHighlight() {
                     };
 
                     material.alphaTest = 0;
-                    material.color.set('#ff0000');
+                    material.color.set(RED);
 
                     previousHovered.current = mesh;
                 }

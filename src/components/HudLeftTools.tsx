@@ -6,7 +6,7 @@ import { useCameraControls } from '@/providers/CameraProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR, RED } from '@/lib/constants';
+import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 2 / 3;
 const WIDTH = 0.325;
@@ -121,12 +121,15 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const gapY = width / 10;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({
-        color: INTERIOR_COLOR,
-        alphaTest: 2,
-        toneMapped: false,
-        userData: { ignore: true },
-    });
+
+    function SetMaterial(color = INTERIOR_COLOR, alphaTest = 2) {
+        return new THREE.MeshBasicMaterial({
+            color,
+            alphaTest,
+            toneMapped: false,
+            userData: { ignore: true },
+        });
+    }
 
     return (
         <group position={[-3.425, 3.8, 0]}>
@@ -140,21 +143,25 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
+                                        {/* TODO: Pass `selected ? COLOR : COLOR1` for Label */}
                                         <Control
                                             action={action}
                                             width={width}
                                             height={height}
                                             geometry={geometry}
-                                            material={material}
+                                            material={SetMaterial()}
                                             label={label}
                                             font={font}
                                             size={size as LabelSize}
                                         >
-                                            <mesh geometry={geometry} material={material}>
+                                            <mesh
+                                                geometry={geometry}
+                                                material={SetMaterial(INTERIOR_COLOR, selected ? 1 : 2)}
+                                            >
                                                 <Edges
                                                     linewidth={1}
                                                     threshold={15}
-                                                    color={selected ? RED : LINE_COLOR}
+                                                    color={LINE_COLOR}
                                                     toneMapped={false}
                                                     alphaTest={1}
                                                 />

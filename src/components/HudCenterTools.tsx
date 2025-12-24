@@ -5,7 +5,7 @@ import { useWorld } from '@/providers/WorldProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR, RED } from '@/lib/constants';
+import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
 const WIDTH = 0.4;
@@ -71,12 +71,14 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const posX = (rowSize * WIDTH + gapX * (rowSize - 1)) / 2;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({
-        color: INTERIOR_COLOR,
-        alphaTest: 2,
-        toneMapped: false,
-        userData: { ignore: true },
-    });
+    function SetMaterial(color = INTERIOR_COLOR, alphaTest = 2) {
+        return new THREE.MeshBasicMaterial({
+            color,
+            alphaTest,
+            toneMapped: false,
+            userData: { ignore: true },
+        });
+    }
 
     return (
         <group position={[-posX, 4.35, 0]}>
@@ -95,16 +97,19 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                             width={width}
                                             height={height}
                                             geometry={geometry}
-                                            material={material}
+                                            material={SetMaterial()}
                                             label={label}
                                             font={font}
                                             size={size as LabelSize}
                                         >
-                                            <mesh geometry={geometry} material={material}>
+                                            <mesh
+                                                geometry={geometry}
+                                                material={SetMaterial(INTERIOR_COLOR, selected ? 1 : 2)}
+                                            >
                                                 <Edges
                                                     linewidth={1}
                                                     threshold={15}
-                                                    color={selected ? RED : LINE_COLOR}
+                                                    color={LINE_COLOR}
                                                     alphaTest={1}
                                                     toneMapped={false}
                                                 />
