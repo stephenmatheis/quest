@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from 'three';
+import { MeshBasicMaterial, Vector2, Vector3 } from 'three';
 import { Text3D } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import { FONT, LINE_COLOR } from '@/lib/constants';
@@ -77,6 +77,10 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
     const pointerPosLines = [`${formatAbs(pointerPos.x)} x`, `${formatAbs(pointerPos.y)} y`];
     const objectLabel = 'object';
     const hitPosLines = [`${formatAbs(hitPos.x)} x`, `${formatAbs(hitPos.y)} y`, `${formatAbs(hitPos.z)} z`];
+    const material = new MeshBasicMaterial({
+        color: LINE_COLOR,
+        userData: { ignore: true },
+    });
 
     return (
         <group position={[2.175, 4.45, 0]}>
@@ -84,9 +88,15 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
             <group>
                 {lines.map((line, index) => {
                     return (
-                        <Text3D key={index} position={[0, index * -0.2, 0]} height={0.001} size={fontSize} font={FONT}>
+                        <Text3D
+                            key={index}
+                            position={[0, index * -0.2, 0]}
+                            height={0.001}
+                            size={fontSize}
+                            font={FONT}
+                            material={material}
+                        >
                             {line}
-                            <meshBasicMaterial color={LINE_COLOR} />
                         </Text3D>
                     );
                 })}
@@ -94,9 +104,8 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
 
             {/* pointer pos */}
             <group position={[0, lines.length * -0.2, 0]}>
-                <Text3D height={0.001} size={fontSize} font={FONT}>
+                <Text3D height={0.001} size={fontSize} font={FONT} material={material}>
                     {pointerLabel}
-                    <meshBasicMaterial color={LINE_COLOR} />
                 </Text3D>
                 <group position={[0, 0, 0]}>
                     {pointerPosLines.map((line, index) => {
@@ -107,9 +116,9 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
                                 height={0.001}
                                 size={fontSize}
                                 font={FONT}
+                                material={material}
                             >
                                 {Array.from({ length: pointerLabel.length }).map((_) => ' ')} {line}
-                                <meshBasicMaterial color={LINE_COLOR} />
                             </Text3D>
                         );
                     })}
@@ -118,9 +127,8 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
 
             {/* hit pos */}
             <group position={[0, (lines.length + pointerPosLines.length) * -0.2, 0]}>
-                <Text3D height={0.001} size={fontSize} font={FONT}>
+                <Text3D height={0.001} size={fontSize} font={FONT} material={material}>
                     {objectLabel}
-                    <meshBasicMaterial color={LINE_COLOR} />
                 </Text3D>
                 <group position={[0, 0, 0]}>
                     {hitPosLines.map((line, index) => {
@@ -131,9 +139,9 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
                                 height={0.001}
                                 size={fontSize}
                                 font={FONT}
+                                material={material}
                             >
                                 {Array.from({ length: pointerLabel.length }).map((_) => ' ')} {line}
-                                <meshBasicMaterial color={LINE_COLOR} />
                             </Text3D>
                         );
                     })}

@@ -84,7 +84,12 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const sortedRight = useMemo(() => rightControls.sort((a, b) => b.group - a.group), []);
     const leftGeometry = new THREE.ShapeGeometry([leftShape]);
     const rightGeometry = new THREE.ShapeGeometry([rightShape]);
-    const material = new THREE.MeshBasicMaterial({ color: INTERIOR_COLOR, alphaTest: 2, toneMapped: false });
+    const material = new THREE.MeshBasicMaterial({
+        color: INTERIOR_COLOR,
+        alphaTest: 2,
+        toneMapped: false,
+        userData: { ignore: true },
+    });
     const materialRed = new THREE.MeshBasicMaterial({ color: RED, alphaTest: 2 });
     const leftShapeColumnSpan2 = useMemo(() => createLeftShape(width * 2 + gapX, height, 0.075), []);
     const leftGeometryColumnSpan2 = new THREE.ShapeGeometry([leftShapeColumnSpan2]);

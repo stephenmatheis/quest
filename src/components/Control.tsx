@@ -120,7 +120,7 @@ export function Control({
 
             <mesh geometry={geometry} material={material} onPointerDown={handleDown} />
 
-            <group ref={labelRef} position={[0, 0, 0]} raycast={() => {}}>
+            <group ref={labelRef} position={[0, 0, 0]}>
                 <animated.group position-y={springs.ly} position-z={springs.lz}>
                     <Label
                         font={font}

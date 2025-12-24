@@ -1,7 +1,7 @@
 import { useCameraControls } from '@/providers/CameraProvider';
 import { useThree } from '@react-three/fiber';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Color, Vector2, Vector3, Object3D, Mesh, Material } from 'three';
+import { Color, Vector2, Vector3, Object3D, Mesh, Material, MeshBasicMaterial } from 'three';
 import { HudRightReadout } from './HudRightReadout';
 
 export function HoverHighlight() {
@@ -76,6 +76,8 @@ export function HoverHighlight() {
 
             const intersects = raycaster.intersectObjects(scene.children, true);
             const meshHit = intersects.find((i) => (i.object as Mesh).isMesh);
+
+            if (((meshHit?.object as Mesh)?.material as MeshBasicMaterial)?.userData?.ignore) return;
 
             if (meshHit) {
                 const mesh = meshHit.object as Mesh;

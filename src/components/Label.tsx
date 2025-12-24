@@ -40,6 +40,7 @@ export function Label({
                     height={0.01}
                     size={typeof size === 'number' ? size : sizes[size]}
                     font={font || FONT}
+                    raycast={() => {}}
                 >
                     {children}
                     <meshBasicMaterial color={color} />
