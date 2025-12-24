@@ -3,6 +3,7 @@ import { Box3, Vector3, type Group } from 'three';
 import { animated, useSpring } from '@react-spring/three';
 import { useHud } from '@/providers/HudProvider';
 import { Label, type LabelSize } from '@/components/Label';
+import { GREEN } from '@/lib/constants';
 
 const MASS = 2;
 const TENSION = 360;
@@ -20,6 +21,7 @@ export function Control({
     code,
     action,
     material,
+    isPerspective = false,
     geometry,
 }: {
     children: ReactNode;
@@ -33,15 +35,23 @@ export function Control({
     action?: () => void;
     material: any;
     geometry: any;
+    isPerspective?: boolean;
 }) {
     const { perspectiveKeyboard } = useHud();
     const labelRef = useRef<Group>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
+    const [labelColor, setLabelColor] = useState<string | undefined>(undefined);
     const springs = useSpring({
         cy: isActive ? -0.1 : 0,
         cz: isActive ? -0.1 : 0,
         ly: isActive ? -0.1 : 0,
         lz: isActive ? 0 : 0.05,
+        rotation: [isPerspective && perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0],
+        position: [
+            isPerspective && perspectiveKeyboard ? 0.0125 : 0,
+            isPerspective && perspectiveKeyboard ? -0.1 : 0,
+            0,
+        ],
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
@@ -69,6 +79,8 @@ export function Control({
             window.removeEventListener('pointercancel', handleKeyRelease);
 
             if (keyboardKey && code) {
+                // FIXME: Dispatched events don't work with getModifierState().
+                // TODO: Pass held modifier key array to Control from HudFullKeyboard
                 const event = new KeyboardEvent('keyup', {
                     key: keyboardKey,
                     code,
@@ -84,12 +96,20 @@ export function Control({
         function onKeydown(event: KeyboardEvent) {
             if (event.code === code) {
                 setIsActive(true);
+
+                if (code === 'CapsLock' && event.getModifierState('CapsLock')) {
+                    setLabelColor(GREEN);
+                }
             }
         }
 
         function onKeyup(event: KeyboardEvent) {
             if (event.code === code) {
                 setIsActive(false);
+
+                if (code == 'CapsLock' && !event.getModifierState('CapsLock')) {
+                    setLabelColor(undefined);
+                }
             }
         }
 
@@ -123,10 +143,11 @@ export function Control({
             <group ref={labelRef} position={[0, 0, 0]}>
                 <animated.group position-y={springs.ly} position-z={springs.lz}>
                     <Label
+                        color={labelColor}
                         font={font}
                         size={size}
-                        rotation={[perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0]}
-                        position={[perspectiveKeyboard ? 0.0125 : 0, perspectiveKeyboard ? -0.15 : 0, 0]}
+                        rotation={springs.rotation}
+                        position={springs.position}
                     >
                         {label}
                     </Label>

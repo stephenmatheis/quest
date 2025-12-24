@@ -146,6 +146,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                 label={label}
                                                 font={font}
                                                 size={size as LabelSize}
+                                                isPerspective
                                             >
                                                 <mesh
                                                     geometry={columnSpan ? leftGeometryColumnSpan2 : leftGeometry}
@@ -219,6 +220,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                                 label={label}
                                                 font={font}
                                                 size={size as LabelSize}
+                                                isPerspective
                                             >
                                                 <mesh
                                                     geometry={columnSpan ? rightGeometryColumnSpan2 : rightGeometry}

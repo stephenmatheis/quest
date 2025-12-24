@@ -1,6 +1,8 @@
 import { type ReactNode } from 'react';
 import { Center, Text3D } from '@react-three/drei';
 import { FONT, LINE_COLOR } from '@/lib/constants';
+import { animated, type SpringValue } from '@react-spring/three';
+import type { Euler, Vector3 } from 'three';
 
 export type LabelSize = 'small' | 'medium' | 'large' | number | undefined;
 
@@ -19,8 +21,8 @@ type LabelProps = {
     font?: string;
     size?: LabelSize;
     color?: string;
-    position?: [number, number, number];
-    rotation?: [number, number, number];
+    position?: [number, number, number] | SpringValue<number[]> | Vector3;
+    rotation?: [number, number, number] | SpringValue<number[]> | Euler;
 };
 
 export function Label({
@@ -34,17 +36,17 @@ export function Label({
     return (
         <>
             {typeof children === 'string' ? (
-                <Text3D
-                    position={position}
-                    rotation={rotation}
-                    height={0.01}
-                    size={typeof size === 'number' ? size : sizes[size]}
-                    font={font || FONT}
-                    raycast={() => {}}
-                >
-                    {children}
-                    <meshBasicMaterial color={color} />
-                </Text3D>
+                <animated.group position={position as Vector3} rotation={rotation as Euler}>
+                    <Text3D
+                        height={0.01}
+                        size={typeof size === 'number' ? size : sizes[size]}
+                        font={font || FONT}
+                        raycast={() => {}}
+                    >
+                        {children}
+                        <meshBasicMaterial color={color} />
+                    </Text3D>
+                </animated.group>
             ) : (
                 <Center top right>
                     {children}
