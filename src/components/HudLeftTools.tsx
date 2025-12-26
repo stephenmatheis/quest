@@ -7,6 +7,7 @@ import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
 import { GLYPH_FONT, GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
+import { useWorld } from '@/providers/WorldProvider';
 
 const ASPECT_RATIO = 2 / 3;
 const WIDTH = 0.325;
@@ -19,15 +20,16 @@ type ControlsProps = {
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const {
-        toggleKeyboard,
-        toggleHudLock,
-        togglePerspectiveKeyboard,
-        setKeyboard,
         keyboard,
         showKeyboard,
         lockHud,
         perspectiveKeyboard,
+        toggleKeyboard,
+        toggleHudLock,
+        togglePerspectiveKeyboard,
+        setKeyboard,
     } = useHud();
+    const { bloom, scanLines, setBloom, setScanLines } = useWorld();
     const { toggleEnableCamera } = useCameraControls();
     const tools = useMemo(
         () =>
@@ -87,7 +89,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             },
                         },
                         {
-                            label: 'flat' as Keyboard,
+                            label: 'ortho' as Keyboard,
                             size: 0.065,
                             selected: keyboard === 'linear',
                             action() {
@@ -95,7 +97,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             },
                         },
                         {
-                            label: 'ortho' as Keyboard,
+                            label: 'bent' as Keyboard,
                             size: 0.065,
                             selected: keyboard === 'ortho',
                             action() {
@@ -110,10 +112,26 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                 setKeyboard('ergo');
                             },
                         },
+                        {
+                            label: 'glow' as Keyboard,
+                            size: 0.065,
+                            selected: bloom,
+                            action() {
+                                setBloom(true);
+                            },
+                        },
+                        {
+                            label: 'flat' as Keyboard,
+                            size: 0.065,
+                            selected: !bloom,
+                            action() {
+                                setBloom(false);
+                            },
+                        },
                     ],
                 },
             ].sort((a, b) => b.group - a.group),
-        [showKeyboard, lockHud, perspectiveKeyboard, keyboard]
+        [showKeyboard, lockHud, perspectiveKeyboard, keyboard, scanLines, bloom]
     );
     const rotX = 0;
     const rotY = Math.PI / 12;
@@ -136,8 +154,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             {items.map(({ label, font, size, selected, action }, index) => {
                                 const x = 0;
                                 const y = index * -(height + gapY);
-
-                                console.log(label, selected);
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>

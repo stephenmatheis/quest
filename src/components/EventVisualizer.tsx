@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MeshBasicMaterial } from 'three';
 import { Center, Text3D } from '@react-three/drei';
-import { FONT, GLYPH_FONT, LINE_COLOR } from '@/lib/constants';
+import { FONT, GLYPH_FONT, LINE_COLOR, RED } from '@/lib/constants';
 
 type DisplayItem = {
     modifiers?: string[];
@@ -105,6 +105,11 @@ export function EventVisualizer() {
 
     return (
         <group position={[2.5, 2.5, 0]}>
+            {/* <mesh position={[0, 0, -0.1]}>
+                <boxGeometry args={[1, 1, 0.01]} />
+                <meshBasicMaterial color={LINE_COLOR} />
+            </mesh> */}
+
             {displayItems.map(({ modifiers, key, isGlyph }, index) => {
                 const parts: { text: string; font: any }[] = [];
 

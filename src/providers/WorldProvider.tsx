@@ -1,6 +1,14 @@
 'use client';
 
-import { createContext, useContext, useState, type ReactNode, type Dispatch, type SetStateAction } from 'react';
+import {
+    createContext,
+    useContext,
+    useState,
+    type ReactNode,
+    type Dispatch,
+    type SetStateAction,
+    useEffect,
+} from 'react';
 
 type Mode = 'insert' | 'visual';
 
@@ -10,12 +18,16 @@ type WorldContext = {
     isQuestLogOpen: boolean;
     windowOrder: string[];
     mode: Mode;
+    scanLines: boolean;
+    bloom: boolean;
     setIsCharacterMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsGameMenuOpen: Dispatch<SetStateAction<boolean>>;
     setIsQuestLogOpen: Dispatch<SetStateAction<boolean>>;
     setWindowOrder: Dispatch<SetStateAction<string[]>>;
     bringToFront: (name: string) => void;
     setMode: Dispatch<SetStateAction<Mode>>;
+    setScanLines: Dispatch<SetStateAction<boolean>>;
+    setBloom: Dispatch<SetStateAction<boolean>>;
 };
 
 const WorldContext = createContext<WorldContext | undefined>(undefined);
@@ -35,11 +47,27 @@ export function WorldProvider({ children }: { children: ReactNode }) {
     const [isGameMenuOpen, setIsGameMenuOpen] = useState<boolean>(false);
     const [isQuestLogOpen, setIsQuestLogOpen] = useState<boolean>(false);
     const [windowOrder, setWindowOrder] = useState<string[]>([]);
-    const [mode, setMode] = useState<Mode>('visual');
+    const [mode, setMode] = useState<Mode>((localStorage.getItem('quest-mode') as Mode) || 'visual');
+    const [scanLines, setScanLines] = useState<boolean>(
+        localStorage.getItem('quest-scanLines') === 'true' ? true : false
+    );
+    const [bloom, setBloom] = useState<boolean>(localStorage.getItem('quest-bloom') === 'true' ? true : false);
 
     function bringToFront(name: string) {
         setWindowOrder((prev) => [...prev.filter((n) => n !== name), name]);
     }
+
+    useEffect(() => {
+        localStorage.setItem('quest-mode', mode);
+    }, [mode]);
+
+    useEffect(() => {
+        localStorage.setItem('quest-scanLines', scanLines.toString());
+    }, [scanLines]);
+
+    useEffect(() => {
+        localStorage.setItem('quest-bloom', bloom.toString());
+    }, [bloom]);
 
     return (
         <WorldContext.Provider
@@ -49,12 +77,16 @@ export function WorldProvider({ children }: { children: ReactNode }) {
                 isQuestLogOpen,
                 windowOrder,
                 mode,
+                scanLines,
+                bloom,
                 setIsCharacterMenuOpen,
                 setIsGameMenuOpen,
                 setIsQuestLogOpen,
                 setWindowOrder,
                 bringToFront,
                 setMode,
+                setScanLines,
+                setBloom,
             }}
         >
             {children}

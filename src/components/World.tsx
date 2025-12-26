@@ -6,8 +6,10 @@ import { Ring } from '@/components/Ring';
 import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { useWorld } from '@/providers/WorldProvider';
 
 export function World() {
+    const { scanLines, bloom } = useWorld();
     const [ready, setReady] = useState<boolean>(false);
     const [maxHeight, setMaxHeight] = useState<number>(0);
 
@@ -44,6 +46,7 @@ export function World() {
                 camera={{
                     fov: 25,
                 }}
+                flat
             >
                 <HudOverlay onReady={() => setReady(true)} />
                 <Cam />
@@ -53,22 +56,18 @@ export function World() {
                 </group>
                 <FloorGuide />
                 <EffectComposer>
-                    {/* 
-                        luminanceThreshold = 1.0,
-                        luminanceSmoothing = 0.03,
-                        mipmapBlur = true,
-                        intensity = 1.0,
-                        radius = 0.85,
-                        levels = 8,
-                    */}
-                    <Bloom
-                        luminanceThreshold={0}
-                        luminanceSmoothing={0.03}
-                        mipMapBlur={true}
-                        intensity={4}
-                        radius={0.85}
-                        levels={8}
-                    />
+                    {bloom ? (
+                        <Bloom
+                            luminanceThreshold={0}
+                            luminanceSmoothing={scanLines ? 0 : 0}
+                            mipMapBlur={true}
+                            intensity={scanLines ? 6 : 5}
+                            radius={scanLines ? 0.85 : 0.85}
+                            levels={8}
+                        />
+                    ) : (
+                        <></>
+                    )}
                 </EffectComposer>
             </Canvas>
         </div>
