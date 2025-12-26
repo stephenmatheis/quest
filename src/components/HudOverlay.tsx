@@ -6,14 +6,8 @@ import { useEffect } from 'react';
 import { HudCenterTools } from './HudCenterTools';
 import { EventVisualizer } from './EventVisualizer';
 import { HoverHighlight } from './HoverHighlight';
-import { useThree } from '@react-three/fiber';
 
 export function HudOverlay({ onReady }: { onReady: () => void }) {
-    const { gl } = useThree();
-
-    console.log('Current outputColorSpace:', gl.outputColorSpace);
-
-    
     useEffect(() => {
         const id = requestAnimationFrame(() => onReady?.());
 

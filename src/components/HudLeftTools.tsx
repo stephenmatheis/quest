@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
-import { Edges } from '@react-three/drei';
+import { Edges, Helper } from '@react-three/drei';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { Control } from '@/components/Control';
@@ -29,7 +29,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
         togglePerspectiveKeyboard,
         setKeyboard,
     } = useHud();
-    const { bloom, scanLines, setBloom, setScanLines } = useWorld();
+    const { bloom, scanLines, setBloom } = useWorld();
     const { toggleEnableCamera } = useCameraControls();
     const tools = useMemo(
         () =>
@@ -56,6 +56,9 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             },
                         },
                         {
+                            label: '',
+                        },
+                        {
                             label: 'lock',
                             size: 0.065,
                             selected: lockHud,
@@ -73,6 +76,9 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             },
                         },
                         {
+                            label: '',
+                        },
+                        {
                             label: 'face',
                             size: 0.065,
                             selected: !perspectiveKeyboard,
@@ -87,6 +93,9 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             action() {
                                 togglePerspectiveKeyboard(true);
                             },
+                        },
+                        {
+                            label: '',
                         },
                         {
                             label: 'ortho' as Keyboard,
@@ -113,6 +122,9 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             },
                         },
                         {
+                            label: '',
+                        },
+                        {
                             label: 'glow' as Keyboard,
                             size: 0.065,
                             selected: bloom,
@@ -137,6 +149,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const rotY = Math.PI / 12;
     const rotZ = 0;
     const gapY = width / 10;
+    const columnSize = tools[0].items.length;
+    const posY = columnSize * height + (gapY * (columnSize - 1)) / 2;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({
@@ -146,14 +160,30 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     });
 
     return (
-        <group position={[-3.425, 3.8, 0]}>
+        <group position={[-3.425, posY + 0.75 / 2 - HEIGHT, 0]}>
+            <Helper type={THREE.BoxHelper} args={['red']} />
+
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (
                         <group key={index} position={[0, 0, 0]}>
                             {items.map(({ label, font, size, selected, action }, index) => {
                                 const x = 0;
-                                const y = index * -(height + gapY);
+                                const y = index === 0 ? 0 : index * -(height + gapY);
+
+                                console.log(y);
+
+                                if (!action) {
+                                    return (
+                                        <group key={index} position={[x, y, 0]}>
+                                            <group position={[0, 0, 0]}>
+                                                <mesh raycast={() => {}} geometry={geometry} material={material}>
+                                                    <Edges linewidth={1} threshold={15} color={LINE_COLOR} />
+                                                </mesh>
+                                            </group>
+                                        </group>
+                                    );
+                                }
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>
