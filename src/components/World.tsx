@@ -59,10 +59,10 @@ export function World() {
                     {bloom ? (
                         <Bloom
                             luminanceThreshold={0}
-                            luminanceSmoothing={scanLines ? 0 : 0}
+                            luminanceSmoothing={0}
                             mipMapBlur={true}
-                            intensity={scanLines ? 6 : 5}
-                            radius={scanLines ? 0.85 : 0.85}
+                            intensity={5}
+                            radius={0.9}
                             levels={8}
                         />
                     ) : (
