@@ -147,7 +147,6 @@ export function EventVisualizer() {
                     return (
                         <group key={index} position={[0.54, -index * 0.2, 0]}>
                             {parts.map((part, i) => {
-                                console.log(i, part);
                                 return (
                                     <group key={part.text + i} position={[xOffset + i * gap, 0, 0]}>
                                         <Text3D font={part.font} height={0.001} size={0.08} material={textMaterial}>

@@ -4,6 +4,16 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 
 export default defineConfig({
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['three'],
+                },
+            },
+        },
+        chunkSizeWarningLimit: 1000,
+    },
     plugins: [
         react(),
         VitePWA({

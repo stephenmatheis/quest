@@ -175,7 +175,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const boxHeight = 3.477;
     const containerHeight = 5.292;
     const posY = tare + (containerHeight / 2 - boxHeight / 2);
-    const posX = -3.425
+    const posX = -3.425;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new ShapeGeometry([shape]);
     const material = new MeshBasicMaterial({
@@ -191,8 +191,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
 
             boundingBox.setFromObject(ref.current);
             boundingBox.getSize(size);
-
-            console.log(size);
         }
     }, []);
 

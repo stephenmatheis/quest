@@ -6,9 +6,7 @@
 }
 
 :root {
-    // --background-color: #f1f1f3;
     --background-color: #000000;
-    // --background-color: #ffffff;
 }
 
 * {
@@ -25,7 +23,7 @@
 html {
     overscroll-behavior: none;
 
-    cursor: url('images/cursor-orange.png') 8 8, auto;
+    cursor: url('/images/cursor-orange.png') 8 8, auto;
     background-color: var(--background-color);
 }
 
@@ -39,7 +37,7 @@ body {
 }
 
 button {
-    cursor: url('images/cursor-orange.png') 8 8, auto;
+    cursor: url('/images/cursor-orange.png') 8 8, auto;
     border: none;
     background-color: transparent;
     font-family: inherit;
@@ -56,7 +54,6 @@ button {
     font-size: 14px;
     line-height: 1.5;
     width: 377px;
-    // height: 200px;
     color: white;
     padding: 0;
     background: black;

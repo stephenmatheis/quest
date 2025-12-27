@@ -285,7 +285,7 @@ export function UIWithHUD() {
                 </div>
             </div>
 
-            {/* {openWindows.map((w) => {
+            {openWindows.map((w) => {
                 if (w.type === 'modal') {
                     return (
                         <Modal
@@ -319,7 +319,7 @@ export function UIWithHUD() {
                         </Window>
                     );
                 }
-            })} */}
+            })}
         </div>
     );
 }

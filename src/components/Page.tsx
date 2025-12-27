@@ -1,3 +1,4 @@
+import { FONT } from '@/lib/constants';
 import { animated, type SpringValue } from '@react-spring/three';
 import { useTexture, Edges, Text } from '@react-three/drei';
 import type { RefObject } from 'react';
@@ -56,7 +57,7 @@ export function Page({
                         fontWeight={600}
                         lineHeight={1.25}
                         color="#623d09"
-                        font="fonts/Texturina-VariableFont.ttf"
+                        font={FONT}
                     >
                         {text}
                     </Text>
