@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
-import { Edges, Helper } from '@react-three/drei';
+import { Edges } from '@react-three/drei';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { useCameraControls } from '@/providers/CameraProvider';
 import { Control } from '@/components/Control';
@@ -161,8 +161,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
 
     return (
         <group position={[-3.425, posY + 0.75 / 2 - HEIGHT, 0]}>
-            <Helper type={THREE.BoxHelper} args={['red']} />
-
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (
@@ -170,8 +168,6 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             {items.map(({ label, font, size, selected, action }, index) => {
                                 const x = 0;
                                 const y = index === 0 ? 0 : index * -(height + gapY);
-
-                                console.log(y);
 
                                 if (!action) {
                                     return (
