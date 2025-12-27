@@ -9,7 +9,7 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { useWorld } from '@/providers/WorldProvider';
 
 export function World() {
-    const { scanLines, bloom } = useWorld();
+    const { bloom } = useWorld();
     const [ready, setReady] = useState<boolean>(false);
     const [maxHeight, setMaxHeight] = useState<number>(0);
 
