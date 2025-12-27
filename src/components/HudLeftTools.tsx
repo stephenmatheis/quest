@@ -173,9 +173,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                     return (
                                         <group key={index} position={[x, y, 0]}>
                                             <group position={[0, 0, 0]}>
-                                                <mesh raycast={() => {}} geometry={geometry} material={material}>
-                                                    <Edges linewidth={1} threshold={15} color={LINE_COLOR} />
-                                                </mesh>
+                                                <mesh raycast={() => {}} geometry={geometry} material={material} />
                                             </group>
                                         </group>
                                     );
