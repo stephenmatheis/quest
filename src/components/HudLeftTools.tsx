@@ -169,13 +169,14 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
     const ref = useRef<Group>(null);
     const tare = 3.477 - 0.75;
     const rotX = 0;
-    const rotY = 0;
+    const rotY = Math.PI / 6;
     const rotZ = 0;
     const gapY = width / 10;
     const boxHeight = 3.477;
     const containerHeight = 5.292;
     const posY = tare + (containerHeight / 2 - boxHeight / 2);
-    const posX = -3.425;
+    const left = -3.56;
+    const posX = left + 0.025;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new ShapeGeometry([shape]);
     const material = new MeshBasicMaterial({
