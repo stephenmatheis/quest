@@ -6,16 +6,12 @@ import { useEffect } from 'react';
 import { HudCenterTools } from './HudCenterTools';
 import { EventVisualizer } from './EventVisualizer';
 import { HoverHighlight } from './HoverHighlight';
-import { Helper } from '@react-three/drei';
-import { BoxHelper } from 'three';
 
 function Hud() {
     const { showHud } = useHud();
 
     return (
         <group position={[0, 0.69, -0.125]}>
-            <Helper type={BoxHelper} args={['red']} />
-
             {showHud && (
                 <>
                     <HudLeftTools />
