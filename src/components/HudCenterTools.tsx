@@ -8,7 +8,7 @@ import { createBeveledShape } from '@/utils/shapes';
 import { GLYPH_FONT, GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
-const WIDTH = 0.4;
+const WIDTH = 0.325;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
 type ControlsProps = {
@@ -43,19 +43,23 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                             },
                         },
                         {
-                            label: 'visual',
-                            size: 0.065,
-                            selected: mode === 'visual',
-                            action() {
-                                setMode('visual');
-                            },
+                            label: '',
                         },
                         {
-                            label: 'insert',
+                            label: 'game',
                             size: 0.065,
-                            selected: mode === 'insert',
+                            selected: mode === 'game',
                             action() {
-                                setMode('insert');
+                                setMode('game');
+                            },
+                        },
+
+                        {
+                            label: 'type',
+                            size: 0.065,
+                            selected: mode === 'type',
+                            action() {
+                                setMode('type');
                             },
                         },
                     ],
@@ -69,6 +73,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const gapX = width / 10;
     const rowSize = controls[0].items.length;
     const posX = (rowSize * width + gapX * (rowSize - 1)) / 2;
+    const posY = 4.51;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({
@@ -78,7 +83,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     });
 
     return (
-        <group position={[-posX, 4.35, 0]}>
+        <group position={[-posX, posY, 0]}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {controls.map(({ items }, index) => {
                     return (
@@ -86,6 +91,16 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                             {items.map(({ label, font, size, selected, action }, index) => {
                                 const x = index * (width + gapX);
                                 const y = 0;
+
+                                if (!action) {
+                                    return (
+                                        <group key={index} position={[x, y, 0]}>
+                                            <group position={[0, 0, 0]}>
+                                                <mesh raycast={() => {}} geometry={geometry} material={material} />
+                                            </group>
+                                        </group>
+                                    );
+                                }
 
                                 return (
                                     <group key={index} position={[x, y, 0]}>

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import * as THREE from 'three';
+import { useEffect, useMemo, useRef } from 'react';
+import { Group, ShapeGeometry, MeshBasicMaterial, Box3, Vector3 } from 'three';
 import { Edges } from '@react-three/drei';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { useCameraControls } from '@/providers/CameraProvider';
@@ -9,7 +9,7 @@ import { createBeveledShape } from '@/utils/shapes';
 import { GLYPH_FONT, GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 import { useWorld } from '@/providers/WorldProvider';
 
-const ASPECT_RATIO = 2 / 3;
+const ASPECT_RATIO = 1 / 2;
 const WIDTH = 0.325;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
@@ -20,10 +20,12 @@ type ControlsProps = {
 
 export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
     const {
+        showHud,
         keyboard,
         showKeyboard,
         lockHud,
         perspectiveKeyboard,
+        toggleHud,
         toggleKeyboard,
         toggleHudLock,
         togglePerspectiveKeyboard,
@@ -53,6 +55,25 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                             selected: !showKeyboard,
                             action() {
                                 toggleKeyboard(false);
+                            },
+                        },
+                        {
+                            label: '',
+                        },
+                        {
+                            label: 'hud',
+                            size: 0.065,
+                            selected: showHud,
+                            action() {
+                                toggleHud(true);
+                            },
+                        },
+                        {
+                            label: 'hide',
+                            size: 0.065,
+                            selected: !showHud,
+                            action() {
+                                toggleHud(false);
                             },
                         },
                         {
@@ -145,22 +166,38 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
             ].sort((a, b) => b.group - a.group),
         [showKeyboard, lockHud, perspectiveKeyboard, keyboard, scanLines, bloom]
     );
+    const ref = useRef<Group>(null);
+    const tare = 3.477 - 0.75;
     const rotX = 0;
-    const rotY = Math.PI / 12;
+    const rotY = 0;
     const rotZ = 0;
     const gapY = width / 10;
-    const columnSize = tools[0].items.length;
-    const posY = columnSize * height + (gapY * (columnSize - 1)) / 2;
+    const boxHeight = 3.477;
+    const containerHeight = 5.292;
+    const posY = tare + (containerHeight / 2 - boxHeight / 2);
+    const posX = -3.425
     const shape = createBeveledShape(width, height, 0.025);
-    const geometry = new THREE.ShapeGeometry([shape]);
-    const material = new THREE.MeshBasicMaterial({
+    const geometry = new ShapeGeometry([shape]);
+    const material = new MeshBasicMaterial({
         color: INTERIOR_COLOR,
         alphaTest: 2,
         userData: { ignore: true },
     });
 
+    useEffect(() => {
+        if (ref.current) {
+            const boundingBox = new Box3();
+            const size = new Vector3();
+
+            boundingBox.setFromObject(ref.current);
+            boundingBox.getSize(size);
+
+            console.log(size);
+        }
+    }, []);
+
     return (
-        <group position={[-3.425, posY + 0.75 / 2 - HEIGHT, 0]}>
+        <group ref={ref} position={[posX, posY, 0]}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {tools.map(({ items }, index) => {
                     return (

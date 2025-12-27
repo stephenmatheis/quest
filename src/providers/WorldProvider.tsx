@@ -10,7 +10,7 @@ import {
     useEffect,
 } from 'react';
 
-type Mode = 'insert' | 'visual';
+type Mode = 'game' | 'type';
 
 type WorldContext = {
     isCharacterMenuOpen: boolean;

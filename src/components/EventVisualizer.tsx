@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MeshBasicMaterial } from 'three';
-import { Center, Text3D } from '@react-three/drei';
-import { FONT, GLYPH_FONT, LINE_COLOR, RED } from '@/lib/constants';
+import { Text3D } from '@react-three/drei';
+import { FONT, GLYPH_FONT, LINE_COLOR } from '@/lib/constants';
+import { useHud } from '@/providers/HudProvider';
 
 type DisplayItem = {
     modifiers?: string[];
@@ -14,6 +15,7 @@ function formatKey(key: string) {
 }
 
 export function EventVisualizer() {
+    const { showHud, toggleHud } = useHud();
     const textMaterial = useMemo(() => new MeshBasicMaterial({ color: LINE_COLOR }), []);
     const [heldKeys, setHeldKeys] = useState<Set<string>>(new Set());
 
@@ -62,7 +64,13 @@ export function EventVisualizer() {
 
     useEffect(() => {
         function onKeydown(event: KeyboardEvent) {
-            // event.preventDefault();
+            if (event.key === 'Escape') {
+                if (!showHud) {
+                    toggleHud(true);
+                }
+
+                return;
+            }
 
             if (event.key === 'CapsLock') return;
             if (event.repeat) return;
@@ -79,8 +87,6 @@ export function EventVisualizer() {
         }
 
         function onKeyup(event: KeyboardEvent) {
-            // event.preventDefault();
-
             if (event.key === 'CapsLock') return;
 
             const key = formatKey(event.key);
@@ -104,48 +110,69 @@ export function EventVisualizer() {
     }, []);
 
     return (
-        <group position={[2.5, 2.5, 0]}>
-            {/* <mesh position={[0, 0, -0.1]}>
-                <boxGeometry args={[1, 1, 0.01]} />
-                <meshBasicMaterial color={LINE_COLOR} />
-            </mesh> */}
+        <group position={[2.29, 4.51 - 1.6, 0]}>
+            <group position={[0, 0, 0]}>
+                <Text3D font={FONT} height={0.001} size={0.08} material={textMaterial}>
+                    Keys
+                </Text3D>
+            </group>
 
-            {displayItems.map(({ modifiers, key, isGlyph }, index) => {
-                const parts: { text: string; font: any }[] = [];
+            {displayItems.length > 0 ? (
+                displayItems.map(({ modifiers, key, isGlyph }, index) => {
+                    const parts: { text: string; font: any }[] = [];
 
-                if (modifiers) {
-                    modifiers.forEach((glyph) => {
-                        parts.push({ text: glyph, font: GLYPH_FONT });
-                    });
-                }
+                    if (modifiers) {
+                        modifiers.forEach((glyph) => {
+                            parts.push({ text: glyph, font: GLYPH_FONT });
+                        });
+                    }
 
-                if (key) {
-                    parts.push({
-                        text: key,
-                        font: isGlyph ? GLYPH_FONT : FONT,
-                    });
-                }
+                    if (key) {
+                        parts.push({
+                            text: key,
+                            font: isGlyph ? GLYPH_FONT : FONT,
+                        });
+                    }
 
-                if (parts.length === 0) return null;
+                    if (parts.length === 0) return null;
 
-                const gap = 0.175;
-                const totalWidth = (parts.length - 1) * gap;
-                const xOffset = -totalWidth / 2;
+                    const gap = 0.175;
 
-                return (
-                    <group key={index} position={[0, -index * 0.22, 0]}>
-                        {parts.map((part, i) => (
-                            <group key={part.text + i} position={[xOffset + i * gap, 0, 0]}>
-                                <Center>
-                                    <Text3D font={part.font} height={0.01} size={0.1} material={textMaterial}>
-                                        {part.text}
-                                    </Text3D>
-                                </Center>
-                            </group>
-                        ))}
-                    </group>
-                );
-            })}
+                    // NOTE: Removed centering. Not sure if like it yet.
+                    // const totalWidth = (parts.length - 1) * gap;
+                    // const xOffset = -totalWidth / 2;
+
+                    const xOffset = 0;
+
+                    return (
+                        <group key={index} position={[0.54, -index * 0.2, 0]}>
+                            {parts.map((part, i) => {
+                                console.log(i, part);
+                                return (
+                                    <group key={part.text + i} position={[xOffset + i * gap, 0, 0]}>
+                                        <Text3D font={part.font} height={0.001} size={0.08} material={textMaterial}>
+                                            {part.text}
+                                        </Text3D>
+                                    </group>
+                                );
+                            })}
+                        </group>
+                    );
+                })
+            ) : (
+                <>
+                    <Text3D
+                        font={GLYPH_FONT}
+                        position={[0.54, 0, 0]}
+                        height={0.001}
+                        size={0.08}
+                        material={textMaterial}
+                    >
+                        {/* FIXME: Do I need to show something to signify nothing? */}
+                        {/* - */}
+                    </Text3D>
+                </>
+            )}
         </group>
     );
 }

@@ -9,7 +9,7 @@ export function HudLeftReadout() {
     });
 
     return (
-        <group position={[-3.45, 4.35, 0]}>
+        <group position={[-3.56, 4.51, 0]}>
             <Text3D position={[0, 0, 0]} height={0.001} size={0.2} font={FONT} material={material}>
                 dock 2035
             </Text3D>

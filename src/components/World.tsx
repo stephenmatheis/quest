@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Cam } from '@/components/Cam';
-import { Ribs } from '@/components/Ribs';
-import { Ring } from '@/components/Ring';
+import { Dock } from '@/components/Dock';
 import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
@@ -50,10 +49,7 @@ export function World() {
             >
                 <HudOverlay onReady={() => setReady(true)} />
                 <Cam />
-                <group position={[0, 1.5, -15]}>
-                    <Ring size={2.75} />
-                    <Ribs width={0.75} x={3} />
-                </group>
+                <Dock />
                 <FloorGuide />
                 <EffectComposer>
                     {bloom ? (

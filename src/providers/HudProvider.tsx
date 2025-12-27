@@ -5,10 +5,12 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 export type Keyboard = 'linear' | 'ortho' | 'ergo';
 
 type HudContext = {
+    showHud: boolean;
     showKeyboard: boolean;
     lockHud: boolean;
     perspectiveKeyboard: boolean;
     keyboard: Keyboard;
+    toggleHud: (state?: boolean) => void;
     toggleKeyboard: (state?: boolean) => void;
     toggleHudLock: (state?: boolean) => void;
     togglePerspectiveKeyboard: (state?: boolean) => void;
@@ -28,8 +30,14 @@ export function useHud() {
 }
 
 export function HudProvider({ children }: { children: ReactNode }) {
+    const storedShowHud = localStorage.getItem('quest-showHud');
+    const [showHud, setShowHud] = useState<boolean>(
+        typeof storedShowHud === 'string' ? JSON.parse(storedShowHud) : true
+    );
+
+    const storedShowKeyboard = localStorage.getItem('quest-showKeyboard');
     const [showKeyboard, setShowKeyboard] = useState<boolean>(
-        localStorage.getItem('quest-showKeyboard') === 'true' ? true : false
+        typeof storedShowKeyboard === 'string' ? JSON.parse(storedShowKeyboard) : true
     );
     const [lockHud, setLockHud] = useState(localStorage.getItem('quest-lockHud') === 'true' ? true : false);
     const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(
@@ -38,6 +46,18 @@ export function HudProvider({ children }: { children: ReactNode }) {
     const [keyboard, setSelectedKeyboard] = useState<Keyboard>(
         (localStorage.getItem('quest-keyboard') as Keyboard) || 'linear'
     );
+
+    function toggleHud(state?: boolean) {
+        if (state === true || state === false) {
+            setShowHud(state);
+
+            return;
+        }
+
+        setShowHud((prev) => {
+            return !prev;
+        });
+    }
 
     function toggleKeyboard(state?: boolean) {
         if (state === true || state === false) {
@@ -80,6 +100,10 @@ export function HudProvider({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
+        localStorage.setItem('quest-showHud', showHud.toString());
+    }, [showHud]);
+
+    useEffect(() => {
         localStorage.setItem('quest-showKeyboard', showKeyboard.toString());
     }, [showKeyboard]);
 
@@ -98,10 +122,12 @@ export function HudProvider({ children }: { children: ReactNode }) {
     return (
         <HudContext.Provider
             value={{
+                showHud,
                 showKeyboard,
                 lockHud,
                 perspectiveKeyboard,
                 keyboard,
+                toggleHud,
                 toggleKeyboard,
                 toggleHudLock,
                 togglePerspectiveKeyboard,

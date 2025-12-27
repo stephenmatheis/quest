@@ -1,6 +1,6 @@
-import { MeshBasicMaterial, Vector2, Vector3 } from 'three';
+import { MeshBasicMaterial, Vector2, Vector3, Group, Box3 } from 'three';
 import { Text3D } from '@react-three/drei';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FONT, LINE_COLOR } from '@/lib/constants';
 
 type HudRightReadoutProps = {
@@ -46,6 +46,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
     });
     const [date, setDate] = useState<string>(formatDate(new Date()));
     const [time, setTime] = useState<string>(formatTime(new Date()));
+    const ref = useRef<Group>(null);
 
     useEffect(() => {
         function onResize() {
@@ -66,6 +67,14 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
             setTime(formatTime(now));
         }, 1000);
 
+        if (ref.current) {
+            const boundingBox = new Box3();
+            const size = new Vector3();
+
+            boundingBox.setFromObject(ref.current);
+            boundingBox.getSize(size);
+        }
+
         return () => {
             window.removeEventListener('resize', onResize);
             clearInterval(id);
@@ -81,9 +90,13 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
         color: LINE_COLOR,
         userData: { ignore: true },
     });
+    const top = 4.51;
+    const topOffset = 0.1;
+    const posY = top + topOffset;
+    const posX = 2.29;
 
     return (
-        <group position={[2.175, 4.45, 0]}>
+        <group ref={ref} position={[posX, posY, 0]}>
             {/* date, time, and viewport */}
             <group>
                 {lines.map((line, index) => {
