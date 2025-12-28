@@ -95,6 +95,7 @@ export function Control({
     }
 
     useEffect(() => {
+        // FIXME: If window is focused out, fire keyup or set setIsActive to false
         function onKeydown(event: KeyboardEvent) {
             if (event.code === code) {
                 setIsActive(true);

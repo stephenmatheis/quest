@@ -129,11 +129,15 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                         );
                                     }
 
+                                    const colSpan2Offset = columnSpan ? -gapY * 2 : 0;
+
                                     return (
                                         <animated.group
                                             key={index}
                                             position-x={x}
-                                            position-y={springs.ergoMultiplier.to((m) => index * (gapY * m))}
+                                            position-y={springs.ergoMultiplier.to(
+                                                (m) => index * (gapY * m) + colSpan2Offset
+                                            )}
                                         >
                                             <Control
                                                 width={columnSpan ? width * 2 + gapX : width}
