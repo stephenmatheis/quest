@@ -39,12 +39,20 @@ export function HudProvider({ children }: { children: ReactNode }) {
     const [showKeyboard, setShowKeyboard] = useState<boolean>(
         typeof storedShowKeyboard === 'string' ? JSON.parse(storedShowKeyboard) : true
     );
-    const [lockHud, setLockHud] = useState(localStorage.getItem('quest-lockHud') === 'true' ? true : false);
-    const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(
-        localStorage.getItem('quest-perspectiveKeyboard') === 'true' ? true : false
+
+    const storedLockHud = localStorage.getItem('quest-lockHud');
+    const [lockHud, setLockHud] = useState<boolean>(
+        typeof storedLockHud === 'string' ? JSON.parse(storedLockHud) : false
     );
+
+    const storedPerspectiveKeyboard = localStorage.getItem('quest-perspectiveKeyboard');
+    const [perspectiveKeyboard, setPerspectiveKeyboard] = useState<boolean>(
+        typeof storedPerspectiveKeyboard === 'string' ? JSON.parse(storedPerspectiveKeyboard) : true
+    );
+
+    const storedKeyboard = localStorage.getItem('quest-keyboard');
     const [keyboard, setSelectedKeyboard] = useState<Keyboard>(
-        (localStorage.getItem('quest-keyboard') as Keyboard) || 'linear'
+        typeof storedKeyboard === 'string' ? (storedKeyboard as Keyboard) : 'linear'
     );
 
     function toggleHud(state?: boolean) {

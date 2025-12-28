@@ -51,7 +51,9 @@ export function WorldProvider({ children }: { children: ReactNode }) {
     const [scanLines, setScanLines] = useState<boolean>(
         localStorage.getItem('quest-scanLines') === 'true' ? true : false
     );
-    const [bloom, setBloom] = useState<boolean>(localStorage.getItem('quest-bloom') === 'true' ? true : false);
+
+    const storedBloom = localStorage.getItem('quest-bloom');
+    const [bloom, setBloom] = useState<boolean>(typeof storedBloom === 'string' ? JSON.parse(storedBloom) : true);
 
     function bringToFront(name: string) {
         setWindowOrder((prev) => [...prev.filter((n) => n !== name), name]);

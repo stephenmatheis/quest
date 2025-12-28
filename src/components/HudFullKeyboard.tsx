@@ -50,6 +50,19 @@ function getMultiplier(keyboard: Keyboard) {
     }
 }
 
+// TODO: I need to rethink two column wide keys
+// function getKeyOffsetMultiplier(keyboard: Keyboard) {
+//     switch (keyboard) {
+//         case 'linear':
+//         default:
+//             return 0;
+//         case 'ortho':
+//             return 2;
+//         case 'ergo':
+//             return -2;
+//     }
+// }
+
 export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
     const springs = useSpring({
@@ -129,7 +142,7 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
                                         );
                                     }
 
-                                    const colSpan2Offset = columnSpan ? -gapY * 2 : 0;
+                                    const colSpan2Offset = columnSpan ? -gapY * 0 : 0;
 
                                     return (
                                         <animated.group
