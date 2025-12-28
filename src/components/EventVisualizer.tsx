@@ -65,9 +65,7 @@ export function EventVisualizer() {
     useEffect(() => {
         function onKeydown(event: KeyboardEvent) {
             if (event.key === 'Escape') {
-                if (!showHud) {
-                    toggleHud(true);
-                }
+                toggleHud(true);
 
                 return;
             }
