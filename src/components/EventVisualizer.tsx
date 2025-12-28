@@ -15,7 +15,7 @@ function formatKey(key: string) {
 }
 
 export function EventVisualizer() {
-    const { showHud, toggleHud } = useHud();
+    const { toggleHud } = useHud();
     const textMaterial = useMemo(() => new MeshBasicMaterial({ color: LINE_COLOR }), []);
     const [heldKeys, setHeldKeys] = useState<Set<string>>(new Set());
 
