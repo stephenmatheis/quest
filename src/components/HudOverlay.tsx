@@ -6,12 +6,14 @@ import { useEffect } from 'react';
 import { HudCenterTools } from './HudCenterTools';
 import { EventVisualizer } from './EventVisualizer';
 import { HoverHighlight } from './HoverHighlight';
+import { useCameraControls } from '@/providers/CameraProvider';
 
 function Hud() {
+    const { hudRef } = useCameraControls();
     const { showHud } = useHud();
 
     return (
-        <group position={[0, 0.69, -0.125]}>
+        <group ref={hudRef} position={[0, 0.69, -0.125]}>
             {showHud && (
                 <>
                     <HudLeftTools />

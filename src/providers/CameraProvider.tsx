@@ -3,9 +3,11 @@
 import { createContext, useContext, useState, type ReactNode, type RefObject, useRef } from 'react';
 import type { CameraControlsImpl } from '@react-three/drei';
 import type CameraControlsType from 'camera-controls';
+import type { Group } from 'three';
 
 type CameraContext = {
     cameraControlsRef: RefObject<CameraControlsImpl | null>;
+    hudRef: RefObject<Group | null>;
     isCameraLocked: boolean;
     showHelpers: boolean;
     enabled: boolean;
@@ -36,6 +38,7 @@ export function CameraProvider({ children }: { children: ReactNode }) {
     const [isCameraLocked, setIsCameraLocked] = useState<boolean>(false);
     const [enabled, setEnabled] = useState<boolean>(true);
     const cameraControlsRef = useRef<CameraControlsType>(null);
+    const hudRef = useRef<Group>(null);
 
     function toggleCameraLock() {
         setIsCameraLocked((prev) => !prev);
@@ -116,6 +119,7 @@ export function CameraProvider({ children }: { children: ReactNode }) {
         <CameraContext.Provider
             value={{
                 cameraControlsRef,
+                hudRef,
                 isCameraLocked,
                 showHelpers,
                 enabled,
