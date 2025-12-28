@@ -107,8 +107,13 @@ export function EventVisualizer() {
         };
     }, []);
 
+    const top = 4.51;
+    const topOffset = 0.1;
+    const rightReadoutHeight = 2;
+    const posY = top + topOffset - rightReadoutHeight;
+
     return (
-        <group position={[2.29, 4.51 - 1.6, 0]}>
+        <group position={[2.29, posY, 0]}>
             <group position={[0, 0, 0]}>
                 <Text3D font={FONT} height={0.001} size={0.08} material={textMaterial}>
                     Keys

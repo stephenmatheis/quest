@@ -1,7 +1,7 @@
 import { MeshBasicMaterial, Vector2, Vector3, Group, Box3 } from 'three';
 import { Text3D } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
-import { FONT, LINE_COLOR } from '@/lib/constants';
+import { ASPECT_RATIO, FONT, LINE_COLOR } from '@/lib/constants';
 
 type HudRightReadoutProps = {
     pointerPos: Vector2;
@@ -81,7 +81,13 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
         };
     }, []);
 
-    const lines = [`date     ${date}`, `time     ${time}`, `view     ${viewport.width} x ${viewport.height}`];
+    const lines = [
+        `date     ${date}`,
+        `time     ${time}`,
+        `view     ${viewport.width} x ${viewport.height}`,
+        `aspect   4 / 3`,
+        `max vh   ${viewport.width * ASPECT_RATIO}`
+    ];
     const pointerLabel = 'pointer';
     const pointerPosLines = [`${formatAbs(pointerPos.x)} x`, `${formatAbs(pointerPos.y)} y`];
     const objectLabel = 'object';

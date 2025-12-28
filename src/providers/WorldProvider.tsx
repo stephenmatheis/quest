@@ -47,7 +47,13 @@ export function WorldProvider({ children }: { children: ReactNode }) {
     const [isGameMenuOpen, setIsGameMenuOpen] = useState<boolean>(false);
     const [isQuestLogOpen, setIsQuestLogOpen] = useState<boolean>(false);
     const [windowOrder, setWindowOrder] = useState<string[]>([]);
-    const [mode, setMode] = useState<Mode>((localStorage.getItem('quest-mode') as Mode) || 'visual');
+    
+    const storedMode = localStorage.getItem('quest-mode');
+    const [mode, setMode] = useState<Mode>(
+        typeof storedMode === 'string' ? storedMode as Mode : 'game'
+    );
+    
+    
     const [scanLines, setScanLines] = useState<boolean>(
         localStorage.getItem('quest-scanLines') === 'true' ? true : false
     );
