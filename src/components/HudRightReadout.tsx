@@ -86,7 +86,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
         `time     ${time}`,
         `view     ${viewport.width} x ${viewport.height}`,
         `aspect   4 / 3`,
-        `max vh   ${viewport.width * ASPECT_RATIO}`
+        `max vh   ${viewport.width * ASPECT_RATIO}`,
     ];
     const pointerLabel = 'pointer';
     const pointerPosLines = [`${formatAbs(pointerPos.x)} x`, `${formatAbs(pointerPos.y)} y`];
@@ -96,7 +96,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
         color: LINE_COLOR,
         userData: { ignore: true },
     });
-    const top = 4.51;
+    const top = 2.45;
     const topOffset = 0.1;
     const posY = top + topOffset;
     const posX = 2.29;

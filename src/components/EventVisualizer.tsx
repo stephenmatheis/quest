@@ -107,7 +107,7 @@ export function EventVisualizer() {
         };
     }, []);
 
-    const top = 4.51;
+    const top = 2.45;
     const topOffset = 0.1;
     const rightReadoutHeight = 2;
     const posY = top + topOffset - rightReadoutHeight;

@@ -13,11 +13,12 @@ export function Cam() {
 
         if (!controls || !hudRef.current) return;
 
-        controls.setLookAt(0, 9, 12, 0, 7, 0, false);
+        // controls.setLookAt(0, 9, 12, 0, 7, 0, false);
+        controls.setLookAt(0, 9, 18, 0, 6, 0, false);
 
         const hud = hudRef.current;
         const camera = controls.camera;
-        const localOffset = new THREE.Vector3(0, -2.06, -12.125);
+        const localOffset = new THREE.Vector3(0, 0, -12.125);
         const worldPos = new THREE.Vector3();
 
         function onUpdate() {

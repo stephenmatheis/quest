@@ -73,7 +73,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const gapX = width / 10;
     const rowSize = controls[0].items.length;
     const posX = (rowSize * width + gapX * (rowSize - 1)) / 2;
-    const top = 4.55;
+    const top = 2.49;
     const posY = top;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);

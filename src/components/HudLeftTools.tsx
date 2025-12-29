@@ -167,7 +167,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
         [showKeyboard, lockHud, perspectiveKeyboard, keyboard, scanLines, bloom]
     );
     const ref = useRef<Group>(null);
-    const tare = 3.477 - 0.75;
+    const tare = 0.667;
     const rotX = 0;
     const rotY = Math.PI / 6;
     const rotZ = 0;

@@ -13,7 +13,7 @@ function Hud() {
     const { showHud } = useHud();
 
     return (
-        <group ref={hudRef} position={[0, 0.69, -0.125]}>
+        <group ref={hudRef} position={[0, 0, 0]}>
             {showHud && (
                 <>
                     <HudLeftTools />
