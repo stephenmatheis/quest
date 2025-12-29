@@ -229,7 +229,8 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                             labelColor={selected ? GREEN : LINE_COLOR}
                                         >
                                             <mesh geometry={geometry} material={material}>
-                                                <Edges linewidth={1} threshold={15} color={LINE_COLOR} />
+                                                {/* NOTE: Testing with edges off */}
+                                                {/* <Edges linewidth={1} threshold={15} color={LINE_COLOR} /> */}
                                             </mesh>
                                         </Control>
                                     </group>

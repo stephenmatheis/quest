@@ -16,6 +16,12 @@ export function HudLeftReadout() {
             <Text3D position={[0, -0.2, 0]} height={0.001} size={0.07} font={FONT} material={material}>
                 protocol / procedure / manual
             </Text3D>
+            <Text3D position={[0, -0.4, 0]} height={0.001} size={0.07} font={FONT} material={material}>
+                live wave form ||||||||||||
+            </Text3D>
+            <Text3D position={[0, -0.6, 0]} height={0.001} size={0.07} font={FONT} material={material}>
+                0000-0000-0000-0000:
+            </Text3D>
         </group>
     );
 }
