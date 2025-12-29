@@ -65,6 +65,10 @@ function getMultiplier(keyboard: Keyboard) {
 
 export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
     const { showKeyboard, perspectiveKeyboard, keyboard } = useHud();
+    const width = keyWidth;
+    const height = (6 / 7) * keyWidth;
+    const gapY = width / 10;
+    const gapX = height / 10;
     const springs = useSpring({
         showY: showKeyboard ? -2.1725 : -4.5,
         posY: getPosY(keyboard),
@@ -75,8 +79,8 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
         rotXRight: perspectiveKeyboard ? Math.PI / -2.75 : 0,
         rotYRight: 0,
         rotZRight: 0,
-        splitWidthLeft: -0.1,
-        splitWidthRight: 0.1,
+        splitWidthLeft: -gapX / 2,
+        splitWidthRight: gapX / 2,
         ergoMultiplier: getMultiplier(keyboard),
         config: {
             mass: MASS,
@@ -85,10 +89,6 @@ export function HudFullKeyboard({ keyWidth = 0.385 }: HudFullKeyboardProps) {
             precision: 0.001,
         },
     });
-    const width = keyWidth;
-    const height = (6 / 7) * keyWidth;
-    const gapY = width / 10;
-    const gapX = height / 10;
     const numberOfControls = leftControls[0].items.length;
     const posX = numberOfControls * width + gapX * (numberOfControls - 1);
     const leftShape = useMemo(() => createLeftShape(width, height, 0.075), []);
