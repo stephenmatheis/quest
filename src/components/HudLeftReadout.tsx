@@ -9,12 +9,12 @@ export function HudLeftReadout() {
     });
 
     return (
-        <group position={[-3.56, 2.45, 0]}>
-            <Text3D position={[0, 0, 0]} height={0.001} size={0.2} font={FONT} material={material}>
-                dock 2035
+        <group position={[-3.56, 2.5, 0]}>
+            <Text3D position={[0, 0, 0]} height={0.001} size={0.15} font={FONT} material={material}>
+                procedure:2035
             </Text3D>
-            <Text3D position={[0, -0.2, 0]} height={0.001} size={0.1} font={FONT} material={material}>
-                [ insert ]
+            <Text3D position={[0, -0.2, 0]} height={0.001} size={0.07} font={FONT} material={material}>
+                protocol / procedure / manual
             </Text3D>
         </group>
     );

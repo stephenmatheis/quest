@@ -1,20 +1,31 @@
-import { Edges, Line } from '@react-three/drei';
+import { Center, Edges, Line, Text3D } from '@react-three/drei';
 import { createRect } from '@/utils/shapes';
-import { INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
+import { FONT, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
+import { MeshBasicMaterial } from 'three';
 
 type RibsProps = {
     width: number;
     x: number;
+    name?: string;
 };
 
-export function Ribs({ width, x }: RibsProps) {
+export function Ribs({ width, x, name = '0000' }: RibsProps) {
     const leftRect = createRect(width, 0.3);
     const leftTopRect = createRect(width + 0.2, 0.2);
+    const material = new MeshBasicMaterial({ color: LINE_COLOR });
 
     return (
         <group>
+            {/* <Billboard position={[0, 1, 0]} follow={true} lockX={false} lockY={false} lockZ={false}> */}
+            <Center position={[0, 6.5, 0]}>
+                <Text3D font={FONT} size={0.75} height={0.01} material={material}>
+                    {name}
+                </Text3D>
+            </Center>
+            {/* </Billboard> */}
+
             {/* Left Rib Top Box */}
-            <group position={[-x - 2.75, 3.75, -2]}>
+            <group position={[-x - 2.75, 3.75, 0]}>
                 <mesh position={[0, 0, 0]}>
                     <shapeGeometry args={[leftTopRect]} />
                     <meshBasicMaterial color={INTERIOR_COLOR} alphaTest={2} />
@@ -23,7 +34,7 @@ export function Ribs({ width, x }: RibsProps) {
             </group>
 
             {/* Left Rib Boxes */}
-            <group position={[-x - 3.75, 3.2, -2]}>
+            <group position={[-x - 3.75, 3.2, 0]}>
                 {Array.from({ length: 4 }).map((_, i) => {
                     const y = i * -0.5;
 
@@ -38,7 +49,7 @@ export function Ribs({ width, x }: RibsProps) {
             </group>
 
             {/* Left Rib Lines */}
-            <group position={[-x - 2, 3.5, -2]}>
+            <group position={[-x - 2, 3.5, 0]}>
                 {Array.from({ length: 7 }).map((_, i) => {
                     const y = i * -0.3;
 
@@ -57,7 +68,7 @@ export function Ribs({ width, x }: RibsProps) {
             </group>
 
             {/* Left Ribs */}
-            <group position={[-x, 1, -2]}>
+            <group position={[-x, 1, 0]}>
                 {Array.from({ length: 7 }).map((_, i) => {
                     const z = i * -3;
 
@@ -88,7 +99,7 @@ export function Ribs({ width, x }: RibsProps) {
             </group>
 
             {/* Right Ribs */}
-            <group position={[x, 1, -2]}>
+            <group position={[x, 1, 0]}>
                 {Array.from({ length: 7 }).map((_, i) => {
                     const x = 0;
                     const y = 0;

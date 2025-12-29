@@ -4,9 +4,9 @@ import { Edges } from '@react-three/drei';
 import { animated, useSpring } from '@react-spring/three';
 import { useHud, type Keyboard } from '@/providers/HudProvider';
 import { Control } from '@/components/Control';
-import { createLeftShape, createRightShape } from '@/utils/shapes';
+import type { LabelSize } from '@/components/Label';
 import { leftControls, rightControls } from '@/data/controls';
-import type { LabelSize } from './Label';
+import { createLeftShape, createRightShape } from '@/utils/shapes';
 import { INTERIOR_COLOR, LINE_COLOR, RED } from '@/lib/constants';
 
 const MASS = 2;

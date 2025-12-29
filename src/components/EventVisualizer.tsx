@@ -139,7 +139,7 @@ export function EventVisualizer() {
 
                     if (parts.length === 0) return null;
 
-                    const gap = 0.175;
+                    const gap = 0.15;
 
                     // NOTE: Removed centering. Not sure if like it yet.
                     // const totalWidth = (parts.length - 1) * gap;

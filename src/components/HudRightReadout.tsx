@@ -96,13 +96,9 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
         color: LINE_COLOR,
         userData: { ignore: true },
     });
-    const top = 2.45;
-    const topOffset = 0.1;
-    const posY = top + topOffset;
-    const posX = 2.29;
 
     return (
-        <group ref={ref} position={[posX, posY, 0]}>
+        <group ref={ref} position={[2.29, 2.55, 0]}>
             {/* date, time, and viewport */}
             <group>
                 {lines.map((line, index) => {
