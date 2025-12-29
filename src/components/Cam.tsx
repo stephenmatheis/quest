@@ -14,7 +14,8 @@ export function Cam() {
         if (!controls || !hudRef.current) return;
 
         // controls.setLookAt(0, 9, 12, 0, 7, 0, false);
-        controls.setLookAt(0, 9, 18, 0, 6, 0, false);
+        // controls.setLookAt(0, 9, 18, 0, 6, 0, false);
+        controls.setLookAt(0, 12, 50, 0, 2, 0, false);
 
         const hud = hudRef.current;
         const camera = controls.camera;
