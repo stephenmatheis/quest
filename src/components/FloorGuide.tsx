@@ -1,13 +1,24 @@
-import { GRID_CELL_COLOR, GRID_SECTION_COLOR, LINE_COLOR } from '@/lib/constants';
-import { Grid } from '@react-three/drei';
+import { FONT, GRID_CELL_COLOR, GRID_SECTION_COLOR, LINE_COLOR } from '@/lib/constants';
+import { Billboard, Grid, Text3D, Center } from '@react-three/drei';
+import { MeshBasicMaterial } from 'three';
 
 export function FloorGuide() {
+    const material = new MeshBasicMaterial({ color: LINE_COLOR });
+
     return (
         <>
-            <mesh position={[0, 0, 0]}>
+            <mesh material={material}>
                 <sphereGeometry args={[0.125]} />
-                <meshBasicMaterial color={LINE_COLOR} />
             </mesh>
+
+            <Billboard position={[0, 1, 0]} follow={true} lockX={false} lockY={false} lockZ={false}>
+                <Center>
+                    <Text3D font={FONT} size={0.5} height={0.01} material={material}>
+                        [0,0]
+                    </Text3D>
+                </Center>
+            </Billboard>
+
             <Grid
                 position={[0, 0, 0]}
                 cellSize={1}
