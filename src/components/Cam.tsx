@@ -14,7 +14,7 @@ export function Cam() {
         if (!controls || !hudRef.current) return;
 
         controls.setLookAt(0, 12, 64, 0, 1, 0, false);
-        controls.rotateAzimuthTo(Math.PI / 4.5, false);
+        // controls.rotateAzimuthTo(Math.PI / 4.5, false);
 
         const hud = hudRef.current;
         const camera = controls.camera;
@@ -54,8 +54,8 @@ export function Cam() {
                 three: ACTION.TOUCH_DOLLY_TRUCK,
             }}
             enabled={enabled}
-            minDistance={12}
-            maxDistance={288}
+            // minDistance={12}
+            // maxDistance={288}
         />
     );
 }

@@ -26,6 +26,8 @@ export function FloorGuide() {
                 cellColor={GRID_CELL_COLOR}
                 followCamera={false}
                 infiniteGrid={true}
+                fadeDistance={500}
+                fadeStrength={0.5}
                 sectionSize={4}
                 sectionThickness={1}
                 sectionColor={GRID_SECTION_COLOR}
