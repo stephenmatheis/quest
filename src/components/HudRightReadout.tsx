@@ -39,7 +39,7 @@ function formatTime(date: Date) {
     return `${hh}:${mm}:${ss}`;
 }
 
-export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRightReadoutProps) {
+export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.07 }: HudRightReadoutProps) {
     const [viewport, setViewport] = useState<Viewport>({
         width: 0,
         height: 0,
@@ -96,16 +96,17 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
         color: LINE_COLOR,
         userData: { ignore: true },
     });
+    const offset = -0.1;
 
     return (
-        <group ref={ref} position={[2.29, 2.55, 0]}>
+        <group ref={ref} position={[2.45, 2.57, 0]}>
             {/* date, time, and viewport */}
             <group>
                 {lines.map((line, index) => {
                     return (
                         <Text3D
                             key={index}
-                            position={[0, index * -0.2, 0]}
+                            position={[0, index * offset, 0]}
                             height={0.001}
                             size={fontSize}
                             font={FONT}
@@ -118,7 +119,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
             </group>
 
             {/* pointer pos */}
-            <group position={[0, lines.length * -0.2, 0]}>
+            <group position={[0, lines.length * offset, 0]}>
                 <Text3D height={0.001} size={fontSize} font={FONT} material={material}>
                     {pointerLabel}
                 </Text3D>
@@ -127,7 +128,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
                         return (
                             <Text3D
                                 key={index}
-                                position={[0, index * -0.2, 0]}
+                                position={[0, index * offset, 0]}
                                 height={0.001}
                                 size={fontSize}
                                 font={FONT}
@@ -141,7 +142,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
             </group>
 
             {/* hit pos */}
-            <group position={[0, (lines.length + pointerPosLines.length) * -0.2, 0]}>
+            <group position={[0, (lines.length + pointerPosLines.length) * offset, 0]}>
                 <Text3D height={0.001} size={fontSize} font={FONT} material={material}>
                     {objectLabel}
                 </Text3D>
@@ -150,7 +151,7 @@ export function HudRightReadout({ pointerPos, hitPos, fontSize = 0.08 }: HudRigh
                         return (
                             <Text3D
                                 key={index}
-                                position={[0, index * -0.2, 0]}
+                                position={[0, index * offset, 0]}
                                 height={0.001}
                                 size={fontSize}
                                 font={FONT}

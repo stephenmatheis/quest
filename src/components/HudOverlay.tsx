@@ -16,9 +16,9 @@ function Hud() {
         <group ref={hudRef} position={[0, 0, 0]} rotation={[0, 0, 0]}>
             {showHud && (
                 <>
-                    <HudLeftTools />
-                    <HudCenterTools />
-                    <HudLeftReadout />
+                    {/* <HudLeftTools /> */}
+                    {/* <HudCenterTools /> */}
+                    {/* <HudLeftReadout /> */}
                     <HoverHighlight />
                 </>
             )}

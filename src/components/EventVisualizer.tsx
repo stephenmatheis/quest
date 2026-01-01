@@ -107,15 +107,10 @@ export function EventVisualizer() {
         };
     }, []);
 
-    const top = 2.45;
-    const topOffset = 0.1;
-    const rightReadoutHeight = 2;
-    const posY = top + topOffset - rightReadoutHeight;
-
     return (
-        <group position={[2.29, posY, 0]}>
+        <group position={[2.45, 0, 0]}>
             <group position={[0, 0, 0]}>
-                <Text3D font={FONT} height={0.001} size={0.08} material={textMaterial}>
+                <Text3D font={FONT} height={0.001} size={0.07} material={textMaterial}>
                     Keys
                 </Text3D>
             </group>
@@ -148,7 +143,7 @@ export function EventVisualizer() {
                     const xOffset = 0;
 
                     return (
-                        <group key={index} position={[0.54, -index * 0.2, 0]}>
+                        <group key={index} position={[0.54, -index * 0.1, 0]}>
                             {parts.map((part, i) => {
                                 return (
                                     <group key={part.text + i} position={[xOffset + i * gap, 0, 0]}>
