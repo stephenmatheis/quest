@@ -51,19 +51,16 @@ export function World() {
             >
                 <HudOverlay onReady={() => setReady(true)} />
                 <Cam />
-
                 <Screen />
-
-                <FloorGuide />
+                {/* <FloorGuide /> */}
                 <EffectComposer>
                     {bloom ? (
                         <Bloom
+                            mipMapBlur={true}
                             luminanceThreshold={0}
                             luminanceSmoothing={0}
-                            mipMapBlur={true}
-                            intensity={5}
+                            intensity={2}
                             radius={0.9}
-                            levels={8}
                         />
                     ) : (
                         <></>

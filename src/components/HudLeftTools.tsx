@@ -6,7 +6,7 @@ import { useCameraControls } from '@/providers/CameraProvider';
 import { Control } from '@/components/Control';
 import { type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT, GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
+import { GLYPH_FONT, INTERIOR_COLOR, LINE_COLOR, RED } from '@/lib/constants';
 import { useWorld } from '@/providers/WorldProvider';
 
 const ASPECT_RATIO = 1 / 2;
@@ -226,7 +226,7 @@ export function HudLeftTools({ width = WIDTH, height = HEIGHT }: ControlsProps) 
                                             label={label}
                                             font={font}
                                             size={size as LabelSize}
-                                            labelColor={selected ? GREEN : LINE_COLOR}
+                                            labelColor={selected ? RED : LINE_COLOR}
                                         >
                                             <mesh geometry={geometry} material={material}>
                                                 {/* NOTE: Testing with edges off */}
