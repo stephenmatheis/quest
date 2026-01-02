@@ -13,8 +13,7 @@ export function Cam() {
 
         if (!controls || !hudRef.current) return;
 
-        controls.setLookAt(0, 2, 64, 0, 2, 0, false)
-        ;
+        controls.setLookAt(0, 2, 30, 0, 2, 0, false);
         // controls.setLookAt(0, 12, 64, 0, 1, 0, false);
         // controls.rotateAzimuthTo(Math.PI / 4.5, false);
 

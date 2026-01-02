@@ -10,7 +10,16 @@ import {
     useEffect,
 } from 'react';
 
-type Mode = 'game' | 'type';
+type Mode =
+    | 'Normal'
+    | 'Insert'
+    | 'Replace'
+    | 'Visual'
+    | 'Visual Line'
+    | 'Visual Block'
+    | 'Command-line'
+    | 'Ex'
+    | 'Terminal';
 
 type WorldContext = {
     isCharacterMenuOpen: boolean;
@@ -47,13 +56,10 @@ export function WorldProvider({ children }: { children: ReactNode }) {
     const [isGameMenuOpen, setIsGameMenuOpen] = useState<boolean>(false);
     const [isQuestLogOpen, setIsQuestLogOpen] = useState<boolean>(false);
     const [windowOrder, setWindowOrder] = useState<string[]>([]);
-    
+
     const storedMode = localStorage.getItem('quest-mode');
-    const [mode, setMode] = useState<Mode>(
-        typeof storedMode === 'string' ? storedMode as Mode : 'game'
-    );
-    
-    
+    const [mode, setMode] = useState<Mode>(typeof storedMode === 'string' ? (storedMode as Mode) : 'Normal');
+
     const [scanLines, setScanLines] = useState<boolean>(
         localStorage.getItem('quest-scanLines') === 'true' ? true : false
     );

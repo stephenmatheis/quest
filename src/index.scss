@@ -6,8 +6,8 @@
 }
 
 :root {
-    // --background-color: hsl(34, 100%, 0%);
     --background-color: #ffffff;
+    --cursor: url('/images/cursor.png') 12 12, auto;
 }
 
 * {
@@ -24,7 +24,7 @@
 html {
     overscroll-behavior: none;
 
-    cursor: url('/images/cursor-orange.png') 8 8, auto;
+    cursor: var(--cursor);
     background-color: var(--background-color);
 }
 
@@ -38,7 +38,7 @@ body {
 }
 
 button {
-    cursor: url('/images/cursor-orange.png') 8 8, auto;
+    cursor: var(--cursor);
     border: none;
     background-color: transparent;
     font-family: inherit;

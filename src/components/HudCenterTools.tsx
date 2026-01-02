@@ -1,66 +1,42 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
-import { Edges } from '@react-three/drei';
 import { useWorld } from '@/providers/WorldProvider';
 import { Control } from '@/components/Control';
-import { type LabelSize } from '@/components/Label';
+import { Label, type LabelSize } from '@/components/Label';
 import { createBeveledShape } from '@/utils/shapes';
-import { GLYPH_FONT, GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
+import { GREEN, INTERIOR_COLOR, LINE_COLOR } from '@/lib/constants';
 
 const ASPECT_RATIO = 1 / 2;
 const WIDTH = 0.325;
 const HEIGHT = ASPECT_RATIO * WIDTH;
 
-type ControlsProps = {
+type ControlProps = {
+    label: string;
+    font?: string;
+    size?: number;
+    selected?: boolean;
+    action?: () => void;
+};
+
+type HudCenterToolsProps = {
     width?: number;
     height?: number;
 };
 
-export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps) {
-    const { mode, setMode } = useWorld();
-    const controls = useMemo(
+export function HudCenterTools({ width = WIDTH, height = HEIGHT }: HudCenterToolsProps) {
+    const { mode } = useWorld();
+    const controls: {
+        group: number;
+        items: ControlProps[];
+    }[] = useMemo(
         () =>
             [
                 {
                     group: 0,
                     items: [
                         {
-                            label: '◀',
-                            font: GLYPH_FONT,
-                            size: 0.065,
-                            selected: false,
-                            action() {
-                                console.log('left');
-                            },
-                        },
-                        {
-                            label: '►',
-                            font: GLYPH_FONT,
-                            size: 0.065,
-                            selected: false,
-                            action() {
-                                console.log('right');
-                            },
-                        },
-                        {
-                            label: '',
-                        },
-                        {
-                            label: 'game',
-                            size: 0.065,
-                            selected: mode === 'game',
-                            action() {
-                                setMode('game');
-                            },
-                        },
-
-                        {
-                            label: 'type',
-                            size: 0.065,
-                            selected: mode === 'type',
-                            action() {
-                                setMode('type');
-                            },
+                            label: mode.toLowerCase(),
+                            size: 0.07,
                         },
                     ],
                 },
@@ -73,8 +49,6 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     const gapX = width / 10;
     const rowSize = controls[0].items.length;
     const posX = (rowSize * width + gapX * (rowSize - 1)) / 2;
-    const top = 2.49;
-    const posY = top;
     const shape = createBeveledShape(width, height, 0.025);
     const geometry = new THREE.ShapeGeometry([shape]);
     const material = new THREE.MeshBasicMaterial({
@@ -84,7 +58,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
     });
 
     return (
-        <group position={[-posX, posY, 0]}>
+        <group position={[-posX, 2.57, 0]}>
             <group position={[0, 0, 0]} rotation={[rotX, rotY, rotZ]}>
                 {controls.map(({ items }, index) => {
                     return (
@@ -96,9 +70,9 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                 if (!action) {
                                     return (
                                         <group key={index} position={[x, y, 0]}>
-                                            <group position={[0, 0, 0]}>
-                                                <mesh raycast={() => {}} geometry={geometry} material={material} />
-                                            </group>
+                                            <Label color={LINE_COLOR} font={font} size={size}>
+                                                {label}
+                                            </Label>
                                         </group>
                                     );
                                 }
@@ -115,12 +89,7 @@ export function HudCenterTools({ width = WIDTH, height = HEIGHT }: ControlsProps
                                             font={font}
                                             size={size as LabelSize}
                                             labelColor={selected ? GREEN : LINE_COLOR}
-                                        >
-                                            <mesh geometry={geometry} material={material}>
-                                                {/* NOTE: Testing with edges off */}
-                                                {/* <Edges linewidth={1} threshold={15} color={LINE_COLOR} /> */}
-                                            </mesh>
-                                        </Control>
+                                        />
                                     </group>
                                 );
                             })}

@@ -11,13 +11,13 @@ export function FloorGuide() {
                 <sphereGeometry args={[0.125]} />
             </mesh>
 
-            <Billboard position={[0, 1, 0]} follow={true} lockX={false} lockY={false} lockZ={false}>
+            {/* <Billboard position={[0, 1, 0]} follow={true} lockX={false} lockY={false} lockZ={false}>
                 <Center>
                     <Text3D font={FONT} size={0.5} height={0.01} material={material}>
                         [0,0]
                     </Text3D>
                 </Center>
-            </Billboard>
+            </Billboard> */}
 
             <Grid
                 position={[0, 0, 0]}
@@ -26,7 +26,7 @@ export function FloorGuide() {
                 cellColor={GRID_CELL_COLOR}
                 followCamera={false}
                 infiniteGrid={true}
-                fadeDistance={500}
+                fadeDistance={100}
                 fadeStrength={0.5}
                 sectionSize={4}
                 sectionThickness={1}

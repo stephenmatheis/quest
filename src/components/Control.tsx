@@ -25,7 +25,7 @@ export function Control({
     isPerspective = false,
     labelColor: defaultLabelColor,
 }: {
-    children: ReactNode;
+    children?: ReactNode;
     width: number;
     height: number;
     label: string;
@@ -34,8 +34,8 @@ export function Control({
     keyboardKey?: string;
     code?: string;
     action?: () => void;
-    material: any;
-    geometry: any;
+    material?: any;
+    geometry?: any;
     isPerspective?: boolean;
     labelColor?: string;
 }) {
@@ -46,14 +46,10 @@ export function Control({
     const springs = useSpring({
         cy: isActive ? -0.1 : 0,
         cz: isActive ? -0.1 : 0,
-        ly: isActive ? -0.1 : 0,
-        lz: isActive ? 0 : 0.05,
+        ly: isActive ? (isPerspective && perspectiveKeyboard ? -0.1 : -0.1) : 0,
+        lz: isActive ? -0.05 : 0.05,
         rotation: [isPerspective && perspectiveKeyboard ? Math.PI / 2 : 0, 0, 0],
-        position: [
-            isPerspective && perspectiveKeyboard ? 0.0125 : 0,
-            isPerspective && perspectiveKeyboard ? -0.1 : 0,
-            0,
-        ],
+        position: [isPerspective && perspectiveKeyboard ? 0 : 0, isPerspective && perspectiveKeyboard ? -0.1 : 0, 0],
         config: { mass: MASS, tension: TENSION, friction: FRICTION },
     });
 
@@ -137,11 +133,13 @@ export function Control({
 
     return (
         <group>
-            <animated.group position-y={springs.cy} position-z={springs.cz}>
-                {children}
-            </animated.group>
+            {children && (
+                <animated.group position-y={springs.cy} position-z={springs.cz}>
+                    {children}
+                </animated.group>
+            )}
 
-            <mesh geometry={geometry} material={material} onPointerDown={handleDown} />
+            {geometry && <mesh geometry={geometry} material={material} onPointerDown={handleDown} />}
 
             <group ref={labelRef} position={[0, 0, 0]}>
                 <animated.group position-y={springs.ly} position-z={springs.lz}>

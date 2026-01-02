@@ -5,15 +5,12 @@ import { FloorGuide } from '@/components/FloorGuide';
 import { HudOverlay } from '@/components/HudOverlay';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { useWorld } from '@/providers/WorldProvider';
-import { Center, Text3D } from '@react-three/drei';
-import { FONT, LINE_COLOR } from '@/lib/constants';
-import { MeshBasicMaterial } from 'three';
+import { Screen } from './Screen';
 
 export function World() {
     const { bloom } = useWorld();
     const [ready, setReady] = useState<boolean>(false);
     const [maxHeight, setMaxHeight] = useState<number>(0);
-    const material = new MeshBasicMaterial({ color: LINE_COLOR });
 
     useEffect(() => {
         function onResize() {
@@ -26,7 +23,9 @@ export function World() {
 
         window.addEventListener('resize', onResize);
 
-        return () => window.removeEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('resize', onResize);
+        };
     }, []);
 
     return (
@@ -53,38 +52,9 @@ export function World() {
                 <HudOverlay onReady={() => setReady(true)} />
                 <Cam />
 
-                {/* DEV: */}
+                <Screen />
 
-                <group position={[0, 2, 0]}>
-                    <Center>
-                        {Array.from({ length: 24 }).map((_, i) => {
-                            return (
-                                <group key={i} position={[0, i * 0.5, 0]}>
-                                    {Array.from({ length: 40 }).map((_, j) => {
-                                        const label = j + 1;
-
-                                        return (
-                                            <Text3D
-                                                key={j}
-                                                position={[j * 0.6, 0, 0]}
-                                                size={0.3}
-                                                height={0.001}
-                                                font={FONT}
-                                                material={material}
-                                            >
-                                                {label < 10 ? `0${label}` : label}
-                                            </Text3D>
-                                        );
-                                    })}
-                                </group>
-                            );
-                        })}
-                    </Center>
-                </group>
-
-                {/* DEV: */}
-
-                {/* <FloorGuide /> */}
+                <FloorGuide />
                 <EffectComposer>
                     {bloom ? (
                         <Bloom

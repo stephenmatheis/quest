@@ -17,12 +17,12 @@ function Hud() {
             {showHud && (
                 <>
                     {/* <HudLeftTools /> */}
-                    {/* <HudCenterTools /> */}
+                    <HudCenterTools />
                     {/* <HudLeftReadout /> */}
                     <HoverHighlight />
                 </>
             )}
-            <EventVisualizer />
+            {/* <EventVisualizer /> */}
             <HudFullKeyboard />
         </group>
     );
